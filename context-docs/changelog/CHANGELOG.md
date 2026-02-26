@@ -10,6 +10,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **2026-02-26** - P1-05: ESLint and Prettier configuration + Git repository initialized
+  - Files: `.eslintrc.cjs`, `.prettierrc`, `.eslintignore`, `.prettierignore`
+  - Task: `context-docs/kanban/completed/P1-05-configure-eslint-prettier-github.md`
+  - Git: First commit created (6ac1e74) - 108 files, 15,738 insertions
+  - GitHub: Repository pushed to https://github.com/rafatocantins/ia-design-system
 - **2026-02-26** - P1-04: Repository structure and build system complete
   - Files: `package.json`, `tsconfig.json`, `tsup.config.ts`, `src/` (full structure), `dist/` (build output)
   - Task: `context-docs/kanban/completed/P1-04-setup-repository-structure.md`

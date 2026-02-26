@@ -8,9 +8,9 @@
 
 | Status | Count |
 |--------|-------|
-| 📋 Pending | 17 tasks |
+| 📋 Pending | 16 tasks |
 | 🔄 In Progress | 0 tasks |
-| ✅ Completed | 5 tasks |
+| ✅ Completed | 6 tasks |
 | **Total** | **22 tasks** |
 
 ---

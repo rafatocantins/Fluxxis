@@ -4,6 +4,12 @@ node_modules/
 # Build output
 dist/
 
+# IA stuff
+.qwen/
+.vscode
+.zencoder
+.zenflow
+
 # Environment files
 .env
 .env.local
@@ -43,6 +49,8 @@ storybook-static/
 
 # Documentation generated
 docs/api/
+docs
+context-docs
 
 # Qwen specific
 .qwenignore
