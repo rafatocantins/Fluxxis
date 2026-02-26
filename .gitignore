@@ -4,11 +4,16 @@ node_modules/
 # Build output
 dist/
 
-# IA stuff
+# Local configuration (not for repo)
 .qwen/
-.vscode
-.zencoder
-.zenflow
+.qwenignore
+.vscode/
+.zencoder/
+.zenflow/
+
+# Context and documentation (local only)
+context-docs/
+docs/
 
 # Environment files
 .env
@@ -23,9 +28,6 @@ yarn-error.log*
 pnpm-debug.log*
 
 # Editor directories and files
-.vscode/*
-!.vscode/extensions.json
-!.vscode/mcp.json
 .idea/
 *.suo
 *.ntvs*
@@ -46,11 +48,3 @@ temp/
 
 # Storybook
 storybook-static/
-
-# Documentation generated
-docs/api/
-docs
-context-docs
-
-# Qwen specific
-.qwenignore
