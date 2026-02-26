@@ -1,0 +1,17 @@
+# Ignore artifacts:
+dist
+coverage
+node_modules
+
+# Ignore all .prefixed files and directories:
+.**
+!**/.*
+!**/.qwen/**
+!**/.vscode/**
+!**/.zencoder/**
+!**/.zenflow/**
+
+# Ignore specific files:
+*.min.js
+*.min.css
+CHANGELOG.md

@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json.schemastore.org/mcp-config.json",
+  "mcpServers": {
+    "appcontext": {
+      "url": "http://localhost:7777/sse",
+      "type": "sse",
+      "description": "Real-time visual feedback for web applications. Captures screenshots and console logs via Chrome DevTools.",
+      "useCases": [
+        "Visual debugging of SmartCTA components",
+        "Monitor behavior tracking in real-time",
+        "Verify intent-based UI adaptations"
+      ],
+      "setup": {
+        "steps": [
+          "Download AppContext from https://appcontext.dev",
+          "Install on macOS (menu bar app)",
+          "Subscribe to AppContext Pro ($9.99/month)",
+          "Login with email magic link",
+          "Enable Chrome DevTools integration"
+        ],
+        "command": "claude mcp add --transport sse appcontext http://localhost:7777/sse"
+      }
+    },
+    "21st-dev-magic": {
+      "command": "npx",
+      "args": ["-y", "@21st-dev/magic@latest"],
+      "env": {
+        "API_KEY": "${21ST_DEV_API_KEY}"
+      },
+      "description": "AI-driven UI component generation through natural language descriptions",
+      "useCases": [
+        "Generate animated button variants for SmartCTA",
+        "Create hero sections with motion effects",
+        "Build interactive cards with hover animations"
+      ],
+      "setup": {
+        "steps": [
+          "Visit https://21st.dev/magic to generate API key",
+          "Run: npx @21st-dev/cli@latest install cursor --api-key YOUR_KEY",
+          "Or add manually to this config with your API key"
+        ],
+        "apiKeyUrl": "https://21st.dev/magic"
+      }
+    },
+    "magicuidesign-mcp": {
+      "command": "npx",
+      "args": ["-y", "@magicuidesign/mcp@latest"],
+      "description": "Access to 50+ animated React components from Magic UI",
+      "useCases": [
+        "Add blur-fade animations to SmartSection",
+        "Create shimmer-button for primary CTAs",
+        "Build bento-grid layouts for feature sections",
+        "Add scroll-progress indicators"
+      ],
+      "setup": {
+        "steps": [
+          "Run: npx @magicuidesign/cli@latest install",
+          "Or add manually to this config"
+        ],
+        "tools": {
+          "getUIComponents": "List all Magic UI components",
+          "getLayout": "bento-grid, dock, file-tree, grid-pattern",
+          "getMotion": "blur-fade, scroll-progress, orbiting-circles",
+          "getTextReveal": "text-animate, aurora-text, number-ticker",
+          "getButtons": "rainbow-button, shimmer-button, shiny-button",
+          "getEffects": "animated-beam, border-beam, magic-card, confetti",
+          "getBackgrounds": "warp-background, flickering-grid, ripple"
+        }
+      }
+    },
+    "reactbits": {
+      "command": "npx",
+      "args": ["reactbits-dev-mcp-server"],
+      "env": {
+        "GITHUB_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "Access to 135+ animated React components from ReactBits.dev",
+      "useCases": [
+        "Add animated backgrounds to SmartLayout",
+        "Create interactive button effects",
+        "Build text animations for copy variants"
+      ],
+      "setup": {
+        "steps": [
+          "Optional: Set GITHUB_TOKEN for higher rate limits (5000/hr vs 60/hr)",
+          "Run: npx reactbits-dev-mcp-server"
+        ],
+        "categories": [
+          "Animations",
+          "Backgrounds",
+          "Buttons",
+          "Cards",
+          "Text Animations",
+          "Navigation"
+        ],
+        "tools": {
+          "LIST_COMPONENTS": "List all components with filtering",
+          "GET_COMPONENT": "Get source code for a component",
+          "SEARCH_COMPONENTS": "Search by name/description",
+          "GET_COMPONENT_DEMO": "Get usage examples"
+        }
+      }
+    },
+    "figma": {
+      "command": "npx",
+      "args": ["-y", "figma-mcp@latest"],
+      "env": {
+        "FIGMA_ACCESS_TOKEN": "${FIGMA_ACCESS_TOKEN}"
+      },
+      "description": "Official Figma Dev Mode MCP - Extract design tokens, components, and variables",
+      "useCases": [
+        "Extract design tokens from Figma files",
+        "Sync BrandVoice colors with design system",
+        "Generate component code from Figma frames",
+        "Maintain design consistency across variants"
+      ],
+      "setup": {
+        "steps": [
+          "Create Figma access token at https://www.figma.com/developers/api",
+          "Get file key from your Figma design system file",
+          "Run: npx -y figma-mcp@latest"
+        ],
+        "envVars": {
+          "FIGMA_ACCESS_TOKEN": "Your Figma API token",
+          "FIGMA_FILE_KEY": "File key from your design system"
+        }
+      }
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github@latest"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_TOKEN}"
+      },
+      "description": "GitHub integration for repository management, issues, and PRs",
+      "useCases": [
+        "Search codebase for component usage",
+        "Manage issues for design system feedback",
+        "Review PRs for component changes",
+        "Browse repository structure"
+      ],
+      "setup": {
+        "steps": [
+          "Generate GitHub Personal Access Token at https://github.com/settings/tokens",
+          "Run: npx -y @modelcontextprotocol/server-github@latest"
+        ],
+        "scopes": ["repo", "read:org", "user"]
+      }
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem@latest", "--allowed-dirs", "."],
+      "description": "Secure local file access for reading and editing project files",
+      "useCases": [
+        "Read component source files",
+        "Edit configuration files",
+        "Search codebase with ripgrep",
+        "Create new component files"
+      ],
+      "setup": {
+        "steps": [
+          "Run: npx -y @modelcontextprotocol/server-filesystem@latest --allowed-dirs ."
+        ],
+        "security": "Restricted to project directory only"
+      }
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@context7/mcp@latest"],
+      "description": "Fetch current documentation for React, TypeScript, and UI libraries",
+      "useCases": [
+        "Get latest React documentation",
+        "Check TypeScript type patterns",
+        "Look up Tailwind CSS utilities",
+        "Find Zustand state management patterns"
+      ],
+      "setup": {
+        "steps": [
+          "Run: npx -y @context7/mcp@latest"
+        ]
+      }
+    }
+  },
+  "recommendedForProject": {
+    "phase1": {
+      "name": "Intent Design System (Months 1-3)",
+      "essential": ["filesystem", "context7", "github"],
+      "uiGeneration": ["21st-dev-magic", "magicuidesign-mcp", "reactbits"],
+      "visualDebugging": ["appcontext"],
+      "designSync": ["figma"]
+    },
+    "phase2": {
+      "name": "Adaptive Layer (Months 4-8)",
+      "additional": ["github", "figma"],
+      "reason": "More complex component variants and design token management"
+    },
+    "phase3": {
+      "name": "Orchestration Platform (Months 9+)",
+      "additional": [],
+      "reason": "All MCPs support governance and documentation workflows"
+    }
+  },
+  "quickStart": {
+    "minimal": [
+      "npx -y @modelcontextprotocol/server-filesystem@latest --allowed-dirs .",
+      "npx -y @context7/mcp@latest"
+    ],
+    "full": [
+      "Install AppContext (macOS): https://appcontext.dev",
+      "npx @magicuidesign/cli@latest install",
+      "npx @21st-dev/cli@latest install cursor --api-key YOUR_KEY",
+      "npx reactbits-dev-mcp-server"
+    ]
+  }
+}
