@@ -10,6 +10,25 @@
 export { SmartCTA } from './components/SmartCTA';
 export type { SmartCTAProps } from './components/SmartCTA/types';
 
+// Animated Buttons
+export {
+  AnimatedButton,
+  PrimaryAnimatedButton,
+  SecondaryAnimatedButton,
+  AccentAnimatedButton,
+  ShimmerButton,
+  RainbowButton,
+  BlurFadeButton,
+  IconButton,
+} from './components/SmartCTA/AnimatedButtonVariants';
+export type { 
+  AnimatedButtonProps, 
+  ShimmerButtonProps,
+  RainbowButtonProps,
+  BlurFadeButtonProps,
+  IconButtonProps,
+} from './components/SmartCTA/AnimatedButtonVariants';
+
 // Hooks
 export { useBehaviorObserver } from './hooks/useBehaviorObserver';
 export { useDwellTime } from './hooks/useDwellTime';

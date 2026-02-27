@@ -1,10 +1,30 @@
 /**
  * API Layer
+ * 
+ * LLM integration for copy generation with privacy-first design
  */
 
-// Placeholder for API utilities
-// To be implemented in P1-14: Copy generation via Edge Function
+// Privacy Filter
+export { PrivacyFilter, filterPII, validateNoPII } from './PrivacyFilter';
+export type { PrivacyFilterOptions } from './PrivacyFilter';
 
+// Copy Generation
+export { generateCopy, clearCopyCache } from './copyGeneration';
+export type {
+  CopyGenerationRequest,
+  CopyGenerationResponse,
+  CopyGenerationConfig,
+} from './copyGeneration';
+
+// Prompts
+export {
+  createCTAPrompt,
+  createHeadlinePrompt,
+  createMicrocopyPrompt,
+  COPY_GENERATION_SYSTEM_PROMPT,
+} from './copyPrompts';
+
+// Constants
 export const API_BASE_URL = process.env.REACT_APP_API_URL ?? '/api';
 
 /**
