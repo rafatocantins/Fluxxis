@@ -1,6 +1,6 @@
 # FLUXXIS Rules
 
-**Version:** 2.0  
+**Version:** 2.1  
 **Effective:** 26 de Fevereiro, 2026  
 **Status:** Active — Must Follow for All Development
 
@@ -16,7 +16,62 @@ These rules ensure FLUXXIS maintains:
 - ✅ Team efficiency
 - ✅ Long-term maintainability
 
-**Rule 1: Always Follow the Master Plan** is non-negotiable.
+**Rule 0: Always Plan First** and **Rule 1: Always Follow the Master Plan** are non-negotiable.
+
+---
+
+## 📜 Rule 0: Always Plan First (NEW)
+
+**No development starts without a plan.**
+
+**What This Means:**
+- Every task must have a written plan before coding begins
+- Plan must include: objective, approach, files to create/modify, tests, success criteria
+- Plan must be reviewed (self-review minimum)
+- Plan must be documented in task record
+- No "code first, think later" allowed
+
+**Plan Template:**
+```markdown
+# Task Plan: [Task Name]
+
+**Task ID:** FLX-XX-XX
+**Date:** YYYY-MM-DD
+**Priority:** 🔴 High / 🟠 Medium / 🟢 Low
+
+## Objective
+[What are we building and why?]
+
+## Approach
+[How will we build it?]
+
+## Files
+- Create: `path/to/new/file.ts`
+- Modify: `path/to/existing/file.ts`
+
+## Tests
+- Unit tests: [list]
+- Integration tests: [list]
+
+## Success Criteria
+- [ ] Feature works as expected
+- [ ] Tests passing (>90% coverage)
+- [ ] Performance budgets met
+- [ ] Documentation updated
+
+## Risks
+[What could go wrong?]
+
+## Alternatives Considered
+[What other approaches did we consider?]
+```
+
+**Enforcement:**
+- PR requirement: Plan must be linked in PR description
+- Code review: Plan adherence checked
+- Violation: PR blocked until plan created
+
+**Violation:** Code review rejected, must create plan first.
 
 ---
 
