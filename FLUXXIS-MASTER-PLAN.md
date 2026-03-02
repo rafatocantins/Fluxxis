@@ -97,6 +97,24 @@ interface MorphEngine {
 
 ## 📅 Phased Rollout
 
+### Phase 0: Agentic Foundation (2026 Q3-Q4)
+**Goal:** Prepare FLUXXIS for agent interactions
+
+| Task | ID | Status | Priority | Owner |
+|------|----|--------|----------|-------|
+| Add agent detection to signals | FLX-AG-01 | 📋 Pending | 🔴 High | Core Team |
+| Define agent intent fields | FLX-AG-02 | 📋 Pending | 🔴 High | Core Team |
+| Create agent analytics logging | FLX-AG-03 | 📋 Pending | 🟠 Medium | Core Team |
+| Research agent UX patterns | FLX-AG-04 | 📋 Pending | 🟠 Medium | Research |
+| Partner outreach (OpenAI, Anthropic) | FLX-AG-05 | 📋 Pending | 🔴 High | Biz Dev |
+
+**Deliverables:**
+- Agent detection accuracy >90%
+- Agent interactions logged 100%
+- 2+ agent platform partnerships
+
+---
+
 ### Phase 1: Core Engine (Week 1-2)
 **Goal:** Framework-agnostic core with deterministic adaptation
 
