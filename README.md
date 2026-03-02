@@ -215,6 +215,7 @@ FLUXXIS Ethics Charter:
 | [**Vision**](./FLUXXIS-VISION.md) | **The ASI paradigm — deep dive into adaptive structural interfaces** |
 | [**Long-Term Vision**](./FLUXXIS-LONG-TERM-VISION.md) | **2026-2035 roadmap — behavioral evolution, societal impact** |
 | [**Agentic Era**](./FLUXXIS-AGENTIC-ERA.md) | **Agent strategy — preparing for AI agents as interface users** |
+| [**Market Expansion**](./FLUXXIS-MARKET-EXPANSION.md) | **New markets — $15T opportunity (news, commerce, healthcare, etc.)** |
 | [Master Plan](./FLUXXIS-MASTER-PLAN.md) | Complete roadmap with phases, tasks, metrics |
 | [Market Analysis](./FLUXXIS-MARKET-ANALYSIS.md) | Real-world applications, competitive landscape |
 | [Risk Mitigation](./FLUXXIS-RISK-MITIGATION.md) | How we're de-risking the venture |
