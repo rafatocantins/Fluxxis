@@ -211,11 +211,12 @@ FLUXXIS Ethics Charter:
 
 | Document | Description |
 |----------|-------------|
+| [**Vision**](./FLUXXIS-VISION.md) | **The ASI paradigm — deep dive into adaptive structural interfaces** |
 | [Master Plan](./FLUXXIS-MASTER-PLAN.md) | Complete roadmap with phases, tasks, metrics |
 | [Market Analysis](./FLUXXIS-MARKET-ANALYSIS.md) | Real-world applications, competitive landscape |
 | [Risk Mitigation](./FLUXXIS-RISK-MITIGATION.md) | How we're de-risking the venture |
-| [Refactoring Plan](./FLUXXIS-REFACTOR-PLAN.md) | Migration from ia-design-system |
-| [Ethics Charter](./FLUXXIS-ETHICS-CHARTER.md) | Ethics commitments (coming soon) |
+| [Governing Rules](./FLUXXIS-GOVERNING-RULES.md) | 7 non-negotiable development rules |
+| [Refactoring Plan](./FLUXXIS-REFACTOR-PLAN.md) | Technical migration from ia-design-system |
 
 ---
 
