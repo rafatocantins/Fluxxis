@@ -1,3 +1,6 @@
+<img width="1388" height="391" alt="image" src="https://github.com/user-attachments/assets/61c1eaed-e2b8-4843-8626-47994d2ad77e" />
+
+
 # FLUXXIS
 
 **Adaptive Structural Interface Engine**
