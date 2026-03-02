@@ -33,6 +33,7 @@ export type {
 export { useBehaviorObserver } from './hooks/useBehaviorObserver';
 export { useDwellTime } from './hooks/useDwellTime';
 export { useIntersectionObserver } from './hooks/useIntersectionObserver';
+export { useNetworkStatus } from './hooks/useNetworkStatus';
 
 // Stores
 export { useUserProfileStore } from './stores/userProfileStore';
@@ -51,8 +52,50 @@ export type { NodeContract, NodeMetrics } from './registry/types';
 export type { GoalType, GoalDeclaration } from './types/goals';
 export type { BrandVoiceConfig } from './types/brandVoice';
 
-// Utils
-export { goalValidator } from './utils/goalValidation';
+// BrandVoice Presets & Utilities
+export {
+  BRAND_VOICE_PRESETS,
+  TONE_PRESETS,
+  AUDIENCE_PRESETS,
+  getBrandVoicePreset,
+  getTonePreset,
+  getAudiencePreset,
+  createBrandVoice,
+  validateBrandVoice,
+  mergeBrandVoiceConfig,
+  getToneDescription,
+  getCTAStyleDescription,
+  formatBrandVoiceForDisplay,
+  DEFAULT_BRAND_VOICE,
+} from './types';
+
+// Tokens
+export {
+  INTENT_TOKENS,
+  getIntentTokens,
+  getIntentCSSVariables,
+  getIntentAnimation,
+  getShadowCSS,
+  injectIntentStyles,
+  applyIntentTokens,
+  generateIntentStylesheet,
+} from './tokens';
+export type { IntentTokens, EmphasisLevel, AnimationType } from './tokens';
+
+// Accessibility
+export {
+  checkColorContrast,
+  generateAriaLabel,
+  isKeyboardAccessible,
+  getFocusableElements,
+  trapFocus,
+  announceToScreenReader,
+  prefersReducedMotion,
+  validateAccessibilityProps,
+  generateAccessibilityReport,
+  WCAG_CHECKLIST,
+} from './utils/accessibility';
+export { injectAccessibilityStyles, addSkipLink, checkTouchTargetSize } from './styles/accessibility';
 
 // Version
 export const VERSION = '0.1.0';

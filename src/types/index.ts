@@ -56,3 +56,31 @@ export interface ProtectionStatus {
   /** Protection level (1-8) */
   protectionLevel: InterventionLevel;
 }
+
+// Re-export BrandVoice types
+export type {
+  BrandTone,
+  CTAStyle,
+  VocabularyLevel,
+  BrandPersonality,
+  BrandVoiceConfig,
+} from './brandVoice';
+export {
+  validateBrandVoice,
+  mergeBrandVoiceConfig,
+  getToneDescription,
+  getCTAStyleDescription,
+  formatBrandVoiceForDisplay,
+  DEFAULT_BRAND_VOICE,
+} from './brandVoice';
+
+// Re-export presets
+export {
+  BRAND_VOICE_PRESETS,
+  TONE_PRESETS,
+  AUDIENCE_PRESETS,
+  getBrandVoicePreset,
+  getTonePreset,
+  getAudiencePreset,
+  createBrandVoice,
+} from './brandVoicePresets';

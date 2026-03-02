@@ -3,12 +3,15 @@
  * 
  * LLM-powered copy generation with privacy-first design
  * Supports multiple providers (Anthropic, OpenAI, etc.)
+ * Includes caching, rate limiting, and offline fallback
  */
 
 import type { BrandVoiceConfig } from '../types/brandVoice';
 import type { GoalType } from '../types';
 import { filterPII } from './PrivacyFilter';
 import { createCTAPrompt } from './copyPrompts';
+import { getCachedCopy, setCachedCopy } from './copyCache';
+import { rateLimiter } from '../utils/rateLimiter';
 
 /**
  * Copy generation request
@@ -52,7 +55,7 @@ export interface CopyGenerationResponse {
  */
 export interface CopyGenerationConfig {
   /** API provider */
-  provider: 'anthropic' | 'openai' | 'gemini' | 'qwen' | 'groq' | 'openrouter' | 'custom';
+  provider: 'anthropic' | 'openai' | 'gemini' | 'qwen' | 'groq' | 'openrouter' | 'zai' | 'custom';
   /** API endpoint (for custom provider) */
   endpoint?: string;
   /** API key */
@@ -63,21 +66,9 @@ export interface CopyGenerationConfig {
   timeout?: number;
   /** Enable caching */
   enableCache?: boolean;
+  /** Use Puter.js for Z.AI (no API key needed) */
+  usePuter?: boolean;
 }
-
-/**
- * Cache for copy generation results
- */
-interface CopyCache {
-  [key: string]: {
-    response: CopyGenerationResponse;
-    timestamp: number;
-    expiresAt: number;
-  };
-}
-
-const cache: CopyCache = {};
-const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
 
 /**
  * Generate copy using LLM
@@ -86,16 +77,28 @@ export async function generateCopy(
   request: CopyGenerationRequest,
   config: CopyGenerationConfig
 ): Promise<CopyGenerationResponse> {
-  const cacheKey = generateCacheKey(request);
+  // Check cache first (works offline!)
+  const cached = getCachedCopy(
+    request.goal,
+    request.pageContext,
+    request.defaultCopy,
+    request.brandVoice,
+    config.provider  // Pass provider for separate caching
+  );
 
-  // Check cache
-  if (config.enableCache !== false && cache[cacheKey]) {
-    const cached = cache[cacheKey];
-    if (Date.now() < cached.expiresAt) {
-      console.log('[CopyGeneration] Using cached response');
-      return cached.response;
-    }
-    delete cache[cacheKey];
+  if (cached) {
+    console.log('[CopyGeneration] Using cached response from', config.provider);
+    return {
+      ...cached,
+      fallback: false,
+    };
+  }
+
+  // Check rate limit
+  const rateLimit = rateLimiter.canRequest(config.provider);
+  if (!rateLimit.allowed) {
+    console.warn('[CopyGeneration] Rate limited, using fallback');
+    return createFallbackResponse(request, `Rate limited. Retry after ${rateLimit.retryAfter}s`);
   }
 
   try {
@@ -113,6 +116,9 @@ export async function generateCopy(
 
     // Call LLM API
     const llmResponse = await callLLMAPI(prompt, config);
+
+    // Record success for rate limiter
+    rateLimiter.recordSuccess(config.provider);
 
     // Parse response
     const parsed = parseLLMResponse(llmResponse);
@@ -133,35 +139,52 @@ export async function generateCopy(
     };
 
     // Cache response
-    if (config.enableCache !== false) {
-      cache[cacheKey] = {
-        response,
-        timestamp: Date.now(),
-        expiresAt: Date.now() + CACHE_TTL,
-      };
-    }
+    setCachedCopy(
+      request.goal,
+      request.pageContext,
+      request.defaultCopy,
+      request.brandVoice,
+      response,
+      undefined,
+      config.provider  // Pass provider for separate caching
+    );
 
     console.log('[CopyGeneration] Successfully generated copy');
     return response;
   } catch (error) {
     console.error('[CopyGeneration] Error:', error);
+    
+    // Record failure for rate limiter
+    rateLimiter.recordFailure(config.provider);
 
     // Return fallback
-    return {
-      variations: [
-        { copy: request.defaultCopy, rationale: 'Fallback to default copy' },
-      ],
-      recommended: 0,
-      selected: request.defaultCopy,
-      fallback: true,
-      confidence: 0.5,
-      timestamp: Date.now(),
-    };
+    return createFallbackResponse(request, error instanceof Error ? error.message : 'Unknown error');
   }
 }
 
 /**
- * Call LLM API (Anthropic, OpenAI, Gemini, Qwen, Groq, OpenRouter, or custom)
+ * Create fallback response
+ */
+function createFallbackResponse(
+  request: CopyGenerationRequest,
+  reason: string
+): CopyGenerationResponse {
+  console.log('[CopyGeneration] Using fallback:', reason);
+  
+  return {
+    variations: [
+      { copy: request.defaultCopy, rationale: 'Fallback to default copy' },
+    ],
+    recommended: 0,
+    selected: request.defaultCopy,
+    fallback: true,
+    confidence: 0.5,
+    timestamp: Date.now(),
+  };
+}
+
+/**
+ * Call LLM API (Anthropic, OpenAI, Gemini, Qwen, Groq, OpenRouter, Z.AI, or custom)
  */
 async function callLLMAPI(
   prompt: string,
@@ -191,6 +214,10 @@ async function callLLMAPI(
 
   if (provider === 'openrouter') {
     return callOpenRouterAPI(prompt, apiKey, model, timeout);
+  }
+
+  if (provider === 'zai') {
+    return callZAI_API(prompt, model, config.usePuter);
   }
 
   if (provider === 'custom' && config.endpoint) {
@@ -437,6 +464,35 @@ async function callOpenRouterAPI(
 }
 
 /**
+ * Call Z.AI GLM API via Puter.js (FREE, unlimited)
+ * No API key required!
+ */
+async function callZAI_API(
+  prompt: string,
+  model: string,
+  usePuter: boolean = false
+): Promise<string> {
+  // If using Puter.js (browser environment)
+  if (usePuter && typeof window !== 'undefined') {
+    const puter = (window as any).puter;
+    
+    if (!puter || !puter.ai) {
+      throw new Error('Puter.js not loaded. Include: <script src="https://js.puter.com/v2/"></script>');
+    }
+
+    try {
+      const response = await puter.ai.chat(prompt, { model });
+      return response?.message?.content || response?.text || '';
+    } catch (error: any) {
+      throw new Error(`Z.AI API error: ${error.message || 'Unknown error'}`);
+    }
+  }
+
+  // Fallback: Try to use via API if available
+  throw new Error('Z.AI requires Puter.js in browser. Include: <script src="https://js.puter.com/v2/"></script>');
+}
+
+/**
  * Call custom API endpoint
  */
 async function callCustomAPI(
@@ -471,23 +527,69 @@ function parseLLMResponse(text: string): {
   recommended?: number;
 } {
   try {
-    // Try to parse as JSON
+    // Try to parse as JSON first
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-      return JSON.parse(jsonMatch[0]);
+      const parsed = JSON.parse(jsonMatch[0]);
+      if (parsed.variations && Array.isArray(parsed.variations)) {
+        return parsed;
+      }
     }
 
-    // Fallback: extract copy from text
+    // Fallback: Extract copy from plain text response
+    // Look for quoted strings, bullet points, or numbered lists
     const lines = text.split('\n').filter((line) => line.trim());
-    const variations = lines
-      .filter((line) => line.includes('"copy"') || line.includes('"headline"'))
-      .map((line) => {
-        const match = line.match(/"copy"\s*:\s*"([^"]+)"/) || line.match(/"headline"\s*:\s*"([^"]+)"/);
-        return match
-          ? { copy: match[1], rationale: 'Extracted from response' }
-          : null;
-      })
-      .filter(Boolean) as Array<{ copy: string; rationale: string }>;
+    const variations: Array<{ copy: string; rationale: string }> = [];
+
+    for (const line of lines) {
+      const trimmed = line.trim();
+      
+      // Skip empty lines or headers
+      if (!trimmed || trimmed.startsWith('#') || trimmed.startsWith('**')) continue;
+      
+      // Try to extract from various formats
+      let copy: string | null = null;
+
+      // Format: "Copy text" or 'Copy text'
+      const quoteMatch = trimmed.match(/["']([^"']{3,50})["']/);
+      if (quoteMatch && quoteMatch[1]) {
+        copy = quoteMatch[1].trim();
+      }
+
+      // Format: - Copy text or * Copy text or • Copy text
+      if (!copy) {
+        const bulletMatch = trimmed.match(/^[-*•]\s*(.{3,50})/);
+        if (bulletMatch && bulletMatch[1]) {
+          copy = bulletMatch[1].trim();
+        }
+      }
+
+      // Format: 1. Copy text or 1) Copy text
+      if (!copy) {
+        const numberMatch = trimmed.match(/^\d+[.)]\s*(.{3,50})/);
+        if (numberMatch && numberMatch[1]) {
+          copy = numberMatch[1].trim();
+        }
+      }
+
+      // If we found copy text and it looks like a CTA (short, action-oriented)
+      if (copy && copy.length >= 3 && copy.length <= 50) {
+        variations.push({ copy, rationale: 'Extracted from response' });
+      }
+
+      // Limit to 3 variations
+      if (variations.length >= 3) break;
+    }
+
+    // If still no variations, use the entire response as a single variation
+    if (variations.length === 0 && text.trim().length > 0) {
+      // Take first sentence or first 50 chars
+      const firstSentence = text.split(/[.!?]/)[0]?.trim();
+      const copy = firstSentence && firstSentence.length <= 50 ? firstSentence : text.trim().substring(0, 50);
+      if (copy && copy.length >= 3) {
+        variations.push({ copy, rationale: 'Used full response' });
+      }
+    }
 
     return { variations };
   } catch (error) {
@@ -495,18 +597,5 @@ function parseLLMResponse(text: string): {
     return { variations: [] };
   }
 }
-
-/**
- * Generate cache key from request
- */
-function generateCacheKey(request: CopyGenerationRequest): string {
-  return `${request.goal}:${request.pageContext}:${request.defaultCopy}:${JSON.stringify(request.brandVoice)}`;
-}
-
-/**
- * Clear copy generation cache
- */
-export function clearCopyCache(): void {
-  Object.keys(cache).forEach((key) => delete cache[key]);
-  console.log('[CopyGeneration] Cache cleared');
-}
+// Cache functions are now in copyCache.ts
+// Exported from main index.ts for convenience

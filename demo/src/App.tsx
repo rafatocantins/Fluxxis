@@ -1,101 +1,276 @@
 import React, { useState } from 'react'
-import { 
-  SmartCTA, 
-  PrimaryAnimatedButton, 
-  SecondaryAnimatedButton, 
+import {
+  SmartCTA,
+  PrimaryAnimatedButton,
+  SecondaryAnimatedButton,
   AccentAnimatedButton,
   ShimmerButton,
   RainbowButton,
-  BlurFadeButton
+  BlurFadeButton,
+  createBrandVoice,
+  getBrandVoicePreset,
+  validateBrandVoice,
+  BRAND_VOICE_PRESETS,
+  TONE_PRESETS,
+  AUDIENCE_PRESETS
 } from '@ia-design-system/react'
 
 function App() {
   const [clickCount, setClickCount] = useState(0)
+  const [selectedPreset, setSelectedPreset] = useState('tech-startup')
+  const [customTone, setCustomTone] = useState('confident-but-warm')
+  const [customAudience, setCustomAudience] = useState('founders')
+  const [customCTAStyle, setCustomCTAStyle] = useState('direct')
 
   const handleClick = () => {
     setClickCount(prev => prev + 1)
     console.log('Button clicked!', clickCount + 1)
   }
 
+  // Get current brand voice from preset
+  const currentBrandVoice = getBrandVoicePreset(selectedPreset) || {
+    tone: customTone as any,
+    audience: [customAudience],
+    ctaStyle: customCTAStyle as any,
+  }
+
+  // Validate current brand voice
+  const validation = validateBrandVoice(currentBrandVoice)
+
   return (
     <div className="container">
       <header>
-        <h1>🎨 AI Design System</h1>
-        <p>Interactive Component Demo</p>
+        <h1>🎨 AI Design System - Complete Test Page</h1>
+        <p>Test all components, BrandVoice presets, and AI features</p>
       </header>
 
-      {/* SmartCTA Section */}
+      {/* BrandVoice Configuration Section */}
       <div className="section">
-        <h2>SmartCTA Components</h2>
+        <h2>🎯 BrandVoice Configuration (P1-15)</h2>
         <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-          Intent-driven buttons that adapt based on user behavior and goals.
-          Click count: <strong>{clickCount}</strong>
+          Test different BrandVoice presets and custom configurations
         </p>
-        
+
+        <div className="config-panel">
+          <div className="config-group">
+            <h3>1. Select Industry Preset</h3>
+            <select
+              value={selectedPreset}
+              onChange={(e) => setSelectedPreset(e.target.value)}
+              style={selectStyle}
+            >
+              {Object.keys(BRAND_VOICE_PRESETS).map(preset => (
+                <option key={preset} value={preset}>
+                  {preset.replace(/-/g, ' ').toUpperCase()}
+                </option>
+              ))}
+            </select>
+            <p style={descriptionStyle}>
+              {currentBrandVoice.tone.replace(/-/g, ' ').toUpperCase()} for {currentBrandVoice.audience.join(', ')}
+            </p>
+          </div>
+
+          <div className="config-group">
+            <h3>2. Or Customize Manually</h3>
+            <div style={gridStyle}>
+              <div>
+                <label style={labelStyle}>Tone:</label>
+                <select
+                  value={customTone}
+                  onChange={(e) => setCustomTone(e.target.value)}
+                  style={selectStyle}
+                >
+                  <option value="confident-but-warm">Confident but Warm</option>
+                  <option value="playful">Playful</option>
+                  <option value="professional">Professional</option>
+                  <option value="minimal">Minimal</option>
+                  <option value="friendly">Friendly</option>
+                  <option value="authoritative">Authoritative</option>
+                  <option value="witty">Witty</option>
+                  <option value="empathetic">Empathetic</option>
+                  <option value="bold">Bold</option>
+                </select>
+              </div>
+
+              <div>
+                <label style={labelStyle}>Audience:</label>
+                <input
+                  type="text"
+                  value={customAudience}
+                  onChange={(e) => setCustomAudience(e.target.value)}
+                  style={inputStyle}
+                />
+              </div>
+
+              <div>
+                <label style={labelStyle}>CTA Style:</label>
+                <select
+                  value={customCTAStyle}
+                  onChange={(e) => setCustomCTAStyle(e.target.value)}
+                  style={selectStyle}
+                >
+                  <option value="direct">Direct</option>
+                  <option value="soft">Soft</option>
+                  <option value="urgent">Urgent</option>
+                  <option value="curious">Curious</option>
+                  <option value="benefit-focused">Benefit Focused</option>
+                  <option value="question">Question</option>
+                  <option value="command">Command</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div className="config-group">
+            <h3>3. Validation Status</h3>
+            <div style={{
+              padding: '1rem',
+              borderRadius: '0.5rem',
+              background: validation.valid ? '#d1fae5' : '#fee2e2',
+              color: validation.valid ? '#065f46' : '#991b1b',
+            }}>
+              {validation.valid ? (
+                <strong>✅ Valid BrandVoice Configuration</strong>
+              ) : (
+                <div>
+                  <strong>❌ Invalid Configuration:</strong>
+                  <ul style={{ margin: '0.5rem 0 0 1.5rem' }}>
+                    {validation.errors.map((error, i) => (
+                      <li key={i}>{error}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <div className="config-group">
+            <h3>4. Available Presets</h3>
+            <div style={presetGridStyle}>
+              <div>
+                <strong>Industry Presets:</strong>
+                <ul style={{ fontSize: '0.875rem' }}>
+                  {Object.keys(BRAND_VOICE_PRESETS).map(p => (
+                    <li key={p}>{p.replace(/-/g, ' ')}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <strong>Tone Presets:</strong>
+                <ul style={{ fontSize: '0.875rem' }}>
+                  {Object.keys(TONE_PRESETS).map(p => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <strong>Audience Presets:</strong>
+                <ul style={{ fontSize: '0.875rem' }}>
+                  {Object.keys(AUDIENCE_PRESETS).map(p => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SmartCTA with Current BrandVoice */}
+      <div className="section">
+        <h2>🤖 SmartCTA with Current BrandVoice</h2>
+        <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
+          Testing AI copy generation with selected BrandVoice configuration
+          <br />
+          <strong>Current:</strong> {currentBrandVoice.tone} | {currentBrandVoice.audience.join(', ')} | {currentBrandVoice.ctaStyle}
+          <br />
+          <strong>Click Count:</strong> {clickCount}
+        </p>
+
         <div className="button-grid">
           {/* Convert Goal */}
           <div className="button-demo">
             <span className="goal-badge goal-convert">Convert</span>
-            <h3>Primary (Convert) - AI Copy</h3>
+            <h3>Convert Goal</h3>
             <SmartCTA
               goal="convert"
               defaultCopy="Get Started Free"
               pageContext="pricing"
-              brandVoice={{
-                tone: 'confident-but-warm',
-                audience: ['founders', 'startups'],
-                ctaStyle: 'direct'
-              }}
+              brandVoice={currentBrandVoice}
               variant="primary"
               onClick={handleClick}
             />
-            <code>With brandVoice + OpenRouter AI ✨</code>
+            <code>AI-generated copy with your BrandVoice ✨</code>
           </div>
 
           {/* Inform Goal */}
           <div className="button-demo">
             <span className="goal-badge goal-inform">Inform</span>
-            <h3>Secondary (Inform)</h3>
+            <h3>Inform Goal</h3>
             <SmartCTA
               goal="inform"
               defaultCopy="Learn More"
               pageContext="demo"
+              brandVoice={currentBrandVoice}
               variant="secondary"
               onClick={handleClick}
             />
-            <code>&lt;SmartCTA goal="inform" /&gt;</code>
+            <code>AI-generated copy with your BrandVoice ✨</code>
           </div>
 
           {/* Engage Goal */}
           <div className="button-demo">
             <span className="goal-badge goal-engage">Engage</span>
-            <h3>Accent (Engage) - AI Copy</h3>
+            <h3>Engage Goal</h3>
             <SmartCTA
               goal="engage"
               defaultCopy="Try It Now"
               pageContext="features"
-              brandVoice={{
-                tone: 'playful',
-                audience: ['developers'],
-                ctaStyle: 'curious'
-              }}
+              brandVoice={currentBrandVoice}
               variant="primary"
               onClick={handleClick}
             />
-            <code>With brandVoice + OpenRouter AI ✨</code>
+            <code>AI-generated copy with your BrandVoice ✨</code>
           </div>
+        </div>
+      </div>
+
+      {/* All Industry Presets Quick Test */}
+      <div className="section">
+        <h2>🎨 Quick Test: All Industry Presets</h2>
+        <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
+          See how different BrandVoice presets affect copy generation
+        </p>
+
+        <div className="button-grid">
+          {Object.entries(BRAND_VOICE_PRESETS).slice(0, 4).map(([presetName, preset]) => (
+            <div key={presetName} className="button-demo">
+              <span className="goal-badge goal-convert">{presetName.replace(/-/g, ' ').toUpperCase()}</span>
+              <SmartCTA
+                goal="convert"
+                defaultCopy="Get Started"
+                pageContext="demo"
+                brandVoice={preset}
+                variant="primary"
+                onClick={handleClick}
+                size="sm"
+              />
+              <code style={{ fontSize: '0.7rem' }}>
+                {preset.tone} | {preset.audience[0]}
+              </code>
+            </div>
+          ))}
         </div>
       </div>
 
       {/* Animated Buttons Section */}
       <div className="section">
-        <h2>Animated Button Variants</h2>
+        <h2>✨ Animated Button Variants</h2>
         <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
           Beautiful, modern animated buttons powered by 21st.dev, Magic UI, and ReactBits.
         </p>
 
         <div className="button-grid">
-          {/* Shimmer Button */}
           <div className="button-demo">
             <h3>Shimmer Button</h3>
             <ShimmerButton onClick={handleClick}>
@@ -104,7 +279,6 @@ function App() {
             <p>Shimmer effect on hover</p>
           </div>
 
-          {/* Rainbow Button */}
           <div className="button-demo">
             <h3>Rainbow Button</h3>
             <RainbowButton onClick={handleClick}>
@@ -113,7 +287,6 @@ function App() {
             <p>Animated rainbow border</p>
           </div>
 
-          {/* Blur Fade Button */}
           <div className="button-demo">
             <h3>Blur Fade Button</h3>
             <BlurFadeButton onClick={handleClick}>
@@ -124,9 +297,9 @@ function App() {
         </div>
       </div>
 
-      {/* Primary Animated Buttons */}
+      {/* Goal-Based Animated Buttons */}
       <div className="section">
-        <h2>Goal-Based Animated Buttons</h2>
+        <h2>🎯 Goal-Based Animated Buttons</h2>
         <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
           Specialized animated buttons for each goal type.
         </p>
@@ -163,9 +336,9 @@ function App() {
 
       {/* Size Variants */}
       <div className="section">
-        <h2>Size Variants</h2>
+        <h2>📏 Size Variants</h2>
         <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-          Three sizes available: small, medium, large.
+          Three sizes available: small (36px), medium (44px), large (52px).
         </p>
 
         <div className="button-grid">
@@ -195,11 +368,11 @@ function App() {
         </div>
       </div>
 
-      {/* Loading State */}
+      {/* Loading & Disabled States */}
       <div className="section">
-        <h2>Loading State</h2>
+        <h2>⚙️ Component States</h2>
         <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-          Built-in loading states with spinner animation.
+          Built-in loading and disabled states.
         </p>
 
         <div className="button-grid">
@@ -222,6 +395,56 @@ function App() {
       </div>
     </div>
   )
+}
+
+// Styles
+const selectStyle: React.CSSProperties = {
+  padding: '0.5rem 1rem',
+  fontSize: '1rem',
+  borderRadius: '0.5rem',
+  border: '1px solid #d1d5db',
+  background: 'white',
+  minWidth: '200px',
+  marginBottom: '0.5rem',
+}
+
+const inputStyle: React.CSSProperties = {
+  padding: '0.5rem 1rem',
+  fontSize: '1rem',
+  borderRadius: '0.5rem',
+  border: '1px solid #d1d5db',
+  width: '100%',
+  marginBottom: '0.5rem',
+}
+
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  marginBottom: '0.25rem',
+  fontWeight: 600,
+  fontSize: '0.875rem',
+  color: '#374151',
+}
+
+const gridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+  gap: '1rem',
+}
+
+const presetGridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+  gap: '1.5rem',
+  background: '#f9fafb',
+  padding: '1rem',
+  borderRadius: '0.5rem',
+}
+
+const descriptionStyle: React.CSSProperties = {
+  fontSize: '0.875rem',
+  color: '#6b7280',
+  marginTop: '0.5rem',
+  fontStyle: 'italic',
 }
 
 export default App

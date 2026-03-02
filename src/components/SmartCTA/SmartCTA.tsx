@@ -23,6 +23,7 @@ import { getIntentTokens, getIntentCSSVariables } from '../../tokens/intentToken
 import { nodeRegistry } from '../../registry/NodeRegistry';
 import { eventBus } from '../../events/EventBus';
 import { generateCopy } from '../../api/copyGeneration';
+import { generateAriaLabel } from '../../utils/accessibility';
 import type { SmartCTAProps } from './types';
 import { AnimatedButton } from './AnimatedButtonVariants';
 import './animatedButtonStyles.css';
@@ -102,36 +103,39 @@ export const SmartCTA: React.FC<SmartCTAProps & {
 
   // Generate AI-powered copy (if brandVoice provided)
   useEffect(() => {
-    // Access env vars from globalThis (injected by demo app)
-    const openrouterKey = (globalThis as any).VITE_OPENROUTER_API_KEY || '';
+    // Check for available API keys (Z.AI doesn't need one!)
+    const zaiAvailable = typeof window !== 'undefined' && (window as any).puter?.ai;
     const groqKey = (globalThis as any).VITE_GROQ_API_KEY || '';
+    const openrouterKey = (globalThis as any).VITE_OPENROUTER_API_KEY || '';
     const geminiKey = (globalThis as any).VITE_GEMINI_API_KEY || '';
     const anthropicKey = (globalThis as any).VITE_ANTHROPIC_API_KEY || '';
     const qwenKey = (globalThis as any).VITE_QWEN_API_KEY || '';
     
     console.log('[SmartCTA] Checking AI copy generation...', { 
       hasBrandVoice: !!brandVoice,
-      hasOpenRouterKey: !!openrouterKey,
+      hasZAI: zaiAvailable,
       hasGroqKey: !!groqKey,
+      hasOpenRouterKey: !!openrouterKey,
       hasGeminiKey: !!geminiKey,
       hasAnthropicKey: !!anthropicKey,
       hasQwenKey: !!qwenKey,
     });
     
-    if (!brandVoice || (!openrouterKey && !groqKey && !geminiKey && !anthropicKey && !qwenKey)) {
-      console.log('[SmartCTA] No API key found, using default copy');
-      setCopy(defaultCopy);
-      return;
-    }
-
-    // Determine provider from available keys (priority: Groq > OpenRouter > Gemini > Anthropic > Qwen)
-    const provider = groqKey ? 'groq' : openrouterKey ? 'openrouter' : geminiKey ? 'gemini' : anthropicKey ? 'anthropic' : 'qwen';
-    const apiKey = groqKey || openrouterKey || geminiKey || anthropicKey || qwenKey;
-    const model = provider === 'groq' ? 'llama-3.3-70b-versatile' 
+    // Determine provider (Z.AI is free, so prioritize it if available!)
+    const provider = zaiAvailable ? 'zai' : groqKey ? 'groq' : openrouterKey ? 'openrouter' : geminiKey ? 'gemini' : anthropicKey ? 'anthropic' : qwenKey ? 'qwen' : null;
+    const apiKey = groqKey || openrouterKey || geminiKey || anthropicKey || qwenKey || '';
+    const model = provider === 'zai' ? 'z-ai/glm-5'
+      : provider === 'groq' ? 'llama-3.3-70b-versatile' 
       : provider === 'openrouter' ? 'meta-llama/llama-3-8b-instruct'
       : provider === 'gemini' ? 'gemini-2.0-flash' 
       : provider === 'anthropic' ? 'claude-sonnet-4-5-20250929' 
       : 'qwen-max';
+    
+    if (!brandVoice || !provider) {
+      console.log('[SmartCTA] No API provider available, using default copy');
+      setCopy(defaultCopy);
+      return;
+    }
 
     const generateCopyForCTA = async () => {
       setIsGeneratingCopy(true);
@@ -151,6 +155,7 @@ export const SmartCTA: React.FC<SmartCTAProps & {
             apiKey,
             model,
             enableCache: true,
+            usePuter: provider === 'zai',
           }
         );
 
@@ -253,6 +258,9 @@ export const SmartCTA: React.FC<SmartCTAProps & {
     className,
   ].filter(Boolean).join(' ');
 
+  // Generate accessible aria-label
+  const ariaLabel = generateAriaLabel(copy, goal, pageContext);
+
   // Render animated button if enabled
   if (animated) {
     return (
@@ -273,6 +281,8 @@ export const SmartCTA: React.FC<SmartCTAProps & {
         data-floating={isFloating}
         data-copy-error={hasCopyError}
         onClick={handleClick}
+        aria-label={ariaLabel}
+        aria-busy={isLoading || isGeneratingCopy}
         {...props}
       >
         {isGeneratingCopy ? 'Loading...' : copy}

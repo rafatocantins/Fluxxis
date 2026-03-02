@@ -1,24 +1,23 @@
 {
-  "name": "@ia-design-system/react",
+  "name": "@fluxxis/core",
   "version": "0.1.0",
-  "description": "An intent-driven, goal-first design system with adaptive components powered by AI",
-  "author": "AI Design System Team",
+  "description": "Adaptive Structural Interface Engine — Transform static interfaces into adaptive systems",
+  "author": "FLUXXIS Team",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/ia-design-system.git"
+    "url": "https://github.com/rafatocantins/fluxxis.git"
   },
-  "homepage": "https://github.com/your-org/ia-design-system#readme",
+  "homepage": "https://github.com/rafatocantins/fluxxis#readme",
   "bugs": {
-    "url": "https://github.com/your-org/ia-design-system/issues"
+    "url": "https://github.com/rafatocantins/fluxxis/issues"
   },
   "keywords": [
-    "react",
-    "design-system",
-    "ai",
     "adaptive-ui",
     "intent-driven",
-    "smart-components",
+    "behavioral-interface",
+    "fluxxis",
+    "adaptive-components",
     "typescript"
   ],
   "type": "module",
