@@ -5,7 +5,6 @@ node_modules/
 dist/
 
 # Local configuration (not for repo)
-.qwen/
 .qwenignore
 .vscode/
 .zencoder/
