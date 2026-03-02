@@ -718,4 +718,4 @@ const diversityRule: DiversityRule = {
 
 ---
 
-**"The best interfaces don't just serve humans. They serve all actors — human, agent, and the ecosystems they create together."**
+**"The best interfaces don't just serve humans. They serve all actors - human, agent, and the ecosystems they create together."**

@@ -1,4 +1,4 @@
-# FLUXXIS — Strategic Master Plan v1.0
+# FLUXXIS - Strategic Master Plan v1.0
 
 **Adaptive Structural Interface Engine**
 

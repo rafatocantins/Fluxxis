@@ -1,4 +1,4 @@
-# FLUXXIS — Critical Market Analysis
+# FLUXXIS - Critical Market Analysis
 
 ## 🎯 Real-World Applications (2026)
 
@@ -437,7 +437,7 @@ Too early (market not ready) or too late (competitors emerge).
 | Healthcare | $45B | 0.5% | $225M |
 | Fintech | $12B | 2% | $240M |
 | E-learning | $400B | 0.2% | $800M |
-| **Total** | **$461B** | **—** | **$1.525B** |
+| **Total** | **$461B** | **-** | **$1.525B** |
 
 **Note:** These are TAM numbers. Realistic Year 3 revenue: $5-15M (0.3-1% capture).
 

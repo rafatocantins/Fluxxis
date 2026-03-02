@@ -564,7 +564,7 @@ Phase 4: Invisible Rules (2035)
 ```
 No conscious awareness of adaptation.
 Interface feels "natural" and "intuitive."
-Adaptation is like muscle memory — automatic.
+Adaptation is like muscle memory - automatic.
 ```
 
 **User Sentiment:**
@@ -681,7 +681,7 @@ Human Agency (enforced):
 >
 > And we chose wisely.
 >
-> — The FLUXXIS Team, 2026
+> - The FLUXXIS Team, 2026
 
 ---
 
@@ -689,11 +689,11 @@ Human Agency (enforced):
 
 | Document | Purpose |
 |----------|---------|
-| [FLUXXIS-VISION.md](./FLUXXIS-VISION.md) | The ASI paradigm — technical deep dive |
+| [FLUXXIS-VISION.md](./FLUXXIS-VISION.md) | The ASI paradigm - technical deep dive |
 | [FLUXXIS-MASTER-PLAN.md](./FLUXXIS-MASTER-PLAN.md) | Complete roadmap with phases |
 | [FLUXXIS-GOVERNING-RULES.md](./FLUXXIS-GOVERNING-RULES.md) | 7 non-negotiable rules |
 | [FLUXXIS-MARKET-ANALYSIS.md](./FLUXXIS-MARKET-ANALYSIS.md) | Market analysis, use cases |
-| [FLUXXIS-LONG-TERM-VISION.md](./FLUXXIS-LONG-TERM-VISION.md) | This document — long-term vision |
+| [FLUXXIS-LONG-TERM-VISION.md](./FLUXXIS-LONG-TERM-VISION.md) | This document - long-term vision |
 
 ---
 

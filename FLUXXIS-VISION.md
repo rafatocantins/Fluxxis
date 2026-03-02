@@ -828,19 +828,19 @@ They are **living systems** that breathe, adapt, and respond to human need.
 
 ### The Future Is Not More Components
 
-It's **embodied behavior** — intelligence woven into the fabric of UI.
+It's **embodied behavior** - intelligence woven into the fabric of UI.
 
 ### FLUXXIS Doesn't Draw Pixels
 
-It **orchestrates intention** — transforming static interfaces into adaptive experiences.
+It **orchestrates intention** - transforming static interfaces into adaptive experiences.
 
 ### We Believe In
 
-- **Deterministic over magical** — Rules over black boxes
-- **Transparent over clever** — Traceable adaptations
-- **Accessible over trendy** — WCAG is the floor, not the ceiling
-- **Privacy over convenience** — Client-side processing, no PII
-- **Open over proprietary** — MIT license, community-driven
+- **Deterministic over magical** - Rules over black boxes
+- **Transparent over clever** - Traceable adaptations
+- **Accessible over trendy** - WCAG is the floor, not the ceiling
+- **Privacy over convenience** - Client-side processing, no PII
+- **Open over proprietary** - MIT license, community-driven
 
 ---
 
@@ -859,7 +859,7 @@ It **orchestrates intention** — transforming static interfaces into adaptive e
 
 ### Why FLUXXIS is Uniquely Positioned
 
-**FLUXXIS architecture is dual-use — it works for both humans AND agents:**
+**FLUXXIS architecture is dual-use - it works for both humans AND agents:**
 
 | FLUXXIS Feature | Human Benefit | Agent Benefit |
 |-----------------|--------------|---------------|
@@ -900,11 +900,11 @@ It **orchestrates intention** — transforming static interfaces into adaptive e
 
 | Document | Purpose |
 |----------|---------|
-| [**Technical Paper**](./FLUXXIS-PAPER.md) | **Academic paper — formal definition, architecture, proofs** |
-| [**Vision**](./FLUXXIS-VISION.md) | **The ASI paradigm — deep dive into adaptive structural interfaces** |
-| [**Long-Term Vision**](./FLUXXIS-LONG-TERM-VISION.md) | **2026-2035 roadmap — behavioral evolution, societal impact** |
-| [**Agentic Era**](./FLUXXIS-AGENTIC-ERA.md) | **Agent strategy — preparing for AI agents as interface users** |
-| [**Market Expansion**](./FLUXXIS-MARKET-EXPANSION.md) | **New markets — $15T opportunity (news, commerce, healthcare, etc.)** |
+| [**Technical Paper**](./FLUXXIS-PAPER.md) | **Academic paper - formal definition, architecture, proofs** |
+| [**Vision**](./FLUXXIS-VISION.md) | **The ASI paradigm - deep dive into adaptive structural interfaces** |
+| [**Long-Term Vision**](./FLUXXIS-LONG-TERM-VISION.md) | **2026-2035 roadmap - behavioral evolution, societal impact** |
+| [**Agentic Era**](./FLUXXIS-AGENTIC-ERA.md) | **Agent strategy - preparing for AI agents as interface users** |
+| [**Market Expansion**](./FLUXXIS-MARKET-EXPANSION.md) | **New markets - $15T opportunity (news, commerce, healthcare, etc.)** |
 | [Master Plan](./FLUXXIS-MASTER-PLAN.md) | Complete roadmap with phases, tasks, metrics |
 | [Market Analysis](./FLUXXIS-MARKET-ANALYSIS.md) | Real-world applications, competitive landscape |
 | [Risk Mitigation](./FLUXXIS-RISK-MITIGATION.md) | How we're de-risking the venture |

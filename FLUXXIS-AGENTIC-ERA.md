@@ -65,7 +65,7 @@ Agent Reality:
 | **Structural Morphing** | Accessibility | API surface adaptation |
 | **Auditability** | Ethics compliance | Agent accountability |
 
-**Key Insight:** FLUXXIS architecture is **dual-use** — it works for both humans AND agents.
+**Key Insight:** FLUXXIS architecture is **dual-use** - it works for both humans AND agents.
 
 ---
 
@@ -878,7 +878,7 @@ FLUXXIS Agentic Ethics Charter:
 
 ### Recommendation 5: Research Agent UX Patterns
 
-**Why:** Agent UX is uncharted territory — opportunity to define standards.
+**Why:** Agent UX is uncharted territory - opportunity to define standards.
 
 **Research Questions:**
 1. How do agents "experience" interfaces?
@@ -953,7 +953,7 @@ FLUXXIS Agentic Ethics Charter:
 | [FLUXXIS-VISION.md](./FLUXXIS-VISION.md) | Technical vision |
 | [FLUXXIS-LONG-TERM-VISION.md](./FLUXXIS-LONG-TERM-VISION.md) | 2026-2035 roadmap |
 | [FLUXXIS-MASTER-PLAN.md](./FLUXXIS-MASTER-PLAN.md) | Development plan |
-| [FLUXXIS-AGENTIC-ERA.md](./FLUXXIS-AGENTIC-ERA.md) | This document — agentic strategy |
+| [FLUXXIS-AGENTIC-ERA.md](./FLUXXIS-AGENTIC-ERA.md) | This document - agentic strategy |
 
 ---
 
@@ -963,4 +963,4 @@ FLUXXIS Agentic Ethics Charter:
 
 ---
 
-**"The best interface doesn't just adapt to humans. It adapts to all actors — human and agent alike."**
+**"The best interface doesn't just adapt to humans. It adapts to all actors - human and agent alike."**
