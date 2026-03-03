@@ -1,0 +1,10 @@
+# FLUXXIS Monorepo Configuration
+# https://pnpm.io/workspaces
+
+packages:
+  # Core package (framework-agnostic)
+  - 'packages/core'
+  # React adapter package
+  - 'packages/react'
+  # Demo app (for testing)
+  - 'demo'
