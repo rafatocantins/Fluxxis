@@ -6,4 +6,3 @@
 
 export * from './types';
 export * from './logger';
-export { AnalyticsDashboard } from './Dashboard';

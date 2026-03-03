@@ -1,6 +1,6 @@
 /**
  * API Layer
- * 
+ *
  * LLM integration for copy generation with privacy-first design
  */
 
@@ -9,7 +9,8 @@ export { PrivacyFilter, filterPII, validateNoPII } from './PrivacyFilter';
 export type { PrivacyFilterOptions } from './PrivacyFilter';
 
 // Copy Generation
-export { generateCopy, clearCopyCache } from './copyGeneration';
+export { generateCopy } from './copyGeneration';
+export { clearCopyCache } from './copyCache';
 export type {
   CopyGenerationRequest,
   CopyGenerationResponse,

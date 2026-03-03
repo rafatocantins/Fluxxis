@@ -1,6 +1,6 @@
 /**
  * Tokens
- * 
+ *
  * Design tokens for goal-driven styling
  */
 
@@ -17,4 +17,5 @@ export {
   applyIntentTokens,
 } from './intentTokens';
 
-export type { IntentTokens, EmphasisLevel, AnimationType } from './intentTokens';
+export type { IntentTokens, EmphasisLevel } from './intentTokens';
+export type { AnimationType } from '../_internal/types';

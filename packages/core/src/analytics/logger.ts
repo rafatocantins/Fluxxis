@@ -96,8 +96,8 @@ export class AgentAnalyticsLogger implements AnalyticsLogger {
       successRate: successfulEvents.length / agentEvents.length,
       avgLatency: totalLatency / agentEvents.length,
       totalLicensingFees: totalFees,
-      firstRequest: agentEvents[0].timestamp,
-      lastRequest: agentEvents[agentEvents.length - 1].timestamp,
+      firstRequest: agentEvents[0]?.timestamp ?? 0,
+      lastRequest: agentEvents[agentEvents.length - 1]?.timestamp ?? 0,
       requestsByAction,
       requestsByComponent,
     };
@@ -223,6 +223,10 @@ export class AgentAnalyticsLogger implements AnalyticsLogger {
 
     const tier = this.agentTiers.get(agentId) || 'free';
     const pricingTier = this.pricingTiers[tier];
+
+    if (!pricingTier) {
+      throw new Error(`Pricing tier not found: ${tier}`);
+    }
 
     // Filter events in period
     const periodEvents = agentEvents.filter(

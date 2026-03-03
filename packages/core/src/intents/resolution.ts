@@ -9,14 +9,13 @@ import type {
   IntentResolution,
   ResolutionOptions,
   AgentCapabilities,
-  DataFormatType,
 } from './types';
 import {
   DEFAULT_RESOLUTION_OPTIONS,
   DEFAULT_AGENT_CAPABILITIES,
   DEFAULT_AGENT_CONSTRAINTS,
 } from './types';
-import type { Signal } from '../signals';
+import type { Signal, DataFormatType } from '../types';
 
 /**
  * Resolve intent declaration to resolution
@@ -30,7 +29,7 @@ export function resolveIntent(
   if (declaration.actorType === 'agent') {
     return resolveAgentIntent(declaration, signals, options);
   }
-  
+
   return resolveHumanIntent(declaration, signals, options);
 }
 
@@ -95,8 +94,8 @@ export function resolveHumanIntent(
  */
 export function resolveAgentIntent(
   declaration: IntentDeclaration,
-  signals: Signal[],
-  options: ResolutionOptions = DEFAULT_RESOLUTION_OPTIONS
+  _signals: Signal[],
+  _options: ResolutionOptions = DEFAULT_RESOLUTION_OPTIONS
 ): IntentResolution {
   // Get agent capabilities (use defaults if not provided)
   const capabilities: AgentCapabilities = declaration.agentCapabilities || DEFAULT_AGENT_CAPABILITIES;
@@ -186,7 +185,7 @@ function calculateScrollDepth(signals: Signal[]): number {
   if (scrollSignals.length === 0) {
     return 0;
   }
-  
+
   const maxDepth = Math.max(...scrollSignals.map(s => s.context?.scrollDepth || 0));
   return maxDepth;
 }
@@ -238,14 +237,14 @@ function generateStructuredData(
         ...baseData,
         '@id': `action:${declaration.componentId}:${declaration.timestamp}`,
       };
-    
+
     case 'microdata':
       return {
         itemscope: true,
         itemtype: 'https://schema.org/Action',
         ...baseData,
       };
-    
+
     case 'api':
       return {
         action: declaration.goal,
@@ -255,7 +254,7 @@ function generateStructuredData(
           timestamp: declaration.timestamp,
         },
       };
-    
+
     default:
       return baseData;
   }
@@ -277,7 +276,7 @@ export function resolveIntents(
   signals: Signal[][],
   options: ResolutionOptions = DEFAULT_RESOLUTION_OPTIONS
 ): IntentResolution[] {
-  return declarations.map((declaration, index) => 
+  return declarations.map((declaration, index) =>
     resolveIntent(declaration, signals[index] || [], options)
   );
 }
@@ -300,7 +299,7 @@ export class IntentResolver {
    */
   resolve(declaration: IntentDeclaration, signals: Signal[]): IntentResolution {
     const cacheKey = this.getCacheKey(declaration);
-    
+
     // Check cache
     const cached = this.cache.get(cacheKey);
     if (cached && Date.now() - cached.timestamp < this.cacheTTL) {

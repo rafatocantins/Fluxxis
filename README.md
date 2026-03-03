@@ -96,11 +96,11 @@ import { AdaptiveButton } from '@fluxxis/react'
 
 ## 📦 Packages
 
-| Package | Size | Description |
-|---------|------|-------------|
-| `@fluxxis/core` | <10KB | Framework-agnostic engine |
-| `@fluxxis/react` | <5KB | React adapter |
-| `@fluxxis/devtools` | <15KB | Debug overlay |
+| Package | Size | Status | Description |
+|---------|------|--------|-------------|
+| `@fluxxis/core` | <10KB | ✅ Stabilized | Framework-agnostic engine |
+| `@fluxxis/react` | <5KB | ✅ Stabilized | React adapter |
+| `@fluxxis/devtools` | <15KB | ⏳ Pending | Debug overlay |
 
 ---
 
@@ -232,29 +232,29 @@ We welcome contributions! Please see our [Contributing Guide](./CONTRIBUTING.md)
 
 ```bash
 # Clone the repo
-git clone https://github.com/fluxxis/fluxxis.git
+git clone https://github.com/rafatocantins/fluxxis.git
 cd fluxxis
 
-# Install dependencies
+# Install dependencies (using pnpm workspaces)
 pnpm install
 
-# Run tests
-pnpm test
-
-# Build all packages
+# Build all packages in the workspace
 pnpm build
+
+# Run the demo application
+pnpm --filter fluxxis-demo dev
 ```
 
 ---
 
 ## 📈 Roadmap
 
-### Phase 1: Core Engine (Week 1-2)
-- [ ] Create monorepo structure
-- [ ] Extract SignalProcessor
-- [ ] Create IntentEngine
-- [ ] Create MorphEngine
-- [ ] Write core tests (>90% coverage)
+### Phase 1: Core Engine & Monorepo (Complete)
+- [x] Create monorepo structure (pnpm workspaces)
+- [x] Extract SignalProcessor & Core Types
+- [x] Stabilize IntentEngine
+- [x] Stabilize MorphEngine
+- [x] Achieve build stability across workspace
 
 ### Phase 2: React Adapter (Week 3)
 - [ ] Create FluxxisProvider

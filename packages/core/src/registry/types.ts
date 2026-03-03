@@ -2,7 +2,7 @@
  * Node Registry Types
  */
 
-import type { GoalType } from '../types';
+import type { GoalType, InterventionLevel } from '../types';
 import type { BrandVoiceConfig } from '../types/brandVoice';
 
 /**
@@ -46,11 +46,6 @@ export interface NodeMetrics {
   /** Performance above baseline percentage */
   performanceAboveBaseline: number;
 }
-
-/**
- * Intervention levels (1-8)
- */
-export type InterventionLevel = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
 
 /**
  * Create initial node metrics

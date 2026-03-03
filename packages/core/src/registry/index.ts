@@ -3,4 +3,4 @@
  */
 
 export { NodeRegistry, nodeRegistry } from './NodeRegistry';
-export type { NodeContract, NodeMetrics, InterventionLevel } from './types';
+export type { NodeContract, NodeMetrics } from './types';

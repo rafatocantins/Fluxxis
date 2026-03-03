@@ -4,10 +4,9 @@
  * Defines structured data formats for agent consumption
  */
 
-/**
- * Data format types
- */
-export type DataFormatType = 'json-ld' | 'microdata' | 'rdfa' | 'api';
+// Re-export DataFormatType from _internal for convenience
+import type { DataFormatType } from '../_internal/types';
+export type { DataFormatType };
 
 /**
  * Schema.org thing type
@@ -152,10 +151,15 @@ export interface DualModeRenderResult {
 }
 
 /**
+ * Default schema.org context
+ */
+export const DEFAULT_SCHEMA_CONTEXT = 'https://schema.org';
+
+/**
  * Schema.org context URLs
  */
 export const SCHEMA_CONTEXTS: Record<string, string> = {
-  default: 'https://schema.org',
+  default: DEFAULT_SCHEMA_CONTEXT,
   action: 'https://schema.org/Action',
   thing: 'https://schema.org/Thing',
   creativeWork: 'https://schema.org/CreativeWork',
@@ -165,8 +169,3 @@ export const SCHEMA_CONTEXTS: Record<string, string> = {
   product: 'https://schema.org/Product',
   offer: 'https://schema.org/Offer',
 };
-
-/**
- * Default schema.org context
- */
-export const DEFAULT_SCHEMA_CONTEXT = SCHEMA_CONTEXTS.default;

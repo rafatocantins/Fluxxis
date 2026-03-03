@@ -5,50 +5,30 @@
  * Framework-agnostic core
  */
 
-// Signals
+// Core Modules
 export * from './signals';
-
-// Intents
 export * from './intents';
-
-// Analytics
 export * from './analytics';
-
-// Structured Data
 export * from './structured-data';
-
-// Licensing
 export * from './licensing';
 
-// Events
+// Infrastructure
 export * from './events';
-
-// Registry
 export * from './registry';
+// Note: stores exported separately to avoid Signal conflict
+// export * from './stores';
 
-// Stores
-export * from './stores';
-
-// Types
-export * from './types';
-
-// Utils
+// Utilities
 export * from './utils';
-
-// Tokens
 export * from './tokens';
-
-// Components (framework-agnostic)
-export * from './components';
-
-// Hooks (framework-agnostic)
-export * from './hooks';
-
-// Styles
 export * from './styles';
 
-// Tracking
-export * from './tracking';
-
+// UI and framework-specific code moved to @fluxxis/react
 // API (framework-agnostic)
 export * from './api';
+
+// Core Types
+export * from './types';
+
+// Note: _internal types are internal - import from specific modules
+// Note: types and tracking are internal-only

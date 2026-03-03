@@ -1,3 +1,5 @@
+import type { AnimationType } from '../_internal/types';
+
 /**
  * Intent Tokens
  * 
@@ -14,8 +16,9 @@ export type EmphasisLevel = 'subtle' | 'normal' | 'strong';
 
 /**
  * Animation types for different goals
+ * Note: AnimationType is imported from _shared/types
  */
-export type AnimationType = 'direct' | 'subtle' | 'playful' | 'urgent';
+// export type AnimationType = 'direct' | 'subtle' | 'playful' | 'urgent';
 
 /**
  * Intent token values for different goals
@@ -115,6 +118,7 @@ export const EMPHASIS_MODIFIERS: Record<EmphasisLevel, Partial<IntentTokens>> = 
  * Animation keyframes by type
  */
 export const ANIMATION_KEYFRAMES: Record<AnimationType, string> = {
+  none: '',
   direct: `
     @keyframes intent-direct {
       0% { transform: scale(1); }
@@ -150,7 +154,7 @@ export const ANIMATION_KEYFRAMES: Record<AnimationType, string> = {
  */
 export function getIntentTokens(goal: GoalType, emphasis?: EmphasisLevel): IntentTokens {
   const baseTokens = INTENT_TOKENS[goal];
-  
+
   if (!emphasis || emphasis === baseTokens.emphasis) {
     return baseTokens;
   }
@@ -171,7 +175,7 @@ export function getIntentCSSVariables(
   emphasis?: EmphasisLevel
 ): Record<string, string> {
   const tokens = getIntentTokens(goal, emphasis);
-  
+
   return {
     '--intent-color': tokens.color,
     '--intent-accent-color': tokens.accentColor,
@@ -229,7 +233,7 @@ export function generateIntentStylesheet(): string {
   // Generate goal-based CSS variables
   goalTypes.forEach(goal => {
     const tokens = INTENT_TOKENS[goal];
-    
+
     css += `
 .intent--${goal} {
   --intent-color: ${tokens.color};
@@ -305,10 +309,10 @@ export function applyIntentTokens(
   Object.entries(variables).forEach(([property, value]) => {
     element.style.setProperty(property, value);
   });
-  
+
   // Add goal class
   element.classList.add(`intent--${goal}`);
-  
+
   // Add emphasis class if specified
   if (emphasis) {
     element.classList.add(`intent--emphasis-${emphasis}`);

@@ -31,13 +31,13 @@ export type NavigationPattern = 'human' | 'systematic' | 'random' | 'optimized';
  */
 export function calculateClickRate(signals: Signal[]): number {
   const clickSignals = signals.filter(s => s.type === 'click');
-  
+
   if (clickSignals.length < 2) {
     return 0;
   }
 
-  const firstClick = clickSignals[0].timestamp;
-  const lastClick = clickSignals[clickSignals.length - 1].timestamp;
+  const firstClick = clickSignals[0]?.timestamp ?? 0;
+  const lastClick = clickSignals[clickSignals.length - 1]?.timestamp ?? 0;
   const duration = (lastClick - firstClick) / 1000; // Convert to seconds
 
   if (duration === 0) {
@@ -57,7 +57,7 @@ export function analyzeNavigationPattern(signals: Signal[]): NavigationPattern {
 
   // Check for systematic patterns (agents often navigate in predictable sequences)
   const pageViews = signals.filter(s => s.type === 'viewport');
-  
+
   if (pageViews.length < 2) {
     return 'human';
   }
@@ -65,7 +65,9 @@ export function analyzeNavigationPattern(signals: Signal[]): NavigationPattern {
   // Calculate variance in timing between page views
   const intervals: number[] = [];
   for (let i = 1; i < pageViews.length; i++) {
-    intervals.push(pageViews[i].timestamp - pageViews[i - 1].timestamp);
+    const prevTimestamp = pageViews[i - 1]?.timestamp ?? 0;
+    const currTimestamp = pageViews[i]?.timestamp ?? 0;
+    intervals.push(currTimestamp - prevTimestamp);
   }
 
   const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
@@ -89,9 +91,9 @@ export function analyzeNavigationPattern(signals: Signal[]): NavigationPattern {
  */
 export function checkStructuredDataAcceptance(signals: Signal[]): boolean {
   // Look for Accept headers or API usage patterns
-  const apiSignals = signals.filter(s => 
-    s.type === 'click' && 
-    s.context?.endpoint?.includes('/api/')
+  const apiSignals = signals.filter(s =>
+    s.type === 'click' &&
+    (s.context?.endpoint?.includes('/api/') ?? false)
   );
 
   return apiSignals.length > 0;
@@ -101,9 +103,9 @@ export function checkStructuredDataAcceptance(signals: Signal[]): boolean {
  * Check for API usage patterns
  */
 export function checkAPIUsage(signals: Signal[]): boolean {
-  const apiSignals = signals.filter(s => 
-    s.context?.source === 'api' ||
-    s.context?.endpoint?.includes('/api/')
+  const apiSignals = signals.filter(s =>
+    (s.context?.source === 'api') ||
+    (s.context?.endpoint?.includes('/api/') ?? false)
   );
 
   return apiSignals.length > 0;
@@ -114,7 +116,7 @@ export function checkAPIUsage(signals: Signal[]): boolean {
  */
 export function analyzeScrollPattern(signals: Signal[]): 'human' | 'agent' {
   const scrollSignals = signals.filter(s => s.type === 'scroll');
-  
+
   if (scrollSignals.length < 3) {
     return 'human';
   }
@@ -137,22 +139,26 @@ export function analyzeScrollPattern(signals: Signal[]): 'human' | 'agent' {
  */
 export function analyzeHoverPattern(signals: Signal[]): 'human' | 'agent' {
   const hoverSignals = signals.filter(s => s.type === 'hover');
-  
+
   if (hoverSignals.length < 3) {
     return 'human';
   }
 
   // Check for micro-movements (humans have natural hand tremor)
   const positions = hoverSignals.map(s => ({
-    x: s.context?.position?.x || 0,
-    y: s.context?.position?.y || 0,
+    x: (s.context?.position?.x) ?? 0,
+    y: (s.context?.position?.y) ?? 0,
   }));
 
   let totalMovement = 0;
   for (let i = 1; i < positions.length; i++) {
-    const dx = positions[i].x - positions[i - 1].x;
-    const dy = positions[i].y - positions[i - 1].y;
-    totalMovement += Math.sqrt(dx * dx + dy * dy);
+    const p1 = positions[i - 1];
+    const p2 = positions[i];
+    if (p1 && p2) {
+      const dx = p2.x - p1.x;
+      const dy = p2.y - p1.y;
+      totalMovement += Math.sqrt(dx * dx + dy * dy);
+    }
   }
 
   const avgMovement = totalMovement / positions.length;
@@ -262,23 +268,20 @@ export function detectActorTypes(signalStreams: Signal[][]): AgentDetectionResul
 export class RealTimeAgentDetector {
   private signals: Signal[] = [];
   private lastDetection: AgentDetectionResult | null = null;
-  private readonly threshold: number;
 
-  constructor(threshold: number = 0.6) {
-    this.threshold = threshold;
-  }
+  constructor() { }
 
   /**
    * Add new signal and re-evaluate
    */
   addSignal(signal: Signal): AgentDetectionResult {
     this.signals.push(signal);
-    
+
     // Re-detect every 10 signals (performance optimization)
     if (this.signals.length % 10 === 0) {
       this.lastDetection = detectActorType(this.signals);
     }
-    
+
     return this.lastDetection || {
       actorType: 'unknown',
       confidence: 0,

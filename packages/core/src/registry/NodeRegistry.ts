@@ -5,7 +5,8 @@
  */
 
 import { eventBus } from '../events/EventBus';
-import type { NodeContract, NodeMetrics, InterventionLevel } from './types';
+import type { InterventionLevel } from '../types';
+import type { NodeContract, NodeMetrics } from './types';
 import { createInitialMetrics, shouldProtect } from './types';
 
 /**

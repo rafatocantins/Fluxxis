@@ -1,221 +1,110 @@
 /**
- * Intent Types
- * 
- * Defines intent declarations and resolutions for humans and agents
+ * Intent Module Types
  */
 
-import type { ActorType } from '../signals';
+import type { GoalType, PriorityType, DataFormatType } from '../types';
 
 /**
- * Goal types
+ * Intent mapping for structural adaptations
  */
-export type GoalType = 'convert' | 'inform' | 'engage';
-
-/**
- * Priority levels
- */
-export type PriorityType = 'low' | 'normal' | 'high';
-
-/**
- * Density options for layout
- */
-export type DensityType = 'compact' | 'normal' | 'spacious';
-
-/**
- * Emphasis levels
- */
-export type EmphasisType = 'subtle' | 'normal' | 'strong';
-
-/**
- * Animation types
- */
-export type AnimationType = 'none' | 'subtle' | 'playful' | 'urgent';
-
-/**
- * Hierarchy levels
- */
-export type HierarchyType = 'de-emphasized' | 'normal' | 'focused';
-
-/**
- * Data format options
- */
-export type DataFormatType = 'html' | 'json-ld' | 'microdata' | 'api';
-
-/**
- * API schema types
- */
-export type SchemaType = 'graphql' | 'rest' | 'rpc';
-
-/**
- * Negotiation protocols
- */
-export type NegotiationProtocolType = 'contract-net' | 'auction' | 'direct';
-
-/**
- * Agent capabilities
- */
-export interface AgentCapabilities {
-  /** Can parse structured data (JSON-LD, microdata) */
-  canParseStructuredData: boolean;
-  /** Can execute API calls */
-  canExecuteAPIs: boolean;
-  /** Can negotiate with other agents */
-  canNegotiate: boolean;
-  /** Supports streaming responses */
-  supportsStreaming: boolean;
-  /** Maximum parallel requests */
-  maxParallelism: number;
-}
-
-/**
- * Agent constraints
- */
-export interface AgentConstraints {
-  /** Request timeout (ms) */
-  timeout?: number;
-  /** Retry policy */
-  retryPolicy?: 'none' | 'exponential' | 'fixed';
-  /** Fallback behavior on error */
-  fallbackBehavior?: 'error' | 'default' | 'cache';
-  /** Maximum retries */
-  maxRetries?: number;
-  /** Preferred data format */
-  preferredFormat?: DataFormatType;
-}
-
-/**
- * Intent declaration
- */
-export interface IntentDeclaration {
-  // Common fields (human + agent)
-  /** Unique intent ID */
-  id: string;
-  /** Goal type */
+export interface IntentMatch {
   goal: GoalType;
-  /** Priority level */
+  confidence: number;
   priority: PriorityType;
-  /** Context data */
-  context: Record<string, any>;
-  /** Actor type */
-  actorType: ActorType;
-  /** Component ID */
-  componentId: string;
-  /** Timestamp */
-  timestamp: number;
-
-  // Agent-specific fields
-  /** Agent capabilities (if actor is agent) */
-  agentCapabilities?: AgentCapabilities;
-  /** Agent constraints (if actor is agent) */
-  agentConstraints?: AgentConstraints;
-  /** Agent ID (anonymized hash) */
-  agentId?: string;
+  metadata?: Record<string, any>;
 }
 
 /**
- * API surface configuration
- */
-export interface APISurface {
-  /** Expose API endpoints */
-  exposeEndpoints: boolean;
-  /** Schema type */
-  schemaType: SchemaType;
-  /** Support batch requests */
-  batchSupport: boolean;
-  /** Support streaming */
-  streamingSupport: boolean;
-  /** API endpoint URL */
-  endpoint?: string;
-}
-
-/**
- * Negotiation protocol configuration
- */
-export interface NegotiationProtocol {
-  /** Enable negotiation */
-  enabled: boolean;
-  /** Protocol type */
-  protocol: NegotiationProtocolType;
-  /** Maximum negotiation rounds */
-  maxRounds: number;
-  /** Initial offer */
-  initialOffer?: Record<string, any>;
-}
-
-/**
- * Intent resolution
+ * Intent resolution result
  */
 export interface IntentResolution {
-  // Common fields (human + agent)
-  /** Layout density */
-  density: DensityType;
-  /** Visual emphasis */
-  emphasis: EmphasisType;
-  /** Animation type */
-  animation: AnimationType;
-  /** Hierarchy level */
-  hierarchy: HierarchyType;
-  /** Microcopy tone */
+  density: 'compact' | 'normal' | 'spacious';
+  emphasis: 'subtle' | 'normal' | 'strong';
+  animation: 'none' | 'subtle' | 'playful' | 'urgent';
+  hierarchy: 'de-emphasized' | 'normal' | 'focused';
   microcopy?: string;
-
-  // Agent-specific fields
-  /** Data format for agents */
   dataFormat?: DataFormatType;
-  /** API surface configuration */
-  apiSurface?: APISurface;
-  /** Negotiation protocol */
-  negotiationProtocol?: NegotiationProtocol;
-  /** Structured data payload */
+  apiSurface?: {
+    exposeEndpoints: boolean;
+    schemaType: 'rest' | 'graphql';
+    batchSupport: boolean;
+    streamingSupport: boolean;
+    endpoint: string;
+  };
+  negotiationProtocol?: {
+    enabled: boolean;
+    protocol: 'contract-net' | 'paxos' | 'raft';
+    maxRounds: number;
+    initialOffer: Record<string, any>;
+  };
   structuredData?: any;
-  /** Cache headers */
   cacheHeaders?: {
     maxAge: number;
-    etag?: string;
+    etag: string;
   };
 }
 
 /**
- * Intent resolution options
+ * Intent declaration contract
  */
-export interface ResolutionOptions {
-  /** Include agent-specific fields */
-  includeAgentFields: boolean;
-  /** Optimize for performance */
-  optimizePerformance: boolean;
-  /** Enable caching */
-  enableCache: boolean;
-  /** Debug mode */
-  debug: boolean;
+export interface IntentDeclaration {
+  componentId: string;
+  goal: GoalType;
+  priority: PriorityType;
+  timestamp: number;
+  actorType: 'human' | 'agent' | 'unknown';
+  context?: Record<string, any>;
+  agentCapabilities?: AgentCapabilities;
+  agentConstraints?: AgentConstraints;
 }
 
 /**
- * Default resolution options
+ * Agent capabilities for resolution tuning
+ */
+export interface AgentCapabilities {
+  canParseStructuredData: boolean;
+  canExecuteAPIs: boolean;
+  canNegotiate: boolean;
+  maxParallelism: number;
+  supportsStreaming: boolean;
+}
+
+/**
+ * Agent constraints for resolution tuning
+ */
+export interface AgentConstraints {
+  timeout: number;
+  maxRetries: number;
+  preferredFormat?: DataFormatType;
+}
+
+/**
+ * Resolution options
+ */
+export interface ResolutionOptions {
+  includeAgentFields?: boolean;
+  strictMode?: boolean;
+  cacheResults?: boolean;
+}
+
+/**
+ * Default resolution constants
  */
 export const DEFAULT_RESOLUTION_OPTIONS: ResolutionOptions = {
   includeAgentFields: true,
-  optimizePerformance: false,
-  enableCache: true,
-  debug: false,
+  strictMode: false,
+  cacheResults: true,
 };
 
-/**
- * Default agent capabilities
- */
 export const DEFAULT_AGENT_CAPABILITIES: AgentCapabilities = {
   canParseStructuredData: true,
-  canExecuteAPIs: true,
+  canExecuteAPIs: false,
   canNegotiate: false,
-  supportsStreaming: false,
   maxParallelism: 1,
+  supportsStreaming: false,
 };
 
-/**
- * Default agent constraints
- */
 export const DEFAULT_AGENT_CONSTRAINTS: AgentConstraints = {
-  timeout: 5000, // 5 seconds
-  retryPolicy: 'exponential',
-  fallbackBehavior: 'cache',
+  timeout: 5000,
   maxRetries: 3,
-  preferredFormat: 'json-ld',
 };

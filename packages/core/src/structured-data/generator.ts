@@ -10,7 +10,6 @@ import type {
   DataFormatType,
   JsonLdDocument,
   MicrodataAttributes,
-  SchemaThing,
   ApiSurface,
   ApiEndpoint,
   DualModeRenderResult,
@@ -47,14 +46,14 @@ function generateJsonLd(
   compact: boolean
 ): StructuredDataResult {
   const document: JsonLdDocument = {
-    '@context': includeContext ? DEFAULT_SCHEMA_CONTEXT : undefined,
+    '@context': includeContext ? DEFAULT_SCHEMA_CONTEXT : '',
     '@type': schemaType,
     ...data,
   };
 
-  // Remove undefined properties
+  // Remove undefined and empty properties
   Object.keys(document).forEach(key => {
-    if (document[key] === undefined) {
+    if (document[key] === undefined || document[key] === '') {
       delete document[key];
     }
   });
@@ -113,7 +112,7 @@ function generateMicrodata(schemaType: string, data: Record<string, any>): Struc
  */
 function generateRdfa(schemaType: string, data: Record<string, any>): StructuredDataResult {
   const vocab = SCHEMA_CONTEXTS[schemaType] || schemaType;
-  
+
   // Generate RDFa attributes
   const attrs = Object.entries(data)
     .filter(([_, value]) => value !== undefined)
@@ -191,8 +190,8 @@ export function generateDualModeRender(
   });
 
   // Wrap human content with structured data
-  let humanView: string;
-  
+  let humanView = '';
+
   if (agentFormat === 'json-ld') {
     // JSON-LD goes in script tag
     humanView = `
@@ -237,7 +236,7 @@ export function convertStructuredData(
         Object.entries(jsonLd).filter(([key]) => !key.startsWith('@'))
       );
       break;
-    
+
     case 'microdata':
     case 'rdfa':
     case 'api':
@@ -247,7 +246,7 @@ export function convertStructuredData(
         Object.entries(api).filter(([key]) => key !== 'schemaType' && key !== 'timestamp')
       );
       break;
-    
+
     default:
       throw new Error(`Unsupported format: ${fromFormat}`);
   }
@@ -276,12 +275,12 @@ export function validateStructuredData(
       case 'json-ld':
         // Validate JSON
         JSON.parse(content);
-        
+
         // Check for @context
         if (!content.includes('"@context"')) {
           errors.push('Missing @context');
         }
-        
+
         // Check for @type
         if (!content.includes('"@type"')) {
           errors.push('Missing @type');
@@ -293,7 +292,7 @@ export function validateStructuredData(
         if (!content.includes('itemscope')) {
           errors.push('Missing itemscope');
         }
-        
+
         // Check for itemtype
         if (!content.includes('itemtype')) {
           errors.push('Missing itemtype');
@@ -305,7 +304,7 @@ export function validateStructuredData(
         if (!content.includes('vocab') && !content.includes('prefix')) {
           errors.push('Missing vocab or prefix');
         }
-        
+
         // Check for typeof or property
         if (!content.includes('typeof') && !content.includes('property')) {
           errors.push('Missing typeof or property');
@@ -315,7 +314,7 @@ export function validateStructuredData(
       case 'api':
         // Validate JSON
         JSON.parse(content);
-        
+
         // Check for schemaType
         if (!content.includes('"schemaType"')) {
           errors.push('Missing schemaType');
@@ -339,7 +338,6 @@ export function validateStructuredData(
  * Escape HTML special characters
  */
 function escapeHtml(text: string): string {
-  const div = { innerHTML: '' };
   const map: Record<string, string> = {
     '&': '&amp;',
     '<': '&lt;',
@@ -347,8 +345,8 @@ function escapeHtml(text: string): string {
     '"': '&quot;',
     "'": '&#039;',
   };
-  
-  return text.replace(/[&<>"']/g, (m) => map[m]);
+
+  return text.replace(/[&<>"']/g, (m) => map[m] ?? m);
 }
 
 /**
@@ -387,10 +385,13 @@ export function parseStructuredData(html: string): Array<{
   // Parse JSON-LD
   const jsonLdRegex = /<script type="application\/ld\+json">([\s\S]*?)<\/script>/g;
   let match;
-  
+
   while ((match = jsonLdRegex.exec(html)) !== null) {
+    const content = match[1];
+    if (!content) continue;
+
     try {
-      const data = JSON.parse(match[1]);
+      const data = JSON.parse(content);
       results.push({
         format: 'json-ld',
         schemaType: data['@type'] || 'Thing',
@@ -405,15 +406,22 @@ export function parseStructuredData(html: string): Array<{
 
   // Parse microdata
   const microdataRegex = /<[^>]*itemscope[^>]*itemtype="([^"]*)"[^>]*>/g;
-  
+
   while ((match = microdataRegex.exec(html)) !== null) {
-    const schemaType = match[1];
+    const schemaType = match[1] ?? 'Thing';
     const itempropRegex = /itemprop="([^"]*)"\s+content="([^"]*)"/g;
     const data: Record<string, any> = {};
-    
+
     let propMatch;
-    while ((propMatch = itempropRegex.exec(match[0])) !== null) {
-      data[propMatch[1]] = propMatch[2];
+    const itemHtml = match[0];
+    if (!itemHtml) continue;
+
+    while ((propMatch = itempropRegex.exec(itemHtml)) !== null) {
+      const key = propMatch[1];
+      const value = propMatch[2];
+      if (key && value) {
+        data[key] = value;
+      }
     }
 
     results.push({

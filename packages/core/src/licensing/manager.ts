@@ -45,7 +45,7 @@ export class LicenseManager {
       status: 'active',
       createdAt: now,
       usageCount: 0,
-      usageLimit: this.pricingPlans[tier].limits.requestsPerMonth,
+      usageLimit: this.pricingPlans[tier]?.limits.requestsPerMonth ?? -1,
     };
 
     this.apiKeys.set(id, apiKey);
@@ -101,8 +101,8 @@ export class LicenseManager {
     }
 
     // Calculate rate limit remaining
-    const rateLimitRemaining = apiKey.usageLimit === -1 
-      ? -1 
+    const rateLimitRemaining = apiKey.usageLimit === -1
+      ? -1
       : apiKey.usageLimit - apiKey.usageCount;
 
     return {
@@ -125,6 +125,9 @@ export class LicenseManager {
     const id = this.generateId('license');
     const now = Date.now();
     const plan = this.pricingPlans[tier];
+    if (!plan) {
+      throw new Error(`Pricing plan not found for tier: ${tier}`);
+    }
 
     const license: License = {
       id,
@@ -218,7 +221,7 @@ export class LicenseManager {
 
     // Calculate overage
     const plan = this.pricingPlans[apiKey.tier];
-    if (plan.limits.requestsPerMonth !== -1 && tracking.totalRequests > plan.limits.requestsPerMonth) {
+    if (plan && plan.limits.requestsPerMonth !== -1 && tracking.totalRequests > plan.limits.requestsPerMonth) {
       tracking.overageRequests = tracking.totalRequests - plan.limits.requestsPerMonth;
       // Overage fee: 0.01€ per 1000 requests
       tracking.overageFee = (tracking.overageRequests / 1000) * 0.01;
@@ -241,6 +244,12 @@ export class LicenseManager {
     }
 
     const plan = this.pricingPlans[apiKey.tier];
+    if (!plan) {
+      return {
+        action: 'allow',
+        reason: 'Request allowed (default)',
+      };
+    }
 
     // Check concurrent requests (simplified - would need real-time tracking)
     // Check rate limit (requests per second)
@@ -298,7 +307,7 @@ export class LicenseManager {
   /**
    * Get usage data for billing
    */
-  getUsageData(apiKeyId: string, periodStart: number, periodEnd: number): UsageTracking | null {
+  getUsageData(apiKeyId: string, periodStart: number, _periodEnd: number): UsageTracking | null {
     const trackingKey = `${apiKeyId}:${periodStart}`;
     return this.usageTracking.get(trackingKey) || null;
   }
@@ -314,7 +323,11 @@ export class LicenseManager {
    * Get pricing plan by tier
    */
   getPricingPlan(tier: LicenseTier): PricingPlan {
-    return this.pricingPlans[tier];
+    const plan = this.pricingPlans[tier];
+    if (!plan) {
+      throw new Error(`Pricing plan not found for tier: ${tier}`);
+    }
+    return plan;
   }
 
   /**
@@ -340,7 +353,10 @@ export class LicenseManager {
     }
 
     apiKey.tier = newTier;
-    apiKey.usageLimit = this.pricingPlans[newTier].limits.requestsPerMonth;
+    const plan = this.pricingPlans[newTier];
+    if (plan) {
+      apiKey.usageLimit = plan.limits.requestsPerMonth;
+    }
     this.apiKeys.set(apiKeyId, apiKey);
   }
 

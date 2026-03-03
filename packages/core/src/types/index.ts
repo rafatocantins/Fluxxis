@@ -3,9 +3,88 @@
  */
 
 /**
+ * Data format types for structured data
+ */
+export type DataFormatType = 'json-ld' | 'microdata' | 'rdfa' | 'api' | 'html';
+
+/**
+ * Animation types for intent-driven UI
+ */
+export type AnimationType = 'none' | 'subtle' | 'playful' | 'urgent' | 'direct';
+
+/**
+ * Priority levels
+ */
+export type PriorityType = 'low' | 'normal' | 'high';
+
+/**
  * Goal types that components can declare
  */
 export type GoalType = 'convert' | 'inform' | 'engage';
+
+/**
+ * Signal types
+ */
+export type SignalType =
+  | 'hover'
+  | 'click'
+  | 'scroll'
+  | 'dwell'
+  | 'viewport'
+  | 'focus'
+  | 'blur'
+  | 'api-call';
+
+/**
+ * Actor type (human or agent)
+ */
+export type ActorType = 'human' | 'agent' | 'unknown';
+
+/**
+ * Signal context
+ */
+export interface SignalContext {
+  /** Component ID where signal originated */
+  componentId?: string;
+  /** Page/URL where signal occurred */
+  page?: string;
+  /** Device type */
+  deviceType?: 'mobile' | 'tablet' | 'desktop';
+  /** User type (if known) */
+  userType?: 'new' | 'returning' | 'power';
+  /** Position (for hover/click) */
+  position?: {
+    x: number;
+    y: number;
+  };
+  /** Scroll velocity (pixels/second) */
+  scrollVelocity?: number;
+  /** Scroll depth (0-100%) */
+  scrollDepth?: number;
+  /** API endpoint (for api-call signals) */
+  endpoint?: string;
+  /** Source of signal */
+  source?: 'ui' | 'api' | 'system';
+  /** Additional context */
+  [key: string]: any;
+}
+
+/**
+ * Signal interface (shared between signals and structured-data)
+ */
+export interface Signal {
+  type: SignalType;
+  value: number;
+  timestamp: number;
+  actorType?: ActorType;
+  detectionConfidence?: number;
+  context?: SignalContext;
+  sessionId?: string;
+  intent?: {
+    goal: GoalType;
+    priority: PriorityType;
+  };
+}
 
 /**
  * Goal declaration contract that all smart components must implement
@@ -65,6 +144,7 @@ export type {
   BrandPersonality,
   BrandVoiceConfig,
 } from './brandVoice';
+
 export {
   validateBrandVoice,
   mergeBrandVoiceConfig,

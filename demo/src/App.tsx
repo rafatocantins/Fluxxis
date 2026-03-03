@@ -7,13 +7,12 @@ import {
   ShimmerButton,
   RainbowButton,
   BlurFadeButton,
-  createBrandVoice,
   getBrandVoicePreset,
   validateBrandVoice,
   BRAND_VOICE_PRESETS,
   TONE_PRESETS,
   AUDIENCE_PRESETS
-} from '@ia-design-system/react'
+} from '@fluxxis/react'
 
 function App() {
   const [clickCount, setClickCount] = useState(0)
