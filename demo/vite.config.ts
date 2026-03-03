@@ -9,6 +9,7 @@ export default defineConfig({
       '@ia-design-system/react': resolve(__dirname, '../src/index.ts'),
     },
   },
-  // Vite automatically loads .env files with VITE_ prefix
-  // No need for manual define config
+  define: {
+    'process.env': {}
+  }
 })
