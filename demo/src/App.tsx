@@ -13,8 +13,10 @@ import {
   TONE_PRESETS,
   AUDIENCE_PRESETS,
   FluxxisProvider,
-  useIntent
+  useIntent,
+  SmartSection,
 } from '@fluxxis/react'
+import { eventBus } from '@fluxxis/core'
 
 // Simple test component to verify useIntent hook
 const IntentDemoComponent = () => {
@@ -46,6 +48,17 @@ function App() {
   const [customTone, setCustomTone] = useState('confident-but-warm')
   const [customAudience, setCustomAudience] = useState('founders')
   const [customCTAStyle, setCustomCTAStyle] = useState('direct')
+  const [eventLogs, setEventLogs] = useState<any[]>([])
+
+  React.useEffect(() => {
+    // Listen for BEHAVIOR_SIGNAL events from the eventBus
+    eventBus.subscribe('BEHAVIOR_SIGNAL', (event) => {
+      setEventLogs(prev => [...prev, event].slice(-10)); // Keep last 10
+    });
+    eventBus.subscribe('NODE_REGISTER', (event) => {
+      setEventLogs(prev => [...prev, { type: 'NODE_REGISTER', ...event.payload.node }].slice(-10));
+    });
+  }, []);
 
   const handleClick = () => {
     setClickCount(prev => prev + 1)
@@ -69,6 +82,22 @@ function App() {
           <h1>🎨 AI Design System - Complete Test Page</h1>
           <p>Test all components, BrandVoice presets, and AI features</p>
         </header>
+
+        {/* Global Event Log */}
+        <div className="section" style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white', borderBottom: '1px solid #e2e8f0' }}>
+          <h2>📡 Event Log</h2>
+          <div style={{ maxHeight: '150px', overflowY: 'auto', background: '#1e293b', color: '#a5b4fc', padding: '1rem', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}>
+            {eventLogs.length === 0 ? <p>No events yet...</p> : null}
+            {eventLogs.map((log, i) => (
+              <div key={i} style={{ marginBottom: '0.5rem', borderBottom: '1px solid #334155', paddingBottom: '0.5rem' }}>
+                <span style={{ color: '#fb923c' }}>[{new Date(log.timestamp || Date.now()).toLocaleTimeString()}]</span>{' '}
+                <strong style={{ color: '#38bdf8' }}>{log.signalType || log.type}</strong>{' '}
+                <span>{log.nodeId || log.id}</span>
+                <pre style={{ margin: '0.25rem 0 0 0', color: '#94a3b8' }}>{JSON.stringify(log, null, 2)}</pre>
+              </div>
+            ))}
+          </div>
+        </div>
 
         {/* Phase 2 React Primitives Test */}
         <div className="section">
@@ -295,6 +324,58 @@ function App() {
                 </code>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* SmartSection Tests */}
+        <div className="section">
+          <h2>📦 SmartSection Tests</h2>
+          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
+            Testing behavior observation (scroll, hover, dwell) and registry
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <SmartSection
+              goal="inform"
+              pageContext="demo-inform-section"
+              style={{
+                padding: '2rem',
+                border: '2px dashed #cbd5e1',
+                borderRadius: '8px',
+                background: '#f8fafc'
+              }}
+            >
+              <h3>📚 Informational Smart Section</h3>
+              <p>
+                Scroll to this section or hover over it to dispatch behavior signals.
+                Check the console for <code>BEHAVIOR_SIGNAL</code> events.
+              </p>
+            </SmartSection>
+
+            <SmartSection
+              goal="convert"
+              pageContext="demo-pricing-section"
+              style={{
+                padding: '2rem',
+                border: '2px dashed #93c5fd',
+                borderRadius: '8px',
+                background: '#eff6ff'
+              }}
+            >
+              <h3>💰 High-Intent Smart Section (Convert)</h3>
+              <p>
+                This section represents a deeper funnel step. Dwell time here is highly
+                indicative of buying intent.
+              </p>
+              <div style={{ marginTop: '1rem' }}>
+                <SmartCTA
+                  goal="convert"
+                  defaultCopy="Buy Now"
+                  variant="primary"
+                  onClick={handleClick}
+                />
+              </div>
+            </SmartSection>
           </div>
         </div>
 

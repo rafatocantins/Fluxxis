@@ -257,8 +257,8 @@ pnpm --filter fluxxis-demo dev
 - [x] Achieve build stability across workspace
 
 ### Phase 2: React Adapter (Week 3)
-- [ ] Create FluxxisProvider
-- [ ] Create useIntent hook
+- [x] Create FluxxisProvider
+- [x] Create useIntent hook
 - [ ] Create useSignal hook
 - [ ] Create useMorph hook
 - [ ] Build AdaptiveButton

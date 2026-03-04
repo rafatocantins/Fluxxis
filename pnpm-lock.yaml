@@ -41,6 +41,9 @@ importers:
 
   demo:
     dependencies:
+      '@fluxxis/core':
+        specifier: workspace:*
+        version: link:../packages/core
       '@fluxxis/react':
         specifier: workspace:*
         version: link:../packages/react

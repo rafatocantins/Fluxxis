@@ -236,13 +236,13 @@ function canIntervene(node: IntelligentNode, intervention: Intervention): boolea
 |------------|-----------|------------|
 | `<BrainProvider>` | React context com estado global | P0 |
 | `useOrchestrator` | Hook de registo e comunicação | P0 |
-| `<SmartCTA>` | Componente MVP com goal declarado | P0 |
-| `<SmartSection>` | Wrapper com monitoring de secção | P0 |
+| `<SmartCTA>` | Componente MVP com goal declarado | [x] P0 |
+| `<SmartSection>` | Wrapper com monitoring de secção | [x] P0 |
 | `<SmartLayout>` | Layout com regras adaptativas básicas | P1 |
-| `BrandVoice` | Schema de tom de voz + copy generator | P0 |
-| `EventBus` | Sistema pub/sub mínimo | P0 |
-| `PrivacyFilter` | Filtro de dados antes de qualquer saída | P0 |
-| `FallbackEngine` | Degradação graciosa sem API/JS | P0 |
+| `BrandVoice` | Schema de tom de voz + copy generator | [x] P0 |
+| `EventBus` | Sistema pub/sub mínimo | [x] P0 |
+| `PrivacyFilter` | Filtro de dados antes de qualquer saída | [x] P0 |
+| `FallbackEngine` | Degradação graciosa sem API/JS | [x] P0 |
 
 #### Sinais de Personalização (v1)
 
