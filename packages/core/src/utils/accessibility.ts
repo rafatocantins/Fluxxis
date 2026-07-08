@@ -242,7 +242,7 @@ export function validateAccessibilityProps(props: {
   ariaLabel?: string;
   role?: string;
   tabIndex?: number;
-  children?: React.ReactNode;
+  children?: string | undefined;
 }): {
   valid: boolean;
   warnings: string[];
