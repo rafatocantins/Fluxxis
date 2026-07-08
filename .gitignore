@@ -48,3 +48,16 @@ temp/
 
 # Storybook
 storybook-static/
+
+# Turbo
+.turbo/
+
+# Next.js
+.next/
+out/
+
+# Playwright
+playwright-report/
+
+# Local planning files
+MVP-LAUNCH-PLAN.md
