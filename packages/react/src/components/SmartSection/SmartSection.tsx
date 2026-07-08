@@ -49,10 +49,7 @@ export const SmartSection: React.FC<SmartSectionProps> = ({
             setSectionMetrics(behavior);
 
             // We don't need to report every minor behavior change, only milestones.
-            // Dwell milestones: e.g., 2000ms, 5000ms, 10000ms
-            const dwellThresholds = [2000, 5000, 10000];
-
-            // Let's rely on external listeners or just track internal state for now.
+            // Rely on external listeners or just track internal state for now.
             // Or we can emit specific signals when milestones are reached.
             if (behavior.inViewport && behavior.dwellTime > 0) {
                 // We can track entry. This might be too noisy on every change, 
@@ -72,7 +69,7 @@ export const SmartSection: React.FC<SmartSectionProps> = ({
             // Emit entrance signal
             void eventBus.publish('BEHAVIOR_SIGNAL', {
                 nodeId,
-                signalType: 'view_start',
+                signalType: 'dwell',
                 value: 1, // entered
                 timestamp: Date.now(),
             }, 'SmartSection');
@@ -81,14 +78,14 @@ export const SmartSection: React.FC<SmartSectionProps> = ({
             // Emit exit signal
             void eventBus.publish('BEHAVIOR_SIGNAL', {
                 nodeId,
-                signalType: 'view_end',
+                signalType: 'dwell',
                 value: sectionMetrics.dwellTime, // amount of time spent looking at it
                 timestamp: Date.now(),
             }, 'SmartSection');
 
             // Update registry metrics
             nodeRegistry.updateMetrics(nodeId, {
-                timeExposed: sectionMetrics.dwellTime
+                avgDwellTime: sectionMetrics.dwellTime
             });
         }
     }, [sectionMetrics, nodeId]);
