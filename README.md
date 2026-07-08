@@ -10,6 +10,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Confidence Score](https://img.shields.io/badge/Confidence-87%25-green.svg)](./FLUXXIS-MASTER-PLAN.md)
 [![Status](https://img.shields.io/badge/Status-In%20Development-blue.svg)](./FLUXXIS-MASTER-PLAN.md)
+[![CI](https://github.com/rafatocantins/Fluxxis/actions/workflows/ci.yml/badge.svg)](https://github.com/rafatocantins/Fluxxis/actions/workflows/ci.yml)
 
 ---
 
