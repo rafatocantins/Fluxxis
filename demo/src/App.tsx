@@ -1,568 +1,769 @@
 import React, { useState } from 'react'
 import {
+  FluxxisProvider,
+  useIntent,
   SmartCTA,
+  SmartSection,
   PrimaryAnimatedButton,
   SecondaryAnimatedButton,
   AccentAnimatedButton,
   ShimmerButton,
   RainbowButton,
   BlurFadeButton,
-  getBrandVoicePreset,
-  validateBrandVoice,
-  BRAND_VOICE_PRESETS,
-  TONE_PRESETS,
-  AUDIENCE_PRESETS,
-  FluxxisProvider,
-  useIntent,
-  SmartSection,
 } from '@fluxxis/react'
-import { eventBus } from '@fluxxis/core'
+import type { IntentResolution, GoalType, PriorityType } from '@fluxxis/core'
 
-// Simple test component to verify useIntent hook
-const IntentDemoComponent = () => {
-  const resolution = useIntent({
+// ──────────────────────────────────────
+// Design tokens (Lena's palette)
+// ──────────────────────────────────────
+const PALETTE = {
+  violet: '#7C5CFF',
+  cyan: '#2EE6D6',
+  pink: '#FF5C9D',
+  amber: '#FFB454',
+  darkBg: '#0a0a0f',
+  cardBg: '#14141f',
+  cardBorder: '#1e1e2e',
+  textPrimary: '#e4e4ed',
+  textSecondary: '#9d9db5',
+  textMuted: '#6b6b80',
+}
+
+const INTENT_COLORS: Record<string, string> = {
+  browse: PALETTE.cyan,
+  buy: PALETTE.violet,
+  compare: PALETTE.pink,
+  learn: PALETTE.amber,
+}
+
+const GOAL_COLORS: Record<string, string> = {
+  convert: PALETTE.violet,
+  inform: PALETTE.cyan,
+  engage: PALETTE.pink,
+}
+
+// ──────────────────────────────────────
+// Shared inline style helpers
+// ──────────────────────────────────────
+const card: React.CSSProperties = {
+  background: PALETTE.cardBg,
+  border: `1px solid ${PALETTE.cardBorder}`,
+  borderRadius: '16px',
+  padding: '32px',
+  marginBottom: '24px',
+}
+
+const cardTitle: React.CSSProperties = {
+  fontFamily: 'Sora, sans-serif',
+  fontSize: '1.5rem',
+  fontWeight: 700,
+  color: PALETTE.textPrimary,
+  marginBottom: '8px',
+}
+
+const cardSubtitle: React.CSSProperties = {
+  fontSize: '0.95rem',
+  color: PALETTE.textSecondary,
+  marginBottom: '24px',
+  lineHeight: 1.6,
+}
+
+const labelStyle: React.CSSProperties = {
+  display: 'block',
+  fontSize: '0.8rem',
+  fontWeight: 600,
+  color: PALETTE.textSecondary,
+  textTransform: 'uppercase',
+  letterSpacing: '0.05em',
+  marginBottom: '6px',
+}
+
+const selectStyle: React.CSSProperties = {
+  padding: '10px 14px',
+  fontSize: '0.9rem',
+  borderRadius: '8px',
+  border: `1px solid ${PALETTE.cardBorder}`,
+  background: PALETTE.darkBg,
+  color: PALETTE.textPrimary,
+  fontFamily: 'Inter, sans-serif',
+  cursor: 'pointer',
+  minWidth: '160px',
+}
+
+const controlGroup: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '4px',
+}
+
+const controlRow: React.CSSProperties = {
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: '20px',
+  marginBottom: '24px',
+}
+
+const resolutionGrid: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+  gap: '12px',
+}
+
+const resolutionItem: React.CSSProperties = {
+  background: PALETTE.darkBg,
+  borderRadius: '10px',
+  padding: '14px 16px',
+  border: `1px solid ${PALETTE.cardBorder}`,
+}
+
+const resolutionLabel: React.CSSProperties = {
+  fontSize: '0.7rem',
+  fontWeight: 600,
+  textTransform: 'uppercase',
+  letterSpacing: '0.06em',
+  color: PALETTE.textMuted,
+  marginBottom: '4px',
+}
+
+const resolutionValue: React.CSSProperties = {
+  fontSize: '0.9rem',
+  fontWeight: 500,
+  color: PALETTE.textPrimary,
+  fontFamily: 'Inter, monospace',
+  wordBreak: 'break-word',
+}
+
+const badge: React.CSSProperties = {
+  display: 'inline-block',
+  padding: '4px 12px',
+  borderRadius: '9999px',
+  fontSize: '0.7rem',
+  fontWeight: 700,
+  textTransform: 'uppercase',
+  letterSpacing: '0.04em',
+  marginBottom: '8px',
+}
+
+const buttonDemoCard: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: '12px',
+  padding: '20px',
+  background: PALETTE.darkBg,
+  borderRadius: '12px',
+  border: `1px solid ${PALETTE.cardBorder}`,
+}
+
+const buttonDemoName: React.CSSProperties = {
+  fontFamily: 'Sora, sans-serif',
+  fontSize: '0.85rem',
+  fontWeight: 600,
+  color: PALETTE.textPrimary,
+}
+
+const buttonDemoDesc: React.CSSProperties = {
+  fontSize: '0.8rem',
+  color: PALETTE.textMuted,
+}
+
+const microcopyBox: React.CSSProperties = {
+  background: `linear-gradient(135deg, ${PALETTE.violet}15, ${PALETTE.cyan}10)`,
+  border: `1px solid ${PALETTE.violet}40`,
+  borderRadius: '10px',
+  padding: '16px 20px',
+  marginTop: '12px',
+}
+
+const structuredDataBox: React.CSSProperties = {
+  background: PALETTE.darkBg,
+  border: `1px solid ${PALETTE.cardBorder}`,
+  borderRadius: '10px',
+  padding: '16px',
+  marginTop: '12px',
+  fontFamily: '"Fira Code", "Cascadia Code", monospace',
+  fontSize: '0.78rem',
+  lineHeight: 1.5,
+  color: PALETTE.cyan,
+  overflowX: 'auto',
+  maxHeight: '220px',
+  overflowY: 'auto',
+  whiteSpace: 'pre-wrap',
+}
+
+// ──────────────────────────────────────
+// Intent Playground (inner — uses useIntent)
+// ──────────────────────────────────────
+interface PlaygroundControls {
+  goal: GoalType
+  priority: PriorityType
+  actorType: 'human' | 'agent'
+}
+
+const IntentPlayground: React.FC = () => {
+  const [controls, setControls] = useState<PlaygroundControls>({
     goal: 'convert',
-    priority: 'high',
-    actorType: 'human'
-  });
+    priority: 'normal',
+    actorType: 'human',
+  })
+
+  const resolution: IntentResolution = useIntent({
+    goal: controls.goal,
+    priority: controls.priority,
+    actorType: controls.actorType,
+  })
+
+  const update = (field: keyof PlaygroundControls, value: string) => {
+    setControls((prev) => ({ ...prev, [field]: value }))
+  }
+
+  const goalColor = GOAL_COLORS[controls.goal] || PALETTE.violet
 
   return (
-    <div style={{
-      padding: '1rem',
-      borderRadius: '8px',
-      border: '1px solid #e2e8f0',
-      background: '#f8fafc',
-      marginTop: '1rem'
-    }}>
-      <h4 style={{ marginTop: 0 }}>Resolved Intent (Convert, High Priority)</h4>
-      <pre style={{ margin: 0, fontSize: '14px' }}>
-        {JSON.stringify(resolution, null, 2)}
-      </pre>
-    </div>
-  );
-};
+    <div style={card}>
+      <h2 style={cardTitle}>🎛️ Intent Resolution Playground</h2>
+      <p style={cardSubtitle}>
+        Tune the intent parameters below and observe how FLUXXIS resolves them in
+        real time. Every combination of <strong style={{ color: PALETTE.cyan }}>goal</strong>,{' '}
+        <strong style={{ color: PALETTE.pink }}>priority</strong>, and{' '}
+        <strong style={{ color: PALETTE.amber }}>actorType</strong> produces a unique{' '}
+        <code
+          style={{
+            background: `${PALETTE.violet}20`,
+            color: PALETTE.violet,
+            padding: '2px 6px',
+            borderRadius: '4px',
+            fontSize: '0.85rem',
+          }}
+        >
+          IntentResolution
+        </code>
+        .
+      </p>
 
+      {/* Controls */}
+      <div style={controlRow}>
+        <div style={controlGroup}>
+          <label style={labelStyle}>Goal</label>
+          <select
+            style={{ ...selectStyle, borderColor: goalColor }}
+            value={controls.goal}
+            onChange={(e) => update('goal', e.target.value)}
+          >
+            <option value="convert">🔄 Convert</option>
+            <option value="inform">📘 Inform</option>
+            <option value="engage">✨ Engage</option>
+          </select>
+        </div>
+
+        <div style={controlGroup}>
+          <label style={labelStyle}>Priority</label>
+          <select
+            style={selectStyle}
+            value={controls.priority}
+            onChange={(e) => update('priority', e.target.value)}
+          >
+            <option value="low">🟢 Low</option>
+            <option value="normal">🟡 Normal</option>
+            <option value="high">🔴 High</option>
+          </select>
+        </div>
+
+        <div style={controlGroup}>
+          <label style={labelStyle}>Actor Type</label>
+          <select
+            style={selectStyle}
+            value={controls.actorType}
+            onChange={(e) => update('actorType', e.target.value as 'human' | 'agent')}
+          >
+            <option value="human">👤 Human</option>
+            <option value="agent">🤖 Agent</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Resolution Grid */}
+      <div style={resolutionGrid}>
+        <Field label="Emphasis" value={resolution.emphasis} />
+        <Field label="Animation" value={resolution.animation} />
+        <Field label="Hierarchy" value={resolution.hierarchy} />
+        <Field label="Density" value={resolution.density} />
+        {resolution.dataFormat && <Field label="Data Format" value={resolution.dataFormat} />}
+      </div>
+
+      {/* Microcopy */}
+      {resolution.microcopy && (
+        <div style={microcopyBox}>
+          <span style={{ ...labelStyle, marginBottom: '4px' }}>Microcopy</span>
+          <span
+            style={{
+              fontFamily: 'Sora, sans-serif',
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              color: PALETTE.textPrimary,
+            }}
+          >
+            "{resolution.microcopy}"
+          </span>
+        </div>
+      )}
+
+      {/* API Surface (agent-only) */}
+      {resolution.apiSurface && (
+        <div style={{ ...card, marginTop: '16px', background: PALETTE.darkBg }}>
+          <span style={{ ...labelStyle, marginBottom: '8px' }}>API Surface</span>
+          <div style={resolutionGrid}>
+            <Field label="Schema" value={resolution.apiSurface.schemaType} />
+            <Field label="Batch" value={String(resolution.apiSurface.batchSupport)} />
+            <Field label="Streaming" value={String(resolution.apiSurface.streamingSupport)} />
+          </div>
+          <div style={{ marginTop: '8px', fontSize: '0.82rem', color: PALETTE.textMuted }}>
+            Endpoint: <code style={{ color: PALETTE.cyan }}>{resolution.apiSurface.endpoint}</code>
+          </div>
+        </div>
+      )}
+
+      {/* Negotiation Protocol (agent-only) */}
+      {resolution.negotiationProtocol && (
+        <div style={{ ...card, marginTop: '16px', background: PALETTE.darkBg }}>
+          <span style={{ ...labelStyle, marginBottom: '8px' }}>Negotiation Protocol</span>
+          <div style={resolutionGrid}>
+            <Field label="Protocol" value={resolution.negotiationProtocol.protocol} />
+            <Field label="Max Rounds" value={String(resolution.negotiationProtocol.maxRounds)} />
+            <Field label="Enabled" value={String(resolution.negotiationProtocol.enabled)} />
+          </div>
+        </div>
+      )}
+
+      {/* Structured Data */}
+      {resolution.structuredData && (
+        <div style={structuredDataBox}>
+          <span style={{ ...labelStyle, marginBottom: '8px', color: PALETTE.amber }}>
+            Structured Data (JSON-LD)
+          </span>
+          {JSON.stringify(resolution.structuredData, null, 2)}
+        </div>
+      )}
+
+      {/* Cache Headers */}
+      {resolution.cacheHeaders && (
+        <div style={{ marginTop: '12px', fontSize: '0.82rem', color: PALETTE.textMuted }}>
+          Cache: max-age={resolution.cacheHeaders.maxAge}s, etag={resolution.cacheHeaders.etag}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ──────────────────────────────────────
+// Tiny field component for resolution grid
+// ──────────────────────────────────────
+const Field: React.FC<{ label: string; value: string }> = ({ label, value }) => (
+  <div style={resolutionItem}>
+    <div style={resolutionLabel}>{label}</div>
+    <div style={resolutionValue}>{value}</div>
+  </div>
+)
+
+// ──────────────────────────────────────
+// Main App
+// ──────────────────────────────────────
 function App() {
   const [clickCount, setClickCount] = useState(0)
-  const [selectedPreset, setSelectedPreset] = useState('tech-startup')
-  const [customTone, setCustomTone] = useState('confident-but-warm')
-  const [customAudience, setCustomAudience] = useState('founders')
-  const [customCTAStyle, setCustomCTAStyle] = useState('direct')
-  const [eventLogs, setEventLogs] = useState<any[]>([])
-
-  React.useEffect(() => {
-    // Listen for BEHAVIOR_SIGNAL events from the eventBus
-    eventBus.subscribe('BEHAVIOR_SIGNAL', (event) => {
-      setEventLogs(prev => [...prev, event].slice(-10)); // Keep last 10
-    });
-    eventBus.subscribe('NODE_REGISTER', (event) => {
-      setEventLogs(prev => [...prev, { type: 'NODE_REGISTER', ...event.payload.node }].slice(-10));
-    });
-  }, []);
 
   const handleClick = () => {
-    setClickCount(prev => prev + 1)
-    console.log('Button clicked!', clickCount + 1)
+    setClickCount((prev) => prev + 1)
   }
-
-  // Get current brand voice from preset
-  const currentBrandVoice = getBrandVoicePreset(selectedPreset) || {
-    tone: customTone as any,
-    audience: [customAudience],
-    ctaStyle: customCTAStyle as any,
-  }
-
-  // Validate current brand voice
-  const validation = validateBrandVoice(currentBrandVoice)
 
   return (
     <FluxxisProvider options={{ includeAgentFields: true }}>
-      <div className="container">
-        <header>
-          <h1>🎨 AI Design System - Complete Test Page</h1>
-          <p>Test all components, BrandVoice presets, and AI features</p>
+      <div
+        style={{
+          maxWidth: '1100px',
+          margin: '0 auto',
+          padding: '40px 24px 80px',
+          fontFamily: 'Inter, sans-serif',
+        }}
+      >
+        {/* ── HERO ── */}
+        <header style={{ textAlign: 'center', padding: '64px 0 48px' }}>
+          <div
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '10px',
+              background: `${PALETTE.violet}15`,
+              border: `1px solid ${PALETTE.violet}30`,
+              borderRadius: '9999px',
+              padding: '6px 18px',
+              marginBottom: '24px',
+              fontSize: '0.8rem',
+              fontWeight: 600,
+              color: PALETTE.violet,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+            }}
+          >
+            <span
+              style={{
+                display: 'inline-block',
+                width: '8px',
+                height: '8px',
+                borderRadius: '50%',
+                background: PALETTE.cyan,
+                boxShadow: `0 0 8px ${PALETTE.cyan}`,
+              }}
+            />
+            Adaptive Structural Interface Engine
+          </div>
+
+          <h1
+            style={{
+              fontFamily: 'Sora, sans-serif',
+              fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+              fontWeight: 800,
+              lineHeight: 1.1,
+              marginBottom: '20px',
+              background: `linear-gradient(135deg, ${PALETTE.violet} 0%, ${PALETTE.cyan} 50%, ${PALETTE.pink} 100%)`,
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}
+          >
+            FLUXXIS
+          </h1>
+
+          <p
+            style={{
+              fontSize: 'clamp(1rem, 2.5vw, 1.3rem)',
+              color: PALETTE.textSecondary,
+              maxWidth: '680px',
+              margin: '0 auto 16px',
+              lineHeight: 1.7,
+            }}
+          >
+            Interfaces are living systems. FLUXXIS interprets intent signals in
+            real time, morphing structure and microcopy for every user — human
+            or agent.
+          </p>
+
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              gap: '12px',
+              flexWrap: 'wrap',
+              marginTop: '24px',
+            }}
+          >
+            {[
+              { label: 'signal', color: PALETTE.cyan },
+              { label: 'interpret', color: PALETTE.violet },
+              { label: 'morph', color: PALETTE.pink },
+              { label: 'render', color: PALETTE.amber },
+            ].map((step, i) => (
+              <React.Fragment key={step.label}>
+                <span
+                  style={{
+                    fontFamily: 'Sora, sans-serif',
+                    fontWeight: 700,
+                    fontSize: '0.85rem',
+                    color: step.color,
+                    background: `${step.color}15`,
+                    padding: '8px 18px',
+                    borderRadius: '8px',
+                    border: `1px solid ${step.color}30`,
+                  }}
+                >
+                  {step.label}
+                </span>
+                {i < 3 && (
+                  <span
+                    style={{
+                      color: PALETTE.textMuted,
+                      alignSelf: 'center',
+                      fontSize: '1.2rem',
+                      fontWeight: 700,
+                    }}
+                  >
+                    →
+                  </span>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </header>
 
-        {/* Global Event Log */}
-        <div className="section" style={{ position: 'sticky', top: 0, zIndex: 100, background: 'white', borderBottom: '1px solid #e2e8f0' }}>
-          <h2>📡 Event Log</h2>
-          <div style={{ maxHeight: '150px', overflowY: 'auto', background: '#1e293b', color: '#a5b4fc', padding: '1rem', borderRadius: '8px', fontSize: '12px', fontFamily: 'monospace' }}>
-            {eventLogs.length === 0 ? <p>No events yet...</p> : null}
-            {eventLogs.map((log, i) => (
-              <div key={i} style={{ marginBottom: '0.5rem', borderBottom: '1px solid #334155', paddingBottom: '0.5rem' }}>
-                <span style={{ color: '#fb923c' }}>[{new Date(log.timestamp || Date.now()).toLocaleTimeString()}]</span>{' '}
-                <strong style={{ color: '#38bdf8' }}>{log.signalType || log.type}</strong>{' '}
-                <span>{log.nodeId || log.id}</span>
-                <pre style={{ margin: '0.25rem 0 0 0', color: '#94a3b8' }}>{JSON.stringify(log, null, 2)}</pre>
-              </div>
-            ))}
-          </div>
-        </div>
+        {/* ── INTENT PLAYGROUND ── */}
+        <IntentPlayground />
 
-        {/* Phase 2 React Primitives Test */}
-        <div className="section">
-          <h2>⚛️ Phase 2: React Primitives</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Testing <code>&lt;FluxxisProvider&gt;</code> and <code>useIntent</code> hook.
-          </p>
-          <IntentDemoComponent />
-        </div>
-
-        {/* BrandVoice Configuration Section */}
-        <div className="section">
-          <h2>🎯 BrandVoice Configuration (P1-15)</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Test different BrandVoice presets and custom configurations
+        {/* ── COMPONENT GALLERY ── */}
+        <div style={card}>
+          <h2 style={cardTitle}>🧩 Component Gallery</h2>
+          <p style={cardSubtitle}>
+            Production-ready primitives that respond to intent. Each adapts its
+            appearance and behavior based on the resolved context.
           </p>
 
-          <div className="config-panel">
-            <div className="config-group">
-              <h3>1. Select Industry Preset</h3>
-              <select
-                value={selectedPreset}
-                onChange={(e) => setSelectedPreset(e.target.value)}
-                style={selectStyle}
-              >
-                {Object.keys(BRAND_VOICE_PRESETS).map(preset => (
-                  <option key={preset} value={preset}>
-                    {preset.replace(/-/g, ' ').toUpperCase()}
-                  </option>
-                ))}
-              </select>
-              <p style={descriptionStyle}>
-                {currentBrandVoice.tone.replace(/-/g, ' ').toUpperCase()} for {currentBrandVoice.audience.join(', ')}
-              </p>
-            </div>
-
-            <div className="config-group">
-              <h3>2. Or Customize Manually</h3>
-              <div style={gridStyle}>
-                <div>
-                  <label style={labelStyle}>Tone:</label>
-                  <select
-                    value={customTone}
-                    onChange={(e) => setCustomTone(e.target.value)}
-                    style={selectStyle}
-                  >
-                    <option value="confident-but-warm">Confident but Warm</option>
-                    <option value="playful">Playful</option>
-                    <option value="professional">Professional</option>
-                    <option value="minimal">Minimal</option>
-                    <option value="friendly">Friendly</option>
-                    <option value="authoritative">Authoritative</option>
-                    <option value="witty">Witty</option>
-                    <option value="empathetic">Empathetic</option>
-                    <option value="bold">Bold</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label style={labelStyle}>Audience:</label>
-                  <input
-                    type="text"
-                    value={customAudience}
-                    onChange={(e) => setCustomAudience(e.target.value)}
-                    style={inputStyle}
-                  />
-                </div>
-
-                <div>
-                  <label style={labelStyle}>CTA Style:</label>
-                  <select
-                    value={customCTAStyle}
-                    onChange={(e) => setCustomCTAStyle(e.target.value)}
-                    style={selectStyle}
-                  >
-                    <option value="direct">Direct</option>
-                    <option value="soft">Soft</option>
-                    <option value="urgent">Urgent</option>
-                    <option value="curious">Curious</option>
-                    <option value="benefit-focused">Benefit Focused</option>
-                    <option value="question">Question</option>
-                    <option value="command">Command</option>
-                  </select>
-                </div>
-              </div>
-            </div>
-
-            <div className="config-group">
-              <h3>3. Validation Status</h3>
-              <div style={{
-                padding: '1rem',
-                borderRadius: '0.5rem',
-                background: validation.valid ? '#d1fae5' : '#fee2e2',
-                color: validation.valid ? '#065f46' : '#991b1b',
-              }}>
-                {validation.valid ? (
-                  <strong>✅ Valid BrandVoice Configuration</strong>
-                ) : (
-                  <div>
-                    <strong>❌ Invalid Configuration:</strong>
-                    <ul style={{ margin: '0.5rem 0 0 1.5rem' }}>
-                      {validation.errors.map((error, i) => (
-                        <li key={i}>{error}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="config-group">
-              <h3>4. Available Presets</h3>
-              <div style={presetGridStyle}>
-                <div>
-                  <strong>Industry Presets:</strong>
-                  <ul style={{ fontSize: '0.875rem' }}>
-                    {Object.keys(BRAND_VOICE_PRESETS).map(p => (
-                      <li key={p}>{p.replace(/-/g, ' ')}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <strong>Tone Presets:</strong>
-                  <ul style={{ fontSize: '0.875rem' }}>
-                    {Object.keys(TONE_PRESETS).map(p => (
-                      <li key={p}>{p}</li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <strong>Audience Presets:</strong>
-                  <ul style={{ fontSize: '0.875rem' }}>
-                    {Object.keys(AUDIENCE_PRESETS).map(p => (
-                      <li key={p}>{p}</li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* SmartCTA with Current BrandVoice */}
-        <div className="section">
-          <h2>🤖 SmartCTA with Current BrandVoice</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Testing AI copy generation with selected BrandVoice configuration
-            <br />
-            <strong>Current:</strong> {currentBrandVoice.tone} | {currentBrandVoice.audience.join(', ')} | {currentBrandVoice.ctaStyle}
-            <br />
-            <strong>Click Count:</strong> {clickCount}
-          </p>
-
-          <div className="button-grid">
-            {/* Convert Goal */}
-            <div className="button-demo">
-              <span className="goal-badge goal-convert">Convert</span>
-              <h3>Convert Goal</h3>
-              <SmartCTA
-                goal="convert"
-                defaultCopy="Get Started Free"
-                pageContext="pricing"
-                brandVoice={currentBrandVoice}
-                variant="primary"
-                onClick={handleClick}
-              />
-              <code>AI-generated copy with your BrandVoice ✨</code>
-            </div>
-
-            {/* Inform Goal */}
-            <div className="button-demo">
-              <span className="goal-badge goal-inform">Inform</span>
-              <h3>Inform Goal</h3>
-              <SmartCTA
-                goal="inform"
-                defaultCopy="Learn More"
-                pageContext="demo"
-                brandVoice={currentBrandVoice}
-                variant="secondary"
-                onClick={handleClick}
-              />
-              <code>AI-generated copy with your BrandVoice ✨</code>
-            </div>
-
-            {/* Engage Goal */}
-            <div className="button-demo">
-              <span className="goal-badge goal-engage">Engage</span>
-              <h3>Engage Goal</h3>
-              <SmartCTA
-                goal="engage"
-                defaultCopy="Try It Now"
-                pageContext="features"
-                brandVoice={currentBrandVoice}
-                variant="primary"
-                onClick={handleClick}
-              />
-              <code>AI-generated copy with your BrandVoice ✨</code>
-            </div>
-          </div>
-        </div>
-
-        {/* All Industry Presets Quick Test */}
-        <div className="section">
-          <h2>🎨 Quick Test: All Industry Presets</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            See how different BrandVoice presets affect copy generation
-          </p>
-
-          <div className="button-grid">
-            {Object.entries(BRAND_VOICE_PRESETS).slice(0, 4).map(([presetName, preset]) => (
-              <div key={presetName} className="button-demo">
-                <span className="goal-badge goal-convert">{presetName.replace(/-/g, ' ').toUpperCase()}</span>
+          {/* SmartCTA by goal */}
+          <h3
+            style={{
+              fontFamily: 'Sora, sans-serif',
+              fontSize: '1rem',
+              fontWeight: 600,
+              color: PALETTE.textPrimary,
+              marginBottom: '16px',
+              marginTop: '8px',
+            }}
+          >
+            SmartCTA — Goal-driven call-to-action
+          </h3>
+          <div style={controlRow}>
+            {(['convert', 'inform', 'engage'] as GoalType[]).map((goal) => (
+              <div key={goal} style={buttonDemoCard}>
+                <span
+                  style={{
+                    ...badge,
+                    background: `${GOAL_COLORS[goal]}20`,
+                    color: GOAL_COLORS[goal],
+                    border: `1px solid ${GOAL_COLORS[goal]}40`,
+                  }}
+                >
+                  {goal}
+                </span>
                 <SmartCTA
-                  goal="convert"
-                  defaultCopy="Get Started"
-                  pageContext="demo"
-                  brandVoice={preset}
-                  variant="primary"
+                  goal={goal}
+                  defaultCopy={goal === 'convert' ? 'Get Started' : goal === 'inform' ? 'Learn More' : 'Try It Now'}
+                  variant={goal === 'convert' ? 'primary' : goal === 'inform' ? 'secondary' : 'primary'}
                   onClick={handleClick}
-                  size="sm"
                 />
-                <code style={{ fontSize: '0.7rem' }}>
-                  {preset.tone} | {preset.audience[0]}
-                </code>
+                <span style={buttonDemoDesc}>
+                  Clicks: {clickCount}
+                </span>
               </div>
             ))}
           </div>
+
+          {/* Animated Buttons */}
+          <h3
+            style={{
+              fontFamily: 'Sora, sans-serif',
+              fontSize: '1rem',
+              fontWeight: 600,
+              color: PALETTE.textPrimary,
+              marginBottom: '16px',
+              marginTop: '32px',
+            }}
+          >
+            Animated Buttons
+          </h3>
+          <div style={controlRow}>
+            <div style={buttonDemoCard}>
+              <span style={buttonDemoName}>Shimmer</span>
+              <ShimmerButton onClick={handleClick}>Hover Me</ShimmerButton>
+              <span style={buttonDemoDesc}>Subtle shimmer effect on hover</span>
+            </div>
+
+            <div style={buttonDemoCard}>
+              <span style={buttonDemoName}>Rainbow</span>
+              <RainbowButton onClick={handleClick}>Rainbow</RainbowButton>
+              <span style={buttonDemoDesc}>Animated rainbow border glow</span>
+            </div>
+
+            <div style={buttonDemoCard}>
+              <span style={buttonDemoName}>Blur Fade</span>
+              <BlurFadeButton onClick={handleClick}>Fade In</BlurFadeButton>
+              <span style={buttonDemoDesc}>Blur fade entrance animation</span>
+            </div>
+          </div>
+
+          {/* Goal-based Animated Buttons */}
+          <h3
+            style={{
+              fontFamily: 'Sora, sans-serif',
+              fontSize: '1rem',
+              fontWeight: 600,
+              color: PALETTE.textPrimary,
+              marginBottom: '16px',
+              marginTop: '32px',
+            }}
+          >
+            Goal-Animated Buttons
+          </h3>
+          <div style={controlRow}>
+            <div style={buttonDemoCard}>
+              <span
+                style={{
+                  ...badge,
+                  background: `${GOAL_COLORS.convert}20`,
+                  color: GOAL_COLORS.convert,
+                  border: `1px solid ${GOAL_COLORS.convert}40`,
+                }}
+              >
+                Convert
+              </span>
+              <PrimaryAnimatedButton onClick={handleClick}>Start Free Trial</PrimaryAnimatedButton>
+              <span style={buttonDemoDesc}>Shimmer + scale effect</span>
+            </div>
+
+            <div style={buttonDemoCard}>
+              <span
+                style={{
+                  ...badge,
+                  background: `${GOAL_COLORS.inform}20`,
+                  color: GOAL_COLORS.inform,
+                  border: `1px solid ${GOAL_COLORS.inform}40`,
+                }}
+              >
+                Inform
+              </span>
+              <SecondaryAnimatedButton onClick={handleClick}>View Docs</SecondaryAnimatedButton>
+              <span style={buttonDemoDesc}>Clean, professional</span>
+            </div>
+
+            <div style={buttonDemoCard}>
+              <span
+                style={{
+                  ...badge,
+                  background: `${GOAL_COLORS.engage}20`,
+                  color: GOAL_COLORS.engage,
+                  border: `1px solid ${GOAL_COLORS.engage}40`,
+                }}
+              >
+                Engage
+              </span>
+              <AccentAnimatedButton onClick={handleClick}>✨ Explore</AccentAnimatedButton>
+              <span style={buttonDemoDesc}>Playful with particles</span>
+            </div>
+          </div>
         </div>
 
-        {/* SmartSection Tests */}
-        <div className="section">
-          <h2>📦 SmartSection Tests</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Testing behavior observation (scroll, hover, dwell) and registry
+        {/* SmartSection */}
+        <div style={card}>
+          <h2 style={cardTitle}>📦 SmartSection</h2>
+          <p style={cardSubtitle}>
+            Behavior-aware sections that observe scroll, hover, and dwell signals.
           </p>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
             <SmartSection
               goal="inform"
-              pageContext="demo-inform-section"
+              pageContext="showcase-info"
               style={{
-                padding: '2rem',
-                border: '2px dashed #cbd5e1',
-                borderRadius: '8px',
-                background: '#f8fafc'
+                padding: '24px',
+                border: `1px dashed ${PALETTE.cyan}40`,
+                borderRadius: '12px',
+                background: `${PALETTE.cyan}08`,
               }}
             >
-              <h3>📚 Informational Smart Section</h3>
-              <p>
-                Scroll to this section or hover over it to dispatch behavior signals.
-                Check the console for <code>BEHAVIOR_SIGNAL</code> events.
+              <h3
+                style={{
+                  fontFamily: 'Sora, sans-serif',
+                  fontWeight: 600,
+                  color: PALETTE.cyan,
+                  marginBottom: '8px',
+                }}
+              >
+                📘 Inform Section
+              </h3>
+              <p style={{ color: PALETTE.textSecondary, fontSize: '0.9rem', lineHeight: 1.6 }}>
+                Scroll to or hover this section — it dispatches behavior signals to the
+                FLUXXIS engine for real-time adaptation.
               </p>
             </SmartSection>
 
             <SmartSection
               goal="convert"
-              pageContext="demo-pricing-section"
+              pageContext="showcase-pricing"
               style={{
-                padding: '2rem',
-                border: '2px dashed #93c5fd',
-                borderRadius: '8px',
-                background: '#eff6ff'
+                padding: '24px',
+                border: `1px dashed ${PALETTE.violet}40`,
+                borderRadius: '12px',
+                background: `${PALETTE.violet}08`,
               }}
             >
-              <h3>💰 High-Intent Smart Section (Convert)</h3>
-              <p>
-                This section represents a deeper funnel step. Dwell time here is highly
-                indicative of buying intent.
+              <h3
+                style={{
+                  fontFamily: 'Sora, sans-serif',
+                  fontWeight: 600,
+                  color: PALETTE.violet,
+                  marginBottom: '8px',
+                }}
+              >
+                🔄 Convert Section
+              </h3>
+              <p style={{ color: PALETTE.textSecondary, fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '12px' }}>
+                High-intent zone. Dwell time here signals buying intent.
               </p>
-              <div style={{ marginTop: '1rem' }}>
-                <SmartCTA
-                  goal="convert"
-                  defaultCopy="Buy Now"
-                  variant="primary"
-                  onClick={handleClick}
-                />
-              </div>
+              <SmartCTA goal="convert" defaultCopy="Buy Now" variant="primary" onClick={handleClick} />
             </SmartSection>
           </div>
         </div>
 
-        {/* Animated Buttons Section */}
-        <div className="section">
-          <h2>✨ Animated Button Variants</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Beautiful, modern animated buttons powered by 21st.dev, Magic UI, and ReactBits.
-          </p>
-
-          <div className="button-grid">
-            <div className="button-demo">
-              <h3>Shimmer Button</h3>
-              <ShimmerButton onClick={handleClick}>
-                Click Me
-              </ShimmerButton>
-              <p>Shimmer effect on hover</p>
-            </div>
-
-            <div className="button-demo">
-              <h3>Rainbow Button</h3>
-              <RainbowButton onClick={handleClick}>
-                Rainbow Magic
-              </RainbowButton>
-              <p>Animated rainbow border</p>
-            </div>
-
-            <div className="button-demo">
-              <h3>Blur Fade Button</h3>
-              <BlurFadeButton onClick={handleClick}>
-                Fade In
-              </BlurFadeButton>
-              <p>Blur fade entrance animation</p>
-            </div>
+        {/* Intent Color Reference */}
+        <div style={card}>
+          <h2 style={cardTitle}>🎨 Intent Color Mapping</h2>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+              gap: '12px',
+            }}
+          >
+            {Object.entries(INTENT_COLORS).map(([intent, color]) => (
+              <div
+                key={intent}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '10px',
+                  padding: '12px 16px',
+                  background: `${color}10`,
+                  border: `1px solid ${color}30`,
+                  borderRadius: '10px',
+                }}
+              >
+                <span
+                  style={{
+                    width: '12px',
+                    height: '12px',
+                    borderRadius: '4px',
+                    background: color,
+                    boxShadow: `0 0 8px ${color}60`,
+                  }}
+                />
+                <span
+                  style={{
+                    fontFamily: 'Sora, sans-serif',
+                    fontWeight: 600,
+                    fontSize: '0.85rem',
+                    color,
+                    textTransform: 'capitalize',
+                  }}
+                >
+                  {intent}
+                </span>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Goal-Based Animated Buttons */}
-        <div className="section">
-          <h2>🎯 Goal-Based Animated Buttons</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Specialized animated buttons for each goal type.
+        {/* Footer */}
+        <footer
+          style={{
+            textAlign: 'center',
+            padding: '40px 0 0',
+            color: PALETTE.textMuted,
+            fontSize: '0.85rem',
+          }}
+        >
+          <p>
+            FLUXXIS · Adaptive Structural Interface Engine ·{' '}
+            <span style={{ color: PALETTE.violet }}>Dia 2 Showcase</span>
           </p>
-
-          <div className="button-grid">
-            <div className="button-demo">
-              <span className="goal-badge goal-convert">Convert</span>
-              <h3>Primary Animated</h3>
-              <PrimaryAnimatedButton onClick={handleClick}>
-                Start Free Trial
-              </PrimaryAnimatedButton>
-              <p>Shimmer + scale effect</p>
-            </div>
-
-            <div className="button-demo">
-              <span className="goal-badge goal-inform">Inform</span>
-              <h3>Secondary Animated</h3>
-              <SecondaryAnimatedButton onClick={handleClick}>
-                View Documentation
-              </SecondaryAnimatedButton>
-              <p>Clean, professional</p>
-            </div>
-
-            <div className="button-demo">
-              <span className="goal-badge goal-engage">Engage</span>
-              <h3>Accent Animated</h3>
-              <AccentAnimatedButton onClick={handleClick}>
-                ✨ Explore Features
-              </AccentAnimatedButton>
-              <p>Playful with particles</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Size Variants */}
-        <div className="section">
-          <h2>📏 Size Variants</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Three sizes available: small (36px), medium (44px), large (52px).
-          </p>
-
-          <div className="button-grid">
-            <div className="button-demo">
-              <h3>Small (36px)</h3>
-              <PrimaryAnimatedButton size="sm" onClick={handleClick}>
-                Small
-              </PrimaryAnimatedButton>
-              <code>size="sm"</code>
-            </div>
-
-            <div className="button-demo">
-              <h3>Medium (44px)</h3>
-              <PrimaryAnimatedButton size="md" onClick={handleClick}>
-                Medium
-              </PrimaryAnimatedButton>
-              <code>size="md"</code>
-            </div>
-
-            <div className="button-demo">
-              <h3>Large (52px)</h3>
-              <PrimaryAnimatedButton size="lg" onClick={handleClick}>
-                Large
-              </PrimaryAnimatedButton>
-              <code>size="lg"</code>
-            </div>
-          </div>
-        </div>
-
-        {/* Loading & Disabled States */}
-        <div className="section">
-          <h2>⚙️ Component States</h2>
-          <p style={{ marginBottom: '1.5rem', color: '#718096' }}>
-            Built-in loading and disabled states.
-          </p>
-
-          <div className="button-grid">
-            <div className="button-demo">
-              <h3>Loading State</h3>
-              <PrimaryAnimatedButton isLoading onClick={handleClick}>
-                Loading...
-              </PrimaryAnimatedButton>
-              <code>isLoading</code>
-            </div>
-
-            <div className="button-demo">
-              <h3>Disabled State</h3>
-              <PrimaryAnimatedButton disabled onClick={handleClick}>
-                Disabled
-              </PrimaryAnimatedButton>
-              <code>disabled</code>
-            </div>
-          </div>
-        </div>
+        </footer>
       </div>
     </FluxxisProvider>
   )
-}
-
-
-// Styles
-const selectStyle: React.CSSProperties = {
-  padding: '0.5rem 1rem',
-  fontSize: '1rem',
-  borderRadius: '0.5rem',
-  border: '1px solid #d1d5db',
-  background: 'white',
-  minWidth: '200px',
-  marginBottom: '0.5rem',
-}
-
-const inputStyle: React.CSSProperties = {
-  padding: '0.5rem 1rem',
-  fontSize: '1rem',
-  borderRadius: '0.5rem',
-  border: '1px solid #d1d5db',
-  width: '100%',
-  marginBottom: '0.5rem',
-}
-
-const labelStyle: React.CSSProperties = {
-  display: 'block',
-  marginBottom: '0.25rem',
-  fontWeight: 600,
-  fontSize: '0.875rem',
-  color: '#374151',
-}
-
-const gridStyle: React.CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-  gap: '1rem',
-}
-
-const presetGridStyle: React.CSSProperties = {
-  display: 'grid',
-  gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-  gap: '1.5rem',
-  background: '#f9fafb',
-  padding: '1rem',
-  borderRadius: '0.5rem',
-}
-
-const descriptionStyle: React.CSSProperties = {
-  fontSize: '0.875rem',
-  color: '#6b7280',
-  marginTop: '0.5rem',
-  fontStyle: 'italic',
 }
 
 export default App
