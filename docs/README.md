@@ -20,4 +20,4 @@ Welcome to the FLUXXIS developer documentation. FLUXXIS is an **Adaptive Structu
 - [Technical Paper (FLUXXIS-PAPER.md)](../FLUXXIS-PAPER.md) — Formal definition, architecture, and proofs
 - [Vision (FLUXXIS-VISION.md)](../FLUXXIS-VISION.md) — The Adaptive Structural Interface paradigm
 - [Master Plan (FLUXXIS-MASTER-PLAN.md)](../FLUXXIS-MASTER-PLAN.md) — Complete roadmap
-- [Contributing Guide](../CONTRIBUTING.md)
+- [Contributing Guide](../CONTRIBUTING.md) (coming soon)

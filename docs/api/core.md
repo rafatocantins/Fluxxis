@@ -404,7 +404,7 @@ const { isValid, errors } = goalValidator.validate({ goal: 'convert', pageContex
 ## Signals (Agent Detection)
 
 ```typescript
-import { detectAgent, isAgentRequest } from '@fluxxis/core';
+import { detectActorType, RealTimeAgentDetector } from '@fluxxis/core';
 // Re-exported from './signals/agentDetection'
 ```
 
@@ -413,6 +413,6 @@ import { detectAgent, isAgentRequest } from '@fluxxis/core';
 ## Structured Data
 
 ```typescript
-import { generateStructuredData, StructuredDataGenerator } from '@fluxxis/core';
+import { generateStructuredData, generateApiSurface } from '@fluxxis/core';
 // Generate JSON-LD, Microdata, or API-format payloads for agent consumers
 ```
