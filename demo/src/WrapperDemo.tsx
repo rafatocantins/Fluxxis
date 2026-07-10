@@ -1,5 +1,12 @@
 import React from 'react'
-import { SmartCTA, createIntent, materialTokens } from '@fluxxis/wrapper'
+import {
+  SmartCTA,
+  createIntent,
+  materialTokens,
+  ConsentManager,
+  IntentProvider,
+  useFluxxisIntent
+} from '@fluxxis/wrapper'
 import { PALETTE, sectionSubheading, card } from './shared'
 
 const wrapperDemoCard: React.CSSProperties = {
@@ -21,26 +28,11 @@ const wrapperMeta: React.CSSProperties = {
   lineHeight: 1.6,
 }
 
-const WrapperDemo: React.FC = () => {
-  const [clickCount, setClickCount] = React.useState(0)
+// ── Inner demo (uses intent from provider) ──
 
-  const intents = [
-    {
-      label: 'Intent: BUY → Goal: CONVERT',
-      schema: createIntent('buy', 'convert', 'Buy Now — $29', 'high', 'primary', 'subtle_pulse'),
-      color: PALETTE.pink
-    },
-    {
-      label: 'Intent: LEARN → Goal: INFORM',
-      schema: createIntent('learn', 'inform', 'Read the Docs', 'medium', 'secondary', 'none'),
-      color: PALETTE.cyan
-    },
-    {
-      label: 'Intent: BROWSE → Goal: ENGAGE',
-      schema: createIntent('browse', 'engage', 'Try Demo', 'low', 'tertiary', 'blur_fade'),
-      color: PALETTE.violet
-    }
-  ]
+const WrapperDemoInner: React.FC = () => {
+  const { intent, confidence, signals } = useFluxxisIntent()
+  const [clickCount, setClickCount] = React.useState(0)
 
   return (
     <div style={card}>
@@ -55,83 +47,113 @@ const WrapperDemo: React.FC = () => {
         🧩 Fluxxis Wrapper — Material Design 3 PoC
       </h2>
       <p style={{ ...sectionSubheading, marginBottom: '24px' }}>
-        Cada botao abaixo partilha o mesmo <code style={{ color: PALETTE.cyan }}>SmartCTA</code> wrapper.
-        A unica diferenca e o <strong>IntentSchema</strong>. Os tokens visuais
-        (cor, elevacao, animacao, padding) sao resolvidos deterministicamente
-        pelo DS Adapter a partir dos <strong>Material Design 3 tokens</strong>.
+        O botao abaixo adapta-se ao teu <strong>comportamento</strong>. O{' '}
+        <code style={{ color: PALETTE.cyan }}>IntentProvider</code> analisa
+        sinais locais (page views, scroll, clicks, dwell) e ajusta o intent em
+        tempo real. Clica nos botoes da pagina e ve o CTA mudar.
       </p>
 
+      {/* Current intent display */}
       <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-        gap: '20px',
-        maxWidth: '960px',
-        margin: '0 auto'
-      }}>
-        {intents.map(({ label, schema, color }) => (
-          <div key={label} style={wrapperDemoCard}>
-            <span style={{
-              fontFamily: 'Sora, sans-serif',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              color
-            }}>
-              {label}
-            </span>
-            <SmartCTA
-              intent={schema}
-              designTokens={materialTokens}
-              onClick={() => setClickCount(c => c + 1)}
-            />
-            <span style={wrapperMeta}>
-              emphasis={schema.component.visual.emphasis}
-              {'\n'}hierarchy={schema.component.visual.hierarchy}
-              {'\n'}animation={schema.component.visual.animation}
-              {'\n'}bg={materialTokens.palette.primary.slice(0, 7)}
-              {'\n'}shape={materialTokens.shape.full}
-            </span>
-          </div>
-        ))}
-      </div>
-
-      <div style={{ textAlign: 'center', marginTop: '20px' }}>
-        <span style={{ color: PALETTE.textSecondary, fontSize: '0.9rem' }}>
-          Total clicks: <strong style={{ color: PALETTE.cyan }}>{clickCount}</strong>
-        </span>
-      </div>
-
-      <div style={{
-        marginTop: '32px',
-        padding: '16px 20px',
+        display: 'flex',
+        gap: '16px',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        marginBottom: '24px',
+        padding: '16px',
         background: `${PALETTE.violet}10`,
-        border: `1px solid ${PALETTE.violet}30`,
         borderRadius: '10px',
-        maxWidth: '680px',
-        margin: '32px auto 0'
+        border: `1px solid ${PALETTE.violet}30`,
+        maxWidth: '600px',
+        margin: '0 auto 24px'
       }}>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '0.7rem', color: PALETTE.textMuted, textTransform: 'uppercase' }}>Intent</div>
+          <div style={{ fontWeight: 700, color: PALETTE.cyan, fontSize: '1.1rem' }}>{intent.intent.toUpperCase()}</div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '0.7rem', color: PALETTE.textMuted, textTransform: 'uppercase' }}>Goal</div>
+          <div style={{ fontWeight: 700, color: PALETTE.pink, fontSize: '1.1rem' }}>{intent.goal.toUpperCase()}</div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '0.7rem', color: PALETTE.textMuted, textTransform: 'uppercase' }}>Confidence</div>
+          <div style={{ fontWeight: 700, color: PALETTE.amber, fontSize: '1.1rem' }}>{(confidence * 100).toFixed(0)}%</div>
+        </div>
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ fontSize: '0.7rem', color: PALETTE.textMuted, textTransform: 'uppercase' }}>Signals</div>
+          <div style={{ fontWeight: 700, color: PALETTE.violet, fontSize: '1.1rem' }}>{signals.pageViews}</div>
+        </div>
+      </div>
+
+      {/* Live CTA */}
+      <div style={wrapperDemoCard}>
         <span style={{
-          fontSize: '0.8rem',
+          fontFamily: 'Sora, sans-serif',
+          fontSize: '0.85rem',
           fontWeight: 600,
-          textTransform: 'uppercase',
-          letterSpacing: '0.05em',
-          color: PALETTE.violet,
-          display: 'block',
-          marginBottom: '8px'
+          color: PALETTE.textSecondary
         }}>
-          DS Adapter — Token Mapping em Accao
+          Adaptive CTA — driven by your behavior
         </span>
-        <span style={{ ...wrapperMeta, display: 'block' }}>
-          intent.emphasis="high" → DS.colors.primary (#6750A4)<br/>
-          intent.emphasis="medium" → DS.colors.secondaryContainer<br/>
-          intent.emphasis="low" → DS.colors.surfaceVariant<br/>
-          intent.hierarchy="primary" → DS.elevation.level3<br/>
-          intent.hierarchy="secondary" → DS.elevation.level1<br/>
-          intent.hierarchy="tertiary" → DS.elevation.level0<br/>
-          intent.animation="subtle_pulse" → hover:scale(1.02) active:scale(0.98)<br/>
-          intent.animation="none" → hover/active sem animacao
+        <SmartCTA
+          intent={intent}
+          designTokens={materialTokens}
+          onClick={() => setClickCount(c => c + 1)}
+        />
+        <span style={wrapperMeta}>
+          intent={intent.intent} goal={intent.goal}{'\n'}
+          emphasis={intent.component.visual.emphasis}{'\n'}
+          copy="{intent.component.copy.primary}"{'\n'}
+          clicks on CTA: {clickCount}
         </span>
+      </div>
+
+      {/* Reference: static variants */}
+      <div style={{ marginTop: '40px' }}>
+        <h3 style={{
+          fontFamily: 'Sora, sans-serif',
+          fontSize: '1rem',
+          fontWeight: 600,
+          color: PALETTE.textSecondary,
+          textAlign: 'center',
+          marginBottom: '16px'
+        }}>
+          Static reference (what each intent looks like)
+        </h3>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
+          gap: '16px'
+        }}>
+          {[
+            { label: 'Buy/Convert', schema: createIntent('buy', 'convert', 'Buy Now', 'high', 'primary', 'subtle_pulse'), color: PALETTE.pink },
+            { label: 'Learn/Inform', schema: createIntent('learn', 'inform', 'Read Docs', 'medium', 'secondary', 'none'), color: PALETTE.cyan },
+            { label: 'Browse/Engage', schema: createIntent('browse', 'engage', 'Try Demo', 'low', 'tertiary', 'blur_fade'), color: PALETTE.violet }
+          ].map(({ label, schema, color }) => (
+            <div key={label} style={{
+              ...wrapperDemoCard,
+              border: `1px solid ${color}30`
+            }}>
+              <span style={{ fontSize: '0.75rem', color, fontWeight: 600 }}>{label}</span>
+              <SmartCTA intent={schema} designTokens={materialTokens} />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
+  )
+}
+
+// ── Outer wrapper with ConsentManager + IntentProvider ──
+
+const WrapperDemo: React.FC = () => {
+  return (
+    <>
+      <ConsentManager clientName="FLUXXIS Demo" />
+      <IntentProvider refreshIntervalMs={5000}>
+        <WrapperDemoInner />
+      </IntentProvider>
+    </>
   )
 }
 
