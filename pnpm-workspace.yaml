@@ -6,5 +6,7 @@ packages:
   - 'packages/core'
   # React adapter package
   - 'packages/react'
+  # Intent-driven wrapper (PoC)
+  - 'packages/wrapper'
   # Demo app (for testing)
   - 'demo'

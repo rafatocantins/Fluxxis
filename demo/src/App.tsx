@@ -6,6 +6,7 @@ import WhyFluxxisSection from './WhyFluxxisSection'
 import GetStartedSection from './GetStartedSection'
 import IntentPlayground from './IntentPlayground'
 import ComponentGallery from './ComponentGallery'
+import WrapperDemo from './WrapperDemo'
 
 // ──────────────────────────────────────
 // Footer
@@ -108,6 +109,7 @@ function App() {
         <GetStartedSection />
         <IntentPlayground />
         <ComponentGallery />
+        <WrapperDemo />
         <Footer />
       </div>
     </FluxxisProvider>

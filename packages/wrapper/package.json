@@ -1,0 +1,13 @@
+{
+  "name": "@fluxxis/wrapper",
+  "version": "0.1.0",
+  "description": "Intent-driven design system adaptation layer — wraps any component with intent signals and renders with design system tokens",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {},
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "keywords": ["fluxxis", "wrapper", "design-system", "intent", "adaptive-ui"],
+  "license": "MIT"
+}
