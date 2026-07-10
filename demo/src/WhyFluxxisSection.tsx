@@ -20,11 +20,20 @@ const WhyCard: React.FC<WhyCardProps> = ({ icon, title, description, accent }) =
       gap: '14px',
       transition: 'border-color 0.2s, box-shadow 0.2s',
     }}
+    tabIndex={0}
     onMouseOver={(e) => {
       (e.currentTarget as HTMLDivElement).style.borderColor = `${accent}40`
       ;(e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 24px ${accent}10`
     }}
     onMouseOut={(e) => {
+      (e.currentTarget as HTMLDivElement).style.borderColor = PALETTE.cardBorder
+      ;(e.currentTarget as HTMLDivElement).style.boxShadow = 'none'
+    }}
+    onFocus={(e) => {
+      (e.currentTarget as HTMLDivElement).style.borderColor = `${accent}40`
+      ;(e.currentTarget as HTMLDivElement).style.boxShadow = `0 0 24px ${accent}10`
+    }}
+    onBlur={(e) => {
       (e.currentTarget as HTMLDivElement).style.borderColor = PALETTE.cardBorder
       ;(e.currentTarget as HTMLDivElement).style.boxShadow = 'none'
     }}

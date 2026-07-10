@@ -162,7 +162,7 @@ const HeroSection: React.FC = () => {
             fontSize: 'clamp(0.85rem, 1.2vw, 0.95rem)',
             fontWeight: 700,
             textDecoration: 'none',
-            background: `linear-gradient(135deg, ${PALETTE.violet}, ${PALETTE.pink})`,
+            background: `linear-gradient(135deg, ${PALETTE.violet}, #D43D7A)`,
             color: '#fff',
             border: 'none',
             cursor: 'pointer',
@@ -174,6 +174,14 @@ const HeroSection: React.FC = () => {
             ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 6px 28px ${PALETTE.violet}60`
           }}
           onMouseOut={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)'
+            ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 4px 20px ${PALETTE.violet}40`
+          }}
+          onFocus={(e) => {
+            (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.04)'
+            ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 6px 28px ${PALETTE.violet}60`
+          }}
+          onBlur={(e) => {
             (e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)'
             ;(e.currentTarget as HTMLAnchorElement).style.boxShadow = `0 4px 20px ${PALETTE.violet}40`
           }}
@@ -204,6 +212,12 @@ const HeroSection: React.FC = () => {
             (e.currentTarget as HTMLButtonElement).style.background = `${PALETTE.cyan}18`
           }}
           onMouseOut={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.background = `${PALETTE.cyan}10`
+          }}
+          onFocus={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.background = `${PALETTE.cyan}18`
+          }}
+          onBlur={(e) => {
             (e.currentTarget as HTMLButtonElement).style.background = `${PALETTE.cyan}10`
           }}
         >

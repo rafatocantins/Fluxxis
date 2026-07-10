@@ -100,6 +100,14 @@ const GetStartedSection: React.FC = () => {
                 (e.currentTarget as HTMLButtonElement).style.color = PALETTE.textSecondary
                 ;(e.currentTarget as HTMLButtonElement).style.borderColor = PALETTE.cardBorder
               }}
+              onFocus={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color = PALETTE.cyan
+                ;(e.currentTarget as HTMLButtonElement).style.borderColor = `${PALETTE.cyan}40`
+              }}
+              onBlur={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color = PALETTE.textSecondary
+                ;(e.currentTarget as HTMLButtonElement).style.borderColor = PALETTE.cardBorder
+              }}
             >
               {copiedInstall ? '✅ Copied!' : '📋 Copy'}
             </button>
@@ -159,6 +167,14 @@ const GetStartedSection: React.FC = () => {
                 (e.currentTarget as HTMLButtonElement).style.color = PALETTE.textSecondary
                 ;(e.currentTarget as HTMLButtonElement).style.borderColor = PALETTE.cardBorder
               }}
+              onFocus={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color = PALETTE.violet
+                ;(e.currentTarget as HTMLButtonElement).style.borderColor = `${PALETTE.violet}40`
+              }}
+              onBlur={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.color = PALETTE.textSecondary
+                ;(e.currentTarget as HTMLButtonElement).style.borderColor = PALETTE.cardBorder
+              }}
             >
               {copiedImport ? '✅ Copied!' : '📋 Copy'}
             </button>
@@ -198,6 +214,14 @@ const GetStartedSection: React.FC = () => {
               ;(e.currentTarget as HTMLAnchorElement).style.borderColor = `${PALETTE.violet}50`
             }}
             onMouseOut={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background = `${PALETTE.violet}10`
+              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = `${PALETTE.violet}30`
+            }}
+            onFocus={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.background = `${PALETTE.violet}18`
+              ;(e.currentTarget as HTMLAnchorElement).style.borderColor = `${PALETTE.violet}50`
+            }}
+            onBlur={(e) => {
               (e.currentTarget as HTMLAnchorElement).style.background = `${PALETTE.violet}10`
               ;(e.currentTarget as HTMLAnchorElement).style.borderColor = `${PALETTE.violet}30`
             }}

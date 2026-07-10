@@ -12,7 +12,7 @@ export const PALETTE = {
   cardBorder: '#1e1e2e',
   textPrimary: '#e4e4ed',
   textSecondary: '#9d9db5',
-  textMuted: '#6b6b80',
+  textMuted: '#8b8ba0',
 }
 
 export const INTENT_COLORS: Record<string, string> = {
