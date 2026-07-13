@@ -20,6 +20,7 @@ const WhyCard: React.FC<WhyCardProps> = ({ icon, title, description, accent }) =
       gap: '14px',
       transition: 'border-color 0.2s, box-shadow 0.2s',
     }}
+    role='button'
     tabIndex={0}
     onMouseOver={(e) => {
       (e.currentTarget as HTMLDivElement).style.borderColor = `${accent}40`

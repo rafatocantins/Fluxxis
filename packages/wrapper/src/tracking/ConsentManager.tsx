@@ -120,9 +120,9 @@ export const ConsentManager: React.FC<ConsentConfig> = ({
       {/* Dashboard modal */}
       {showDashboard && (
         <div style={styles.overlay} onClick={() => setShowDashboard(false)}>
-          <div style={styles.dashboard} onClick={e => e.stopPropagation()}>
+          <div role="dialog" aria-modal="true" aria-labelledby="fluxxis-dashboard-title" style={styles.dashboard} onClick={e => e.stopPropagation()}>
             <div style={styles.dashboardHeader}>
-              <h3 style={{ margin: 0 }}>🔮 Fluxxis — Os Teus Dados</h3>
+              <h3 id="fluxxis-dashboard-title" style={{ margin: 0 }}>🔮 Fluxxis — Os Teus Dados</h3>
               <button
                 style={styles.closeBtn}
                 onClick={() => setShowDashboard(false)}
@@ -267,7 +267,7 @@ const styles: Record<string, React.CSSProperties> = {
   },
   finePrint: {
     fontSize: '0.7rem',
-    color: '#6b6b80',
+    color: '#8b8ba0',
     textAlign: 'center',
     marginTop: '16px',
     lineHeight: 1.5,
