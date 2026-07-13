@@ -2,11 +2,38 @@
   "name": "@fluxxis/wrapper",
   "version": "0.1.0",
   "description": "Intent-driven design system adaptation layer — wraps any component with intent signals and renders with design system tokens",
-  "main": "src/index.ts",
-  "types": "src/index.ts",
-  "scripts": {},
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./tracking": {
+      "types": "./dist/tracking/index.d.ts",
+      "import": "./dist/tracking/index.js",
+      "require": "./dist/tracking/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit"
+  },
   "peerDependencies": {
     "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.1.6"
   },
   "keywords": ["fluxxis", "wrapper", "design-system", "intent", "adaptive-ui"],
   "license": "MIT"
