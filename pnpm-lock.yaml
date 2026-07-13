@@ -47,6 +47,9 @@ importers:
       '@fluxxis/react':
         specifier: workspace:*
         version: link:../packages/react
+      '@fluxxis/wrapper':
+        specifier: workspace:*
+        version: link:../packages/wrapper
       react:
         specifier: ^18.2.0
         version: 18.3.1
@@ -178,6 +181,22 @@ importers:
       vitest:
         specifier: ^1.6.0
         version: 1.6.1(@types/node@25.3.3)
+
+  packages/wrapper:
+    dependencies:
+      react:
+        specifier: '>=18'
+        version: 18.3.1
+    devDependencies:
+      '@types/react':
+        specifier: ^18.0.0
+        version: 18.3.28
+      tsup:
+        specifier: ^8.0.0
+        version: 8.5.1(postcss@8.5.8)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.1.6
+        version: 5.9.3
 
 packages:
 
