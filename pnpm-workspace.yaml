@@ -8,5 +8,7 @@ packages:
   - 'packages/react'
   # Intent-driven wrapper (PoC)
   - 'packages/wrapper'
+  # Design Tokens (CSS custom properties)
+  - 'packages/ui'
   # Demo app (for testing)
   - 'demo'
