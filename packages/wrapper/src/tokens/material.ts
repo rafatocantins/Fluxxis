@@ -1,5 +1,5 @@
 // Design Token System — Fluxxis v2.0
-// Aligned with canonical palette: violet #7C5CFF, cyan #2EE6D6, pink #FF5C9D, amber #FFB454
+// Aligned with canonical palette: violet #8B6DFF, cyan #2EE6D6, pink #FF5C9D, amber #FFB454
 
 export interface DesignTokens {
   palette: {
@@ -78,7 +78,7 @@ export interface DesignTokens {
 export const materialTokens: DesignTokens = {
   palette: {
     primary: '#8B6DFF',        // violet
-    onPrimary: '#2D1060',
+    onPrimary: '#FFFFFF',
     primaryContainer: '#EBE5FF',
     onPrimaryContainer: '#1E0060',
     secondary: '#2EE6D6',       // cyan

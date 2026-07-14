@@ -8,7 +8,7 @@ import type { AnimationType } from '../_internal/types';
  *
  * Canonical Palette:
  *   browse  → cyan   #2EE6D6
- *   buy     → violet #7C5CFF
+ *   buy     → violet #8B6DFF
  *   compare → pink   #FF5C9D
  *   learn   → amber  #FFB454
  */

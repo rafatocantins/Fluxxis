@@ -322,7 +322,7 @@ const styles: Record<string, React.CSSProperties> = {
     fontFamily: 'Sora, sans-serif',
     fontSize: '0.95rem',
     fontWeight: 600,
-    color: '#7C5CFF',
+    color: '#8B6DFF',
     marginBottom: '8px',
   },
   profileBox: {
