@@ -77,8 +77,8 @@ export interface DesignTokens {
 // Consume CSS tokens via var(--flux-*) for runtime theming
 export const materialTokens: DesignTokens = {
   palette: {
-    primary: '#7C5CFF',        // violet
-    onPrimary: '#FFFFFF',
+    primary: '#8B6DFF',        // violet
+    onPrimary: '#2D1060',
     primaryContainer: '#EBE5FF',
     onPrimaryContainer: '#1E0060',
     secondary: '#2EE6D6',       // cyan
@@ -86,7 +86,7 @@ export const materialTokens: DesignTokens = {
     secondaryContainer: '#D4FBFA',
     onSecondaryContainer: '#00201D',
     tertiary: '#FF5C9D',        // pink
-    onTertiary: '#FFFFFF',
+    onTertiary: '#4A0020',
     error: '#B3261E',
     onError: '#FFFFFF',
     surface: '#FFFBFE',

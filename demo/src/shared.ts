@@ -5,7 +5,7 @@
 
 // Canonical palette (fallback for non-CSS contexts)
 export const PALETTE = {
-  violet: 'var(--flux-violet, #7C5CFF)',
+  violet: 'var(--flux-violet, #8B6DFF)',
   cyan:   'var(--flux-cyan, #2EE6D6)',
   pink:   'var(--flux-pink, #FF5C9D)',
   amber:  'var(--flux-amber, #FFB454)',

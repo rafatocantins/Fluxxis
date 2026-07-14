@@ -56,14 +56,14 @@ export interface IntentTokens {
 
 // ── Fluxxis v2.0 Canonical Palette ──
 const FLUXXIS = {
-  violet: 'rgb(124, 92, 255)',   // #7C5CFF
+  violet: 'rgb(139, 109, 255)',   // #8B6DFF
   cyan:   'rgb(46, 230, 214)',   // #2EE6D6
   pink:   'rgb(255, 92, 157)',   // #FF5C9D
   amber:  'rgb(255, 180, 84)',   // #FFB454
 } as const;
 
 const FLUXXIS_HEX = {
-  violet: '#7C5CFF',
+  violet: '#8B6DFF',
   cyan:   '#2EE6D6',
   pink:   '#FF5C9D',
   amber:  '#FFB454',
@@ -88,7 +88,7 @@ export const FLUXXIS_INTENT_TOKENS: Record<IntentType, IntentTokens> = {
   buy: {
     color: FLUXXIS.violet,
     accentColor: 'rgb(100, 65, 230)',
-    backgroundColor: 'rgba(124, 92, 255, 0.08)',
+    backgroundColor: 'rgba(139, 109, 255, 0.08)',
     textColor: 'rgb(17, 24, 39)',
     animation: 'direct',
     emphasis: 'strong',
@@ -96,7 +96,7 @@ export const FLUXXIS_INTENT_TOKENS: Record<IntentType, IntentTokens> = {
     shadow: 'md',
     transitionDuration: '200ms',
     hoverScale: 1.05,
-    glowColor: 'rgba(124, 92, 255, 0.4)',
+    glowColor: 'rgba(139, 109, 255, 0.4)',
   },
   compare: {
     color: FLUXXIS.pink,
@@ -134,7 +134,7 @@ export const INTENT_TOKENS: Record<GoalType, IntentTokens> = {
   convert: {
     color: FLUXXIS.violet,
     accentColor: 'rgb(100, 65, 230)',
-    backgroundColor: 'rgba(124, 92, 255, 0.08)',
+    backgroundColor: 'rgba(139, 109, 255, 0.08)',
     textColor: 'rgb(17, 24, 39)',
     animation: 'direct',
     emphasis: 'strong',
@@ -142,7 +142,7 @@ export const INTENT_TOKENS: Record<GoalType, IntentTokens> = {
     shadow: 'md',
     transitionDuration: '200ms',
     hoverScale: 1.05,
-    glowColor: 'rgba(124, 92, 255, 0.4)',
+    glowColor: 'rgba(139, 109, 255, 0.4)',
   },
   inform: {
     color: FLUXXIS.cyan,
