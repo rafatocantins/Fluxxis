@@ -212,6 +212,7 @@ FLUXXIS Ethics Charter:
 
 | Document | Description |
 |----------|-------------|
+| [**API Reference**](./docs/README.md) | **Developer documentation — getting started guide, `@fluxxis/core` and `@fluxxis/react` API reference** |
 | [**Technical Paper**](./FLUXXIS-PAPER.md) | **Academic paper — formal definition, architecture, proofs** |
 | [**Vision**](./FLUXXIS-VISION.md) | **The ASI paradigm — deep dive into adaptive structural interfaces** |
 | [**Long-Term Vision**](./FLUXXIS-LONG-TERM-VISION.md) | **2026-2035 roadmap — behavioral evolution, societal impact** |
