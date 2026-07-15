@@ -1,38 +1,45 @@
-import React, { useCallback, useState } from 'react'
+import React from 'react'
 import { PRODUCTS } from '../products'
 import type { Product } from '../types'
 
 interface BuyTemplateProps {
   themeColor: string
+  buyIndex: number
+  buyQty: number
+  buyColor: number
+  onIndexChange: (index: number) => void
+  onQtyChange: (qty: number) => void
+  onColorChange: (color: number) => void
 }
 
-const BuyTemplate: React.FC<BuyTemplateProps> = ({ themeColor }) => {
-  const [index, setIndex] = useState(0)
-  const [qty, setQty] = useState(1)
-  const [selectedColor, setSelectedColor] = useState(0)
+const BuyTemplate: React.FC<BuyTemplateProps> = ({
+  themeColor,
+  buyIndex,
+  buyQty,
+  buyColor,
+  onIndexChange,
+  onQtyChange,
+  onColorChange,
+}) => {
+  const product: Product = PRODUCTS[buyIndex]
+  const isFirst = buyIndex === 0
+  const isLast = buyIndex === PRODUCTS.length - 1
 
-  const product: Product = PRODUCTS[index]
-  const isFirst = index === 0
-  const isLast = index === PRODUCTS.length - 1
-
-  const goPrev = useCallback(() => {
-    if (index > 0) {
-      setIndex((i) => i - 1)
-      setQty(1)
-      setSelectedColor(0)
+  const goPrev = () => {
+    if (buyIndex > 0) {
+      onIndexChange(buyIndex - 1)
+      onQtyChange(1)
+      onColorChange(0)
     }
-  }, [index])
+  }
 
-  const goNext = useCallback(() => {
-    if (index < PRODUCTS.length - 1) {
-      setIndex((i) => i + 1)
-      setQty(1)
-      setSelectedColor(0)
+  const goNext = () => {
+    if (buyIndex < PRODUCTS.length - 1) {
+      onIndexChange(buyIndex + 1)
+      onQtyChange(1)
+      onColorChange(0)
     }
-  }, [index])
-
-  const decQty = useCallback(() => setQty((q) => Math.max(1, q - 1)), [])
-  const incQty = useCallback(() => setQty((q) => Math.min(99, q + 1)), [])
+  }
 
   return (
     <div className="morph-buy">
@@ -51,17 +58,17 @@ const BuyTemplate: React.FC<BuyTemplateProps> = ({ themeColor }) => {
             {product.colors.map((c, i) => (
               <div
                 key={i}
-                className={`buy-thumb${i === selectedColor ? ' active' : ''}`}
+                className={`buy-thumb${i === buyColor ? ' active' : ''}`}
                 style={{ background: c }}
-                onClick={() => setSelectedColor(i)}
+                onClick={() => onColorChange(i)}
                 role="radio"
-                aria-checked={i === selectedColor}
+                aria-checked={i === buyColor}
                 aria-label={`Color variant ${i + 1}`}
                 tabIndex={0}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault()
-                    setSelectedColor(i)
+                    onColorChange(i)
                   }
                 }}
               />
@@ -91,17 +98,17 @@ const BuyTemplate: React.FC<BuyTemplateProps> = ({ themeColor }) => {
               {product.colors.map((c, i) => (
                 <div
                   key={i}
-                  className={`buy-swatch${i === selectedColor ? ' active' : ''}`}
+                  className={`buy-swatch${i === buyColor ? ' active' : ''}`}
                   style={{ background: c }}
-                  onClick={() => setSelectedColor(i)}
+                  onClick={() => onColorChange(i)}
                   role="radio"
-                  aria-checked={i === selectedColor}
+                  aria-checked={i === buyColor}
                   aria-label={`Color ${i + 1}`}
                   tabIndex={0}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter' || e.key === ' ') {
                       e.preventDefault()
-                      setSelectedColor(i)
+                      onColorChange(i)
                     }
                   }}
                 />
@@ -113,19 +120,19 @@ const BuyTemplate: React.FC<BuyTemplateProps> = ({ themeColor }) => {
           <div className="buy-qty-row">
             <button
               className="buy-qty-btn"
-              onClick={decQty}
-              disabled={qty <= 1}
+              onClick={() => onQtyChange(Math.max(1, buyQty - 1))}
+              disabled={buyQty <= 1}
               aria-label="Decrease quantity"
             >
               −
             </button>
             <span className="buy-qty-value" aria-live="polite">
-              {qty}
+              {buyQty}
             </span>
             <button
               className="buy-qty-btn"
-              onClick={incQty}
-              disabled={qty >= 99}
+              onClick={() => onQtyChange(Math.min(99, buyQty + 1))}
+              disabled={buyQty >= 99}
               aria-label="Increase quantity"
             >
               +
@@ -136,9 +143,9 @@ const BuyTemplate: React.FC<BuyTemplateProps> = ({ themeColor }) => {
           <button
             className="buy-cta"
             style={{ background: themeColor }}
-            aria-label={`Add ${product.name} to cart for ${(product.price * qty).toFixed(2)}${product.currency}`}
+            aria-label={`Add ${product.name} to cart for ${(product.price * buyQty).toFixed(2)}${product.currency}`}
           >
-            🛒 Add to Cart — {(product.price * qty).toFixed(2)}
+            🛒 Add to Cart — {(product.price * buyQty).toFixed(2)}
             {product.currency}
           </button>
 
@@ -153,7 +160,7 @@ const BuyTemplate: React.FC<BuyTemplateProps> = ({ themeColor }) => {
               ← Prev
             </button>
             <span className="buy-nav-counter">
-              {index + 1} / {PRODUCTS.length}
+              {buyIndex + 1} / {PRODUCTS.length}
             </span>
             <button
               className="buy-nav-btn"

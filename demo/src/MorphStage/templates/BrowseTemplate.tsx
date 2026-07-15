@@ -1,16 +1,23 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useMemo } from 'react'
 import type { Product } from '../types'
 import { ALL_CATEGORIES } from '../types'
 import { PRODUCTS } from '../products'
 
 interface BrowseTemplateProps {
   themeColor: string
+  search: string
+  category: string | null
+  onSearchChange: (value: string) => void
+  onCategoryChange: (cat: string | null) => void
 }
 
-const BrowseTemplate: React.FC<BrowseTemplateProps> = ({ themeColor }) => {
-  const [search, setSearch] = useState('')
-  const [category, setCategory] = useState<string | null>(null)
-
+const BrowseTemplate: React.FC<BrowseTemplateProps> = ({
+  themeColor,
+  search,
+  category,
+  onSearchChange,
+  onCategoryChange,
+}) => {
   const filtered = useMemo<Product[]>(() => {
     return PRODUCTS.filter((p) => {
       const matchSearch =
@@ -22,17 +29,6 @@ const BrowseTemplate: React.FC<BrowseTemplateProps> = ({ themeColor }) => {
     })
   }, [search, category])
 
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearch(e.target.value)
-    },
-    [],
-  )
-
-  const handleCategoryClick = useCallback((cat: string | null) => {
-    setCategory(cat)
-  }, [])
-
   return (
     <div className="morph-browse">
       {/* Search + Filters */}
@@ -42,13 +38,13 @@ const BrowseTemplate: React.FC<BrowseTemplateProps> = ({ themeColor }) => {
           className="browse-search"
           placeholder="Search products..."
           value={search}
-          onChange={handleSearchChange}
+          onChange={(e) => onSearchChange(e.target.value)}
           aria-label="Search products"
         />
         <div className="browse-chips" role="group" aria-label="Filter by category">
           <button
             className={`browse-chip${!category ? ' active' : ''}`}
-            onClick={() => handleCategoryClick(null)}
+            onClick={() => onCategoryChange(null)}
             aria-pressed={!category}
             style={!category ? { background: themeColor, borderColor: themeColor, color: '#0a0a0f' } : undefined}
           >
@@ -58,7 +54,7 @@ const BrowseTemplate: React.FC<BrowseTemplateProps> = ({ themeColor }) => {
             <button
               key={cat}
               className={`browse-chip${category === cat ? ' active' : ''}`}
-              onClick={() => handleCategoryClick(cat)}
+              onClick={() => onCategoryChange(cat)}
               aria-pressed={category === cat}
               style={
                 category === cat

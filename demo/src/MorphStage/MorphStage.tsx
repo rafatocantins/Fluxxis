@@ -64,6 +64,15 @@ const MorphStage: React.FC = () => {
   const pillRefs = useRef<Map<Intent, HTMLButtonElement>>(new Map())
   const switcherRef = useRef<HTMLDivElement>(null)
 
+  // ── Elevated template state (preserved across morphs) ──
+  const [search, setSearch] = useState('')
+  const [category, setCategory] = useState<string | null>(null)
+  const [buyIndex, setBuyIndex] = useState(0)
+  const [buyQty, setBuyQty] = useState(1)
+  const [buyColor, setBuyColor] = useState(0)
+  const [learnOpen, setLearnOpen] = useState(0)
+  const [learnStep, setLearnStep] = useState(0)
+
   const themeColor = INTENT_THEME[intent]
   const themeClass = INTENT_CLASS[intent]
 
@@ -73,12 +82,12 @@ const MorphStage: React.FC = () => {
       if (next === intent) return
       // Trigger fade out
       setFading(true)
-      // After 180ms, swap + fade in
+      // After 100ms, swap + fade in
       setTimeout(() => {
         setIntent(next)
         setFading(false)
         setPulseKey((k) => k + 1)
-      }, 180)
+      }, 100)
     },
     [intent],
   )
@@ -131,13 +140,39 @@ const MorphStage: React.FC = () => {
   const renderTemplate = () => {
     switch (intent) {
       case 'browse':
-        return <BrowseTemplate themeColor={themeColor} />
+        return (
+          <BrowseTemplate
+            themeColor={themeColor}
+            search={search}
+            category={category}
+            onSearchChange={setSearch}
+            onCategoryChange={setCategory}
+          />
+        )
       case 'buy':
-        return <BuyTemplate themeColor={themeColor} />
+        return (
+          <BuyTemplate
+            themeColor={themeColor}
+            buyIndex={buyIndex}
+            buyQty={buyQty}
+            buyColor={buyColor}
+            onIndexChange={setBuyIndex}
+            onQtyChange={setBuyQty}
+            onColorChange={setBuyColor}
+          />
+        )
       case 'compare':
         return <CompareTemplate themeColor={themeColor} />
       case 'learn':
-        return <LearnTemplate themeColor={themeColor} />
+        return (
+          <LearnTemplate
+            themeColor={themeColor}
+            learnOpen={learnOpen}
+            learnStep={learnStep}
+            onLearnOpenChange={setLearnOpen}
+            onLearnStepChange={setLearnStep}
+          />
+        )
     }
   }
 
