@@ -2,6 +2,7 @@ import React from 'react'
 import { FluxxisProvider } from '@fluxxis/react'
 import { PALETTE } from './shared'
 import HeroSection from './HeroSection'
+import MorphStage from './MorphStage'
 import WhyFluxxisSection from './WhyFluxxisSection'
 import GetStartedSection from './GetStartedSection'
 import IntentPlayground from './IntentPlayground'
@@ -105,6 +106,7 @@ function App() {
         }}
       >
         <HeroSection />
+        <MorphStage />
         <WhyFluxxisSection />
         <GetStartedSection />
         <IntentPlayground />
