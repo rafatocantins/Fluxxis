@@ -76,18 +76,29 @@ const MorphStage: React.FC = () => {
   const themeColor = INTENT_THEME[intent]
   const themeClass = INTENT_CLASS[intent]
 
+  // ── Timeout ref (cleanup on unmount) ──
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+
+  useEffect(() => {
+    return () => {
+      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+    }
+  }, [])
+
   // ── Morph transition (FLIP: fade out → render swap → fade in) ──
   const morphTo = useCallback(
     (next: Intent) => {
       if (next === intent) return
       // Trigger fade out
       setFading(true)
-      // After 100ms, swap + fade in
-      setTimeout(() => {
+      // After delay (respects prefers-reduced-motion), swap + fade in
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const delay = prefersReduced ? 0 : 100
+      timeoutRef.current = setTimeout(() => {
         setIntent(next)
         setFading(false)
         setPulseKey((k) => k + 1)
-      }, 100)
+      }, delay)
     },
     [intent],
   )
@@ -121,20 +132,14 @@ const MorphStage: React.FC = () => {
 
       if (nextIdx !== undefined) {
         const nextIntent = INTENTS[nextIdx]
-        setIntent(nextIntent)
-        setPulseKey((k) => k + 1)
+        morphTo(nextIntent)
         // Move focus
         const el = pillRefs.current.get(nextIntent)
         el?.focus()
       }
     },
-    [intent],
+    [intent, morphTo],
   )
-
-  // ── Pulse the signal dot when intent changes ──
-  useEffect(() => {
-    // No-op — the pulse is handled by key change on the dot element
-  }, [pulseKey])
 
   // ── Render active template ──
   const renderTemplate = () => {

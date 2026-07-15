@@ -22,6 +22,7 @@ const BuyTemplate: React.FC<BuyTemplateProps> = ({
   onColorChange,
 }) => {
   const product: Product = PRODUCTS[buyIndex]
+  if (!product) return null
   const isFirst = buyIndex === 0
   const isLast = buyIndex === PRODUCTS.length - 1
 
@@ -54,7 +55,7 @@ const BuyTemplate: React.FC<BuyTemplateProps> = ({
           >
             <span className="buy-main-icon">{product.imageIcon}</span>
           </div>
-          <div className="buy-thumbnails">
+          <div className="buy-thumbnails" role="radiogroup" aria-label="Color thumbnail selection">
             {product.colors.map((c, i) => (
               <div
                 key={i}

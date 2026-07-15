@@ -19,6 +19,7 @@ const LearnTemplate: React.FC<LearnTemplateProps> = ({
   const product = PRODUCTS[learnOpen]
   const steps = product.learnSteps
   const current = steps[learnStep]
+  if (!current) return null
   const isFirst = learnStep === 0
   const isLast = learnStep === steps.length - 1
 
