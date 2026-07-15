@@ -1,13 +1,25 @@
 import type { AnimationType } from '../_internal/types';
 
 /**
- * Intent Tokens
- * 
- * Goal-driven design tokens for visual adaptations
- * Each goal type has its own set of tokens for colors, animations, and emphasis
+ * Intent Tokens — Fluxxis Design Tokens v2.0
+ *
+ * Goal-driven design tokens for visual adaptations.
+ * Each intent type has its own canonical colour from the Fluxxis palette.
+ *
+ * Canonical Palette:
+ *   browse  → cyan   #2EE6D6
+ *   buy     → violet #8B6DFF
+ *   compare → pink   #FF5C9D
+ *   learn   → amber  #FFB454
  */
 
 import type { GoalType } from '../types';
+
+/**
+ * Intent types (Fluxxis v2.0)
+ * Maps page-intent to a canonical colour token.
+ */
+export type IntentType = 'browse' | 'buy' | 'compare' | 'learn';
 
 /**
  * Emphasis levels for visual intensity
@@ -15,22 +27,16 @@ import type { GoalType } from '../types';
 export type EmphasisLevel = 'subtle' | 'normal' | 'strong';
 
 /**
- * Animation types for different goals
- * Note: AnimationType is imported from _shared/types
- */
-// export type AnimationType = 'direct' | 'subtle' | 'playful' | 'urgent';
-
-/**
  * Intent token values for different goals
  */
 export interface IntentTokens {
-  /** Primary color for the goal */
+  /** Primary colour for the goal */
   color: string;
-  /** Secondary/accent color */
+  /** Secondary/accent colour */
   accentColor: string;
-  /** Background color */
+  /** Background colour */
   backgroundColor: string;
-  /** Text color */
+  /** Text colour */
   textColor: string;
   /** Animation style */
   animation: AnimationType;
@@ -44,32 +50,105 @@ export interface IntentTokens {
   transitionDuration: string;
   /** Scale on hover */
   hoverScale: number;
-  /** Glow effect color */
+  /** Glow effect colour */
   glowColor?: string;
 }
 
-/**
- * Default intent tokens by goal type
- */
-export const INTENT_TOKENS: Record<GoalType, IntentTokens> = {
-  convert: {
-    color: 'rgb(59, 130, 246)', // blue-500
-    accentColor: 'rgb(37, 99, 235)', // blue-600
-    backgroundColor: 'rgb(239, 246, 255)', // blue-50
-    textColor: 'rgb(17, 24, 39)', // gray-900
+// ── Fluxxis v2.0 Canonical Palette ──
+const FLUXXIS = {
+  violet: 'rgb(139, 109, 255)',   // #8B6DFF
+  cyan:   'rgb(46, 230, 214)',   // #2EE6D6
+  pink:   'rgb(255, 92, 157)',   // #FF5C9D
+  amber:  'rgb(255, 180, 84)',   // #FFB454
+} as const;
+
+const FLUXXIS_HEX = {
+  violet: '#8B6DFF',
+  cyan:   '#2EE6D6',
+  pink:   '#FF5C9D',
+  amber:  '#FFB454',
+} as const;
+
+// ── Intent Tokens v2.0 (browse / buy / compare / learn) ──
+
+export const FLUXXIS_INTENT_TOKENS: Record<IntentType, IntentTokens> = {
+  browse: {
+    color: FLUXXIS.cyan,
+    accentColor: 'rgb(5, 200, 185)',
+    backgroundColor: 'rgba(46, 230, 214, 0.08)',
+    textColor: 'rgb(17, 24, 39)',
+    animation: 'subtle',
+    emphasis: 'normal',
+    borderRadius: '0.5rem',
+    shadow: 'sm',
+    transitionDuration: '200ms',
+    hoverScale: 1.04,
+    glowColor: 'rgba(46, 230, 214, 0.4)',
+  },
+  buy: {
+    color: FLUXXIS.violet,
+    accentColor: 'rgb(100, 65, 230)',
+    backgroundColor: 'rgba(139, 109, 255, 0.08)',
+    textColor: 'rgb(17, 24, 39)',
     animation: 'direct',
     emphasis: 'strong',
     borderRadius: '0.5rem',
     shadow: 'md',
     transitionDuration: '200ms',
     hoverScale: 1.05,
-    glowColor: 'rgba(59, 130, 246, 0.4)',
+    glowColor: 'rgba(139, 109, 255, 0.4)',
+  },
+  compare: {
+    color: FLUXXIS.pink,
+    accentColor: 'rgb(230, 60, 130)',
+    backgroundColor: 'rgba(255, 92, 157, 0.08)',
+    textColor: 'rgb(17, 24, 39)',
+    animation: 'playful',
+    emphasis: 'normal',
+    borderRadius: '0.5rem',
+    shadow: 'md',
+    transitionDuration: '250ms',
+    hoverScale: 1.06,
+    glowColor: 'rgba(255, 92, 157, 0.4)',
+  },
+  learn: {
+    color: FLUXXIS.amber,
+    accentColor: 'rgb(235, 155, 45)',
+    backgroundColor: 'rgba(255, 180, 84, 0.08)',
+    textColor: 'rgb(17, 24, 39)',
+    animation: 'subtle',
+    emphasis: 'normal',
+    borderRadius: '0.5rem',
+    shadow: 'sm',
+    transitionDuration: '200ms',
+    hoverScale: 1.03,
+    glowColor: 'rgba(255, 180, 84, 0.4)',
+  },
+};
+
+/**
+ * Default intent tokens by GoalType (convert / inform / engage)
+ * Aligned with Fluxxis v2.0 palette.
+ */
+export const INTENT_TOKENS: Record<GoalType, IntentTokens> = {
+  convert: {
+    color: FLUXXIS.violet,
+    accentColor: 'rgb(100, 65, 230)',
+    backgroundColor: 'rgba(139, 109, 255, 0.08)',
+    textColor: 'rgb(17, 24, 39)',
+    animation: 'direct',
+    emphasis: 'strong',
+    borderRadius: '0.5rem',
+    shadow: 'md',
+    transitionDuration: '200ms',
+    hoverScale: 1.05,
+    glowColor: 'rgba(139, 109, 255, 0.4)',
   },
   inform: {
-    color: 'rgb(107, 114, 128)', // gray-500
-    accentColor: 'rgb(75, 85, 99)', // gray-600
-    backgroundColor: 'rgb(249, 250, 251)', // gray-50
-    textColor: 'rgb(31, 41, 55)', // gray-800
+    color: FLUXXIS.cyan,
+    accentColor: 'rgb(5, 200, 185)',
+    backgroundColor: 'rgba(46, 230, 214, 0.08)',
+    textColor: 'rgb(17, 24, 39)',
     animation: 'subtle',
     emphasis: 'normal',
     borderRadius: '0.375rem',
@@ -78,17 +157,17 @@ export const INTENT_TOKENS: Record<GoalType, IntentTokens> = {
     hoverScale: 1.02,
   },
   engage: {
-    color: 'rgb(168, 85, 247)', // purple-500
-    accentColor: 'rgb(147, 51, 234)', // purple-600
-    backgroundColor: 'rgb(250, 245, 255)', // purple-50
-    textColor: 'rgb(17, 24, 39)', // gray-900
+    color: FLUXXIS.pink,
+    accentColor: 'rgb(230, 60, 130)',
+    backgroundColor: 'rgba(255, 92, 157, 0.08)',
+    textColor: 'rgb(17, 24, 39)',
     animation: 'playful',
     emphasis: 'normal',
     borderRadius: '0.75rem',
     shadow: 'md',
     transitionDuration: '300ms',
     hoverScale: 1.08,
-    glowColor: 'rgba(168, 85, 247, 0.4)',
+    glowColor: 'rgba(255, 92, 157, 0.4)',
   },
 };
 
@@ -149,33 +228,31 @@ export const ANIMATION_KEYFRAMES: Record<AnimationType, string> = {
   `,
 };
 
-/**
- * Get intent tokens for a goal type
- */
+// ── Helper functions ──
+
 export function getIntentTokens(goal: GoalType, emphasis?: EmphasisLevel): IntentTokens {
   const baseTokens = INTENT_TOKENS[goal];
-
-  if (!emphasis || emphasis === baseTokens.emphasis) {
-    return baseTokens;
-  }
-
-  // Apply emphasis modifiers
-  const modifiers = EMPHASIS_MODIFIERS[emphasis];
-  return {
-    ...baseTokens,
-    ...modifiers,
-  };
+  if (!emphasis || emphasis === baseTokens.emphasis) return baseTokens;
+  return { ...baseTokens, ...EMPHASIS_MODIFIERS[emphasis] };
 }
 
-/**
- * Get CSS custom properties for intent tokens
- */
-export function getIntentCSSVariables(
-  goal: GoalType,
-  emphasis?: EmphasisLevel
-): Record<string, string> {
-  const tokens = getIntentTokens(goal, emphasis);
+export function getFluxxisIntentTokens(intent: IntentType, emphasis?: EmphasisLevel): IntentTokens {
+  const baseTokens = FLUXXIS_INTENT_TOKENS[intent];
+  if (!emphasis || emphasis === baseTokens.emphasis) return baseTokens;
+  return { ...baseTokens, ...EMPHASIS_MODIFIERS[emphasis] };
+}
 
+export function getIntentCSSVariables(goal: GoalType, emphasis?: EmphasisLevel): Record<string, string> {
+  const tokens = getIntentTokens(goal, emphasis);
+  return mapTokensToCSSVars(tokens);
+}
+
+export function getFluxxisCSSVariables(intent: IntentType, emphasis?: EmphasisLevel): Record<string, string> {
+  const tokens = getFluxxisIntentTokens(intent, emphasis);
+  return mapTokensToCSSVars(tokens);
+}
+
+function mapTokensToCSSVars(tokens: IntentTokens): Record<string, string> {
   return {
     '--intent-color': tokens.color,
     '--intent-accent-color': tokens.accentColor,
@@ -191,16 +268,10 @@ export function getIntentCSSVariables(
   };
 }
 
-/**
- * Get animation CSS for intent type
- */
-export function getIntentAnimation(animation: AnimationType, duration: string = '2s'): string {
+export function getIntentAnimation(animation: AnimationType, duration = '2s'): string {
   return `${animation} ${duration} ease-in-out infinite`;
 }
 
-/**
- * Get shadow CSS for shadow level
- */
 export function getShadowCSS(shadow: IntentTokens['shadow']): string {
   const shadows: Record<IntentTokens['shadow'], string> = {
     none: 'none',
@@ -213,108 +284,80 @@ export function getShadowCSS(shadow: IntentTokens['shadow']): string {
 }
 
 /**
- * Generate complete intent stylesheet
+ * Generate complete intent stylesheet for GoalType intents
  */
 export function generateIntentStylesheet(): string {
   const goalTypes: GoalType[] = ['convert', 'inform', 'engage'];
   const emphasisLevels: EmphasisLevel[] = ['subtle', 'normal', 'strong'];
+  let css = `/* Intent Tokens — Auto-generated (Fluxxis v2.0) */\n\n`;
 
-  let css = `
-/* Intent Tokens - Auto-generated */
-/* Goal-based design tokens for adaptive components */
+  Object.entries(ANIMATION_KEYFRAMES).forEach(([, keyframes]) => { css += keyframes; });
 
-`;
-
-  // Generate animation keyframes
-  Object.entries(ANIMATION_KEYFRAMES).forEach(([, keyframes]) => {
-    css += keyframes;
-  });
-
-  // Generate goal-based CSS variables
   goalTypes.forEach(goal => {
     const tokens = INTENT_TOKENS[goal];
+    css += `\n.intent--${goal} {\n`;
+    Object.entries(mapTokensToCSSVars(tokens)).forEach(([k, v]) => { css += `  ${k}: ${v};\n`; });
+    css += '}\n';
 
-    css += `
-.intent--${goal} {
-  --intent-color: ${tokens.color};
-  --intent-accent-color: ${tokens.accentColor};
-  --intent-background-color: ${tokens.backgroundColor};
-  --intent-text-color: ${tokens.textColor};
-  --intent-animation: ${tokens.animation};
-  --intent-emphasis: ${tokens.emphasis};
-  --intent-border-radius: ${tokens.borderRadius};
-  --intent-shadow: ${tokens.shadow};
-  --intent-transition-duration: ${tokens.transitionDuration};
-  --intent-hover-scale: ${tokens.hoverScale};
-  --intent-glow-color: ${tokens.glowColor || 'transparent'};
-}
-`;
-
-    // Generate emphasis variants
     emphasisLevels.forEach(emphasis => {
       const modifiers = EMPHASIS_MODIFIERS[emphasis];
-      css += `
-.intent--${goal}.intent--emphasis-${emphasis} {
-  --intent-emphasis: ${emphasis};
-  --intent-shadow: ${modifiers.shadow || tokens.shadow};
-  --intent-hover-scale: ${modifiers.hoverScale || tokens.hoverScale};
-  --intent-transition-duration: ${modifiers.transitionDuration || tokens.transitionDuration};
-  ${modifiers.glowColor ? `--intent-glow-color: ${modifiers.glowColor};` : ''}
-}
-`;
+      css += `\n.intent--${goal}.intent--emphasis-${emphasis} {\n  --intent-emphasis: ${emphasis};\n  --intent-shadow: ${modifiers.shadow || tokens.shadow};\n  --intent-hover-scale: ${modifiers.hoverScale || tokens.hoverScale};\n  --intent-transition-duration: ${modifiers.transitionDuration || tokens.transitionDuration};\n${modifiers.glowColor ? `  --intent-glow-color: ${modifiers.glowColor};\n` : ''}}\n`;
     });
   });
 
-  // Generate utility classes
-  css += `
-/* Intent Utility Classes */
-.intent-color { color: var(--intent-color); }
-.intent-bg { background-color: var(--intent-background-color); }
-.intent-border { border-color: var(--intent-color); }
-.intent-glow { box-shadow: 0 0 20px var(--intent-glow-color); }
-.intent-hover:hover { transform: scale(var(--intent-hover-scale)); }
-`;
-
+  css += `\n/* Intent Utility Classes */\n.intent-color { color: var(--intent-color); }\n.intent-bg { background-color: var(--intent-background-color); }\n.intent-border { border-color: var(--intent-color); }\n.intent-glow { box-shadow: 0 0 20px var(--intent-glow-color); }\n.intent-hover:hover { transform: scale(var(--intent-hover-scale)); }\n`;
   return css;
 }
 
 /**
- * Inject intent styles into document head
+ * Generate intent stylesheet for Fluxxis intent types (browse/buy/compare/learn)
  */
+export function generateFluxxisStylesheet(): string {
+  const intentTypes: IntentType[] = ['browse', 'buy', 'compare', 'learn'];
+  const emphasisLevels: EmphasisLevel[] = ['subtle', 'normal', 'strong'];
+  let css = `/* Fluxxis Intent Tokens v2.0 — Auto-generated */\n\n`;
+
+  Object.entries(ANIMATION_KEYFRAMES).forEach(([, keyframes]) => { css += keyframes; });
+
+  intentTypes.forEach(intent => {
+    const tokens = FLUXXIS_INTENT_TOKENS[intent];
+    css += `\n.fluxxis-intent--${intent} {\n`;
+    Object.entries(mapTokensToCSSVars(tokens)).forEach(([k, v]) => { css += `  ${k}: ${v};\n`; });
+    css += '}\n';
+
+    emphasisLevels.forEach(emphasis => {
+      const modifiers = EMPHASIS_MODIFIERS[emphasis];
+      css += `\n.fluxxis-intent--${intent}.fluxxis-intent--emphasis-${emphasis} {\n  --intent-emphasis: ${emphasis};\n  --intent-shadow: ${modifiers.shadow || tokens.shadow};\n  --intent-hover-scale: ${modifiers.hoverScale || tokens.hoverScale};\n  --intent-transition-duration: ${modifiers.transitionDuration || tokens.transitionDuration};\n${modifiers.glowColor ? `  --intent-glow-color: ${modifiers.glowColor};\n` : ''}}\n`;
+    });
+  });
+
+  css += `\n/* Fluxxis Utility Classes */\n.fluxxis-intent-color { color: var(--intent-color); }\n.fluxxis-intent-bg { background-color: var(--intent-background-color); }\n.fluxxis-intent-border { border-color: var(--intent-color); }\n.fluxxis-intent-glow { box-shadow: 0 0 20px var(--intent-glow-color); }\n.fluxxis-intent-hover:hover { transform: scale(var(--intent-hover-scale)); }\n`;
+  return css;
+}
+
 export function injectIntentStyles(): void {
-  if (typeof document === 'undefined') {
-    return;
-  }
-
+  if (typeof document === 'undefined') return;
   const existingStyle = document.getElementById('intent-tokens-style');
-  if (existingStyle) {
-    return;
-  }
-
+  if (existingStyle) return;
   const style = document.createElement('style');
   style.id = 'intent-tokens-style';
   style.textContent = generateIntentStylesheet();
   document.head.appendChild(style);
 }
 
-/**
- * Apply intent tokens to an element
- */
-export function applyIntentTokens(
-  element: HTMLElement,
-  goal: GoalType,
-  emphasis?: EmphasisLevel
-): void {
+export function applyIntentTokens(element: HTMLElement, goal: GoalType, emphasis?: EmphasisLevel): void {
   const variables = getIntentCSSVariables(goal, emphasis);
-  Object.entries(variables).forEach(([property, value]) => {
-    element.style.setProperty(property, value);
-  });
-
-  // Add goal class
+  Object.entries(variables).forEach(([property, value]) => { element.style.setProperty(property, value); });
   element.classList.add(`intent--${goal}`);
-
-  // Add emphasis class if specified
-  if (emphasis) {
-    element.classList.add(`intent--emphasis-${emphasis}`);
-  }
+  if (emphasis) element.classList.add(`intent--emphasis-${emphasis}`);
 }
+
+export function applyFluxxisIntentTokens(element: HTMLElement, intent: IntentType, emphasis?: EmphasisLevel): void {
+  const variables = getFluxxisCSSVariables(intent, emphasis);
+  Object.entries(variables).forEach(([property, value]) => { element.style.setProperty(property, value); });
+  element.classList.add(`fluxxis-intent--${intent}`);
+  if (emphasis) element.classList.add(`fluxxis-intent--emphasis-${emphasis}`);
+}
+
+// Re-export canonical palette for direct use
+export { FLUXXIS, FLUXXIS_HEX };

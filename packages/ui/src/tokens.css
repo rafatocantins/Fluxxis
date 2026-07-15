@@ -1,0 +1,173 @@
+/* ═══════════════════════════════════════════════════════════
+   FLUXXIS Design Tokens v2.0
+   CSS Custom Properties (variables)
+   ═══════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Canonical Palette ── */
+  --flux-violet:       #8B6DFF;
+  --flux-violet-rgb:   139, 109, 255;
+  --flux-cyan:         #2EE6D6;
+  --flux-cyan-rgb:     46, 230, 214;
+  --flux-pink:         #FF5C9D;
+  --flux-pink-rgb:     255, 92, 157;
+  --flux-amber:        #FFB454;
+  --flux-amber-rgb:    255, 180, 84;
+
+  /* ── Semantic Intent Tokens ── */
+  --flux-intent-browse:   var(--flux-cyan);
+  --flux-intent-buy:      var(--flux-violet);
+  --flux-intent-compare:  var(--flux-pink);
+  --flux-intent-learn:    var(--flux-amber);
+
+  /* ── Background & Surface ── */
+  --flux-bg-primary:      #0a0a0f;
+  --flux-bg-card:         #14141f;
+  --flux-bg-elevated:     #1a1a2e;
+
+  /* ── Borders ── */
+  --flux-border-default:  #1e1e2e;
+  --flux-border-subtle:   rgba(255, 255, 255, 0.06);
+
+  /* ── Typography ── */
+  --flux-text-primary:    #e4e4ed;
+  --flux-text-secondary:  #9d9db5;
+  --flux-text-muted:      #8b8ba0;
+  --flux-font-display:    'Sora', sans-serif;
+  --flux-font-body:       'Inter', sans-serif;
+  --flux-font-mono:       'JetBrains Mono', monospace;
+
+  /* ── Spacing ── */
+  --flux-space-xs:  0.25rem;
+  --flux-space-sm:  0.5rem;
+  --flux-space-md:  1rem;
+  --flux-space-lg:  1.5rem;
+  --flux-space-xl:  2rem;
+  --flux-space-2xl: 3rem;
+
+  /* ── Border Radius ── */
+  --flux-radius-sm:    0.25rem;
+  --flux-radius-md:    0.5rem;
+  --flux-radius-lg:    0.75rem;
+  --flux-radius-xl:    1rem;
+  --flux-radius-full:  9999px;
+
+  /* ── Shadows / Elevation ── */
+  --flux-shadow-sm:  0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --flux-shadow-md:  0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --flux-shadow-lg:  0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --flux-shadow-xl:  0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  /* ── Glow Effects (per intent) ── */
+  --flux-glow-violet:  0 0 20px rgba(var(--flux-violet-rgb), 0.4);
+  --flux-glow-cyan:    0 0 20px rgba(var(--flux-cyan-rgb), 0.4);
+  --flux-glow-pink:    0 0 20px rgba(var(--flux-pink-rgb), 0.4);
+  --flux-glow-amber:   0 0 20px rgba(var(--flux-amber-rgb), 0.4);
+
+  /* ── Gradients ── */
+  --flux-gradient-brand:  linear-gradient(135deg, var(--flux-violet) 0%, var(--flux-cyan) 50%, var(--flux-pink) 100%);
+  --flux-gradient-cta:    linear-gradient(135deg, #5A3FD4, #B82D6A);
+
+  /* ── Transitions & Animation ── */
+  --flux-duration-fast:    100ms;
+  --flux-duration-normal:  200ms;
+  --flux-duration-slow:    300ms;
+  --flux-easing-standard:  cubic-bezier(0.2, 0, 0, 1);
+
+  /* ── State Layers ── */
+  --flux-state-hover:    rgba(255, 255, 255, 0.06);
+  --flux-state-focus:    rgba(255, 255, 255, 0.10);
+  --flux-state-pressed:  rgba(255, 255, 255, 0.12);
+  --flux-state-disabled: rgba(255, 255, 255, 0.04);
+}
+
+/* ── Intent utility classes ── */
+.flux-intent-browse  { color: var(--flux-intent-browse); }
+.flux-intent-buy     { color: var(--flux-intent-buy); }
+.flux-intent-compare { color: var(--flux-intent-compare); }
+.flux-intent-learn   { color: var(--flux-intent-learn); }
+
+.flux-bg-browse  { background-color: var(--flux-intent-browse); }
+.flux-bg-buy     { background-color: var(--flux-intent-buy); }
+.flux-bg-compare { background-color: var(--flux-intent-compare); }
+.flux-bg-learn   { background-color: var(--flux-intent-learn); }
+
+/* ── Typography utility classes ── */
+.flux-text-primary   { color: var(--flux-text-primary); }
+.flux-text-secondary { color: var(--flux-text-secondary); }
+.flux-text-muted     { color: var(--flux-text-muted); }
+.flux-font-display   { font-family: var(--flux-font-display); }
+.flux-font-body      { font-family: var(--flux-font-body); }
+.flux-font-mono      { font-family: var(--flux-font-mono); }
+
+/* ── Container utilities ── */
+.flux-card {
+  background: var(--flux-bg-card);
+  border: 1px solid var(--flux-border-default);
+  border-radius: var(--flux-radius-xl);
+  padding: var(--flux-space-xl);
+}
+
+/* ── Button base (no-JS fallback safe) ── */
+.flux-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: var(--flux-radius-lg);
+  font-family: var(--flux-font-display);
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform var(--flux-duration-fast) var(--flux-easing-standard),
+              box-shadow var(--flux-duration-fast) var(--flux-easing-standard);
+  border: none;
+}
+.flux-btn:hover,
+.flux-btn:focus-visible {
+  transform: scale(1.04);
+}
+.flux-btn:active {
+  transform: scale(0.98);
+}
+
+.flux-btn--primary {
+  background: var(--flux-gradient-cta);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(var(--flux-violet-rgb), 0.25);
+}
+.flux-btn--primary:hover,
+.flux-btn--primary:focus-visible {
+  box-shadow: 0 6px 28px rgba(var(--flux-violet-rgb), 0.38);
+}
+
+.flux-btn--secondary {
+  background: rgba(var(--flux-cyan-rgb), 0.06);
+  color: var(--flux-cyan);
+  border: 1px solid rgba(var(--flux-cyan-rgb), 0.19);
+}
+.flux-btn--secondary:hover,
+.flux-btn--secondary:focus-visible {
+  background: rgba(var(--flux-cyan-rgb), 0.10);
+}
+
+/* ── Gradient text ── */
+.flux-text-gradient {
+  background: var(--flux-gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── WCAG 2.1 AA compliant contrast ── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

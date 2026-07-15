@@ -1,5 +1,5 @@
-// Material Design 3 Token System
-// Fonte: https://m3.material.io/theme-builder
+// Design Token System — Fluxxis v2.0
+// Aligned with canonical palette: violet #8B6DFF, cyan #2EE6D6, pink #FF5C9D, amber #FFB454
 
 export interface DesignTokens {
   palette: {
@@ -73,19 +73,20 @@ export interface DesignTokens {
   }
 }
 
-// Material Design 3 — Default Light Theme
+// Fluxxis v2.0 — Canonical Palette aligned
+// Consume CSS tokens via var(--flux-*) for runtime theming
 export const materialTokens: DesignTokens = {
   palette: {
-    primary: '#6750A4',
+    primary: '#8B6DFF',        // violet
     onPrimary: '#FFFFFF',
-    primaryContainer: '#EADDFF',
-    onPrimaryContainer: '#21005D',
-    secondary: '#625B71',
-    onSecondary: '#FFFFFF',
-    secondaryContainer: '#E8DEF8',
-    onSecondaryContainer: '#1D192B',
-    tertiary: '#7D5260',
-    onTertiary: '#FFFFFF',
+    primaryContainer: '#EBE5FF',
+    onPrimaryContainer: '#1E0060',
+    secondary: '#2EE6D6',       // cyan
+    onSecondary: '#003733',
+    secondaryContainer: '#D4FBFA',
+    onSecondaryContainer: '#00201D',
+    tertiary: '#FF5C9D',        // pink
+    onTertiary: '#4A0020',
     error: '#B3261E',
     onError: '#FFFFFF',
     surface: '#FFFBFE',
@@ -97,7 +98,7 @@ export const materialTokens: DesignTokens = {
     onBackground: '#1C1B1F'
   },
   typography: {
-    fontFamily: '"Roboto", "Helvetica Neue", Arial, sans-serif',
+    fontFamily: 'Sora, sans-serif',
     display: { size: '36px', weight: '400', lineHeight: '44px' },
     headline: { size: '24px', weight: '400', lineHeight: '32px' },
     title: { size: '16px', weight: '500', lineHeight: '24px' },
