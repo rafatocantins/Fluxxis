@@ -8,7 +8,7 @@
  * Integração do Adaptive CTA Engine (PR #21) na Fluxxis Landing.
  */
 
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { SmartCTA, ALL_INTENTS, resolveCTA } from '@fluxxis/adaptive-cta'
 import type { Intent, CTAVariantStyle } from '@fluxxis/adaptive-cta'
 import { PALETTE, sectionHeading, sectionSubheading, INTENT_COLORS, card } from './shared'
@@ -30,6 +30,38 @@ const VARIANT_LABELS: { value: CTAVariantStyle; label: string }[] = [
 const AdaptiveCTASection: React.FC = () => {
   const [variant, setVariant] = useState<CTAVariantStyle>('primary')
   const [lastClick, setLastClick] = useState<string | null>(null)
+  const radioRefs = useRef<Record<string, HTMLButtonElement | null>>({})
+
+  const handleRadioKeyDown = (e: React.KeyboardEvent) => {
+    const currentIndex = VARIANT_LABELS.findIndex((v) => v.value === variant)
+    let nextIndex = currentIndex
+    const len = VARIANT_LABELS.length
+
+    switch (e.key) {
+      case 'ArrowDown':
+        e.preventDefault()
+        nextIndex = (currentIndex + 1) % len
+        break
+      case 'ArrowUp':
+        e.preventDefault()
+        nextIndex = (currentIndex - 1 + len) % len
+        break
+      case 'Home':
+        e.preventDefault()
+        nextIndex = 0
+        break
+      case 'End':
+        e.preventDefault()
+        nextIndex = len - 1
+        break
+      default:
+        return
+    }
+
+    const nextValue = VARIANT_LABELS[nextIndex].value
+    setVariant(nextValue)
+    radioRefs.current[nextValue]?.focus()
+  }
 
   const handleClick = (intent: Intent) => {
     const cta = resolveCTA(intent)
@@ -61,10 +93,14 @@ const AdaptiveCTASection: React.FC = () => {
         }}
         role="radiogroup"
         aria-label="Estilo do botão CTA"
+        onKeyDown={handleRadioKeyDown}
       >
         {VARIANT_LABELS.map(({ value, label }) => (
           <button
             key={value}
+            ref={(el) => {
+              radioRefs.current[value] = el
+            }}
             role="radio"
             aria-checked={variant === value}
             onClick={() => setVariant(value)}
