@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fluxxis Adaptive CTA — CTAs Inteligentes para E-commerce</title>
+  <meta name="description" content="Botões CTA que se adaptam à intenção de cada visitante. Aumente conversões com IA. Shopify + WooCommerce. Teste grátis 14 dias.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── Fluxxis Design Tokens v2.0 ──────────────────────────── */
+    :root {
+      --flux-violet:  #8B6DFF;
+      --flux-cyan:    #2EE6D6;
+      --flux-pink:    #FF5C9D;
+      --flux-amber:   #FFB454;
+      --flux-bg:       #0a0a0f;
+      --flux-bg-card:  #14141f;
+      --flux-bg-elevated: #1a1a2e;
+      --flux-text:     #e4e4ed;
+      --flux-text-secondary: #9d9db5;
+      --flux-gradient: linear-gradient(135deg, var(--flux-violet) 0%, var(--flux-cyan) 50%, var(--flux-pink) 100%);
+      --flux-radius-lg: 0.75rem;
+      --flux-radius-xl: 1rem;
+      --flux-radius-full: 9999px;
+    }
+
+    /* ── Reset ────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--flux-bg);
+      color: var(--flux-text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Typography ──────────────────────────────────────────── */
+    h1, h2, h3 { font-family: 'Sora', sans-serif; }
+    h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.1; }
+    h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 700; }
+    h3 { font-size: 1.25rem; font-weight: 600; }
+
+    .gradient-text {
+      background: var(--flux-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Layout ──────────────────────────────────────────────── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ── Header / Hero ───────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 6rem 0 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 800px;
+      height: 800px;
+      background: radial-gradient(circle, rgba(139,109,255,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero h1 { margin-bottom: 1.5rem; position: relative; }
+    .hero .subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      color: var(--flux-text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      position: relative;
+    }
+
+    /* ── Intent Preview Cards ────────────────────────────────── */
+    .intent-preview {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
+      max-width: 1000px;
+      margin: 0 auto 3rem;
+    }
+    .intent-card {
+      background: var(--flux-bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--flux-radius-lg);
+      padding: 1.25rem;
+      text-align: center;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .intent-card:hover { transform: translateY(-2px); }
+    .intent-card .icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .intent-card .label { font-weight: 600; font-size: 0.9375rem; }
+    .intent-card .cta-preview {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.5rem 1.25rem;
+      border-radius: var(--flux-radius-full);
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 0.8125rem;
+    }
+    .intent-card.browse  { border-color: rgba(46,230,214,0.25); }
+    .intent-card.browse .cta-preview  { background: var(--flux-cyan); color: #0a0a1a; }
+    .intent-card.buy     { border-color: rgba(255,92,157,0.25); }
+    .intent-card.buy .cta-preview     { background: var(--flux-pink); color: #fff; }
+    .intent-card.compare { border-color: rgba(255,180,84,0.25); }
+    .intent-card.compare .cta-preview { background: var(--flux-amber); color: #0a0a1a; }
+    .intent-card.learn   { border-color: rgba(139,109,255,0.25); }
+    .intent-card.learn .cta-preview   { background: var(--flux-violet); color: #fff; }
+
+    /* ── Pricing ─────────────────────────────────────────────── */
+    .pricing-section { padding: 4rem 0; text-align: center; }
+    .pricing-card {
+      background: var(--flux-bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--flux-radius-xl);
+      padding: 3rem 2rem;
+      max-width: 420px;
+      margin: 2rem auto 0;
+      position: relative;
+    }
+    .pricing-card.recommended {
+      border-color: var(--flux-violet);
+      box-shadow: 0 0 40px rgba(139,109,255,0.15);
+    }
+    .pricing-card .badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--flux-violet);
+      color: #fff;
+      padding: 0.25rem 1rem;
+      border-radius: var(--flux-radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .pricing-card .plan-name { font-family: 'Sora', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .pricing-card .price { font-size: 3rem; font-weight: 800; font-family: 'Sora', sans-serif; line-height: 1; }
+    .pricing-card .price span { font-size: 1rem; font-weight: 400; color: var(--flux-text-secondary); }
+    .pricing-card .features { list-style: none; margin: 1.5rem 0; text-align: left; }
+    .pricing-card .features li { padding: 0.5rem 0; font-size: 0.9375rem; }
+    .pricing-card .features li::before { content: '✓'; color: var(--flux-cyan); margin-right: 0.5rem; font-weight: 700; }
+
+    /* ── Buttons ─────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      border-radius: var(--flux-radius-full);
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: var(--flux-gradient); color: #fff; box-shadow: 0 4px 20px rgba(139,109,255,0.3); }
+    .btn-primary:hover { box-shadow: 0 8px 30px rgba(139,109,255,0.45); }
+    .btn-outline { background: transparent; border: 2px solid rgba(255,255,255,0.15); color: var(--flux-text); }
+    .btn-outline:hover { border-color: var(--flux-violet); }
+
+    /* ── Footer ──────────────────────────────────────────────── */
+    footer { text-align: center; padding: 3rem 0; color: var(--flux-text-secondary); font-size: 0.875rem; border-top: 1px solid rgba(255,255,255,0.04); }
+    footer a { color: var(--flux-cyan); text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── Responsive ──────────────────────────────────────────── */
+    @media (max-width: 640px) {
+      .hero { padding: 4rem 0 2rem; }
+      .intent-preview { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+      .intent-card { padding: 1rem; }
+      .pricing-card { padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <header class="hero">
+    <div class="container">
+      <h1>
+        CTAs que
+        <span class="gradient-text">pensam</span>
+        antes de clicar
+      </h1>
+      <p class="subtitle">
+        Botões inteligentes que se adaptam automaticamente à intenção de cada visitante.
+        A IA do Fluxxis detecta se o cliente quer explorar, comprar, comparar ou aprender —
+        e mostra o CTA perfeito.
+      </p>
+      <a href="#pricing" class="btn btn-primary">Começar Teste Grátis</a>
+    </div>
+  </header>
+
+  <!-- ═══════════ INTENT PREVIEW ═══════════ -->
+  <section>
+    <div class="container">
+      <h2 style="text-align:center;margin-bottom:2rem;">Um CTA para cada <span class="gradient-text">intenção</span></h2>
+      <div class="intent-preview">
+        <div class="intent-card browse">
+          <div class="icon">🔍</div>
+          <div class="label">Browse</div>
+          <p style="font-size:0.8125rem;color:var(--flux-text-secondary);margin:0.25rem 0;">Visitante a explorar</p>
+          <div class="cta-preview">🔍 Explorar Produtos</div>
+        </div>
+        <div class="intent-card buy">
+          <div class="icon">🛒</div>
+          <div class="label">Buy</div>
+          <p style="font-size:0.8125rem;color:var(--flux-text-secondary);margin:0.25rem 0;">Pronto para comprar</p>
+          <div class="cta-preview">🛒 Comprar Agora</div>
+          <p style="font-size:0.6875rem;color:var(--flux-pink);margin-top:0.25rem;">Frete Grátis</p>
+        </div>
+        <div class="intent-card compare">
+          <div class="icon">⚖️</div>
+          <div class="label">Compare</div>
+          <p style="font-size:0.8125rem;color:var(--flux-text-secondary);margin:0.25rem 0;">A comparar opções</p>
+          <div class="cta-preview">⚖️ Comparar Modelos</div>
+        </div>
+        <div class="intent-card learn">
+          <div class="icon">📚</div>
+          <div class="label">Learn</div>
+          <p style="font-size:0.8125rem;color:var(--flux-text-secondary);margin:0.25rem 0;">À procura de info</p>
+          <div class="cta-preview">📚 Saber Mais</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ PRICING ═══════════ -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <h2>Preço <span class="gradient-text">simples</span></h2>
+      <p style="color:var(--flux-text-secondary);margin-top:0.5rem;">Teste grátis 14 dias. Cancele quando quiser.</p>
+
+      <div class="pricing-card recommended">
+        <div class="badge">Mais Popular</div>
+        <div class="plan-name">Adaptive CTA Pro</div>
+        <div class="price">29<span>€/mês</span></div>
+        <ul class="features">
+          <li>CTAs adaptativos ilimitados</li>
+          <li>4 intenções: Browse, Buy, Compare, Learn</li>
+          <li>Shopify + WooCommerce</li>
+          <li>Analytics dashboard</li>
+          <li>Design tokens Fluxxis v2.0</li>
+          <li>WCAG 2.1 AA compliant</li>
+          <li>Suporte prioritário</li>
+        </ul>
+        <a href="#" class="btn btn-primary" style="width:100%;">Começar Teste Grátis</a>
+        <p style="font-size:0.75rem;color:var(--flux-text-secondary);margin-top:0.75rem;">Sem cartão de crédito necessário</p>
+      </div>
+
+      <p style="margin-top:2rem;font-size:0.875rem;color:var(--flux-text-secondary);">
+        Precisa de algo personalizado?
+        <a href="#">Fale connosco</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════ WCAG 2.1 AA NOTICE ═══════════ -->
+  <section style="padding:2rem 0;">
+    <div class="container" style="text-align:center;">
+      <p style="font-size:0.8125rem;color:var(--flux-text-secondary);">
+        🎯 <strong>WCAG 2.1 AA</strong> — Contraste ≥ 4.5:1, focus-visible, reduced motion, aria-labels.
+        Todos os CTAs seguem as diretrizes de acessibilidade.
+      </p>
+    </div>
+  </section>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer>
+    <div class="container">
+      <p>© 2025 <strong>FLUXXIS</strong> · Adaptive CTA Engine v0.1.0</p>
+      <p style="margin-top:0.25rem;">
+        Construído com <a href="https://fluxxis.dev">fluxxis.dev</a> ·
+        <a href="https://github.com/rafatocantins/Fluxxis">GitHub</a>
+      </p>
+    </div>
+  </footer>
+
+</body>
+</html>

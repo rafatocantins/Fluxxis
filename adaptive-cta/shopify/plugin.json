@@ -1,0 +1,23 @@
+{
+  "name": "Fluxxis Adaptive CTA",
+  "description": "Intent-driven call-to-action buttons for your Shopify store. AI-powered CTAs that adapt to each visitor — browse, buy, compare, or learn.",
+  "version": "0.1.0",
+  "handle": "fluxxis-adaptive-cta",
+  "shopify_app": {
+    "type": "custom",
+    "category": "merchandising"
+  },
+  "pricing": {
+    "plan": "subscription",
+    "amount": 29,
+    "currency": "EUR",
+    "interval": "monthly",
+    "trial_days": 14
+  },
+  "supported_locales": ["en", "pt-PT", "pt-BR", "es"],
+  "permissions": ["read_products", "write_script_tags"],
+  "requirements": {
+    "plan": "any",
+    "script_tag_display_scope": "all"
+  }
+}
