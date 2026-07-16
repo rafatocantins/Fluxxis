@@ -1,277 +1,265 @@
 /**
- * AdaptiveCTASection — Showcase do Adaptive CTA Engine na landing page.
+ * PricingSection — Fluxxis Adaptive CTA Engine pricing.
  *
- * Demonstra os 4 intents (browse, buy, compare, learn) lado a lado,
- * com alternador de variantes (primary, secondary, inline) e
- * indicador de tracking (impression/click via console).
- *
- * Integração do Adaptive CTA Engine (PR #21) na Fluxxis Landing.
+ * Fluxxis v2.0 dark theme, WCAG 2.1 AA compliant.
+ * Single plan: €29/mês with 8 features.
  */
+import React from 'react'
 
-import React, { useState, useRef } from 'react'
-import { SmartCTA, ALL_INTENTS, resolveCTA } from '@fluxxis/adaptive-cta'
-import type { Intent, CTAVariantStyle } from '@fluxxis/adaptive-cta'
-import { PALETTE, sectionHeading, sectionSubheading, INTENT_COLORS, card } from './shared'
+// ── Feature list ─────────────────────────────────────────────────────────────
 
-// ── Producto de exemplo ─────────────────────────────────────────────────────
-
-const SAMPLE_PRODUCT = { id: 'flux-001', name: 'Fluxxis Pro', price: 29.99 }
-
-// ── Variant labels ───────────────────────────────────────────────────────────
-
-const VARIANT_LABELS: { value: CTAVariantStyle; label: string }[] = [
-  { value: 'primary', label: 'Primary' },
-  { value: 'secondary', label: 'Secondary' },
-  { value: 'inline', label: 'Inline' },
+const FEATURES = [
+  'Smart CTAs with intent detection',
+  'Shopify & WooCommerce plugin included',
+  'A/B testing built-in',
+  'Real-time intent detection engine',
+  'MorphStage™ adaptive layouts',
+  'Unlimited morph variants',
+  'Analytics dashboard',
+  'Email support (Slack for Pro)',
 ]
 
 // ── Component ────────────────────────────────────────────────────────────────
 
-const AdaptiveCTASection: React.FC = () => {
-  const [variant, setVariant] = useState<CTAVariantStyle>('primary')
-  const [lastClick, setLastClick] = useState<string | null>(null)
-  const radioRefs = useRef<Record<string, HTMLButtonElement | null>>({})
-
-  const handleRadioKeyDown = (e: React.KeyboardEvent) => {
-    const currentIndex = VARIANT_LABELS.findIndex((v) => v.value === variant)
-    let nextIndex = currentIndex
-    const len = VARIANT_LABELS.length
-
-    switch (e.key) {
-      case 'ArrowDown':
-        e.preventDefault()
-        nextIndex = (currentIndex + 1) % len
-        break
-      case 'ArrowUp':
-        e.preventDefault()
-        nextIndex = (currentIndex - 1 + len) % len
-        break
-      case 'Home':
-        e.preventDefault()
-        nextIndex = 0
-        break
-      case 'End':
-        e.preventDefault()
-        nextIndex = len - 1
-        break
-      default:
-        return
-    }
-
-    const nextValue = VARIANT_LABELS[nextIndex].value
-    setVariant(nextValue)
-    radioRefs.current[nextValue]?.focus()
-  }
-
-  const handleClick = (intent: Intent) => {
-    const cta = resolveCTA(intent)
-    setLastClick(`🖱️ ${cta.icon} "${cta.text}" (${intent}) — ${new Date().toLocaleTimeString('pt-PT')}`)
-  }
-
+const PricingSection: React.FC = () => {
   return (
     <section
-      id="adaptive-cta"
-      style={{ marginTop: 'clamp(40px, 8vw, 80px)', paddingTop: 'clamp(24px, 4vw, 48px)' }}
+      id="pricing"
+      aria-labelledby="pricing-title"
+      style={{
+        position: 'relative',
+        zIndex: 1,
+        padding: 'var(--fx-space-20, 5rem) 0 var(--fx-space-24, 6rem)',
+      }}
     >
-      {/* ── Heading ─────────────────────────────────────────── */}
-      <h2 style={sectionHeading}>
-        🎯 Adaptive CTA Engine
-      </h2>
-      <p style={sectionSubheading}>
-        CTAs inteligentes que adaptam texto, cor e ícone com base na intenção do
-        utilizador. SaaS-ready — Shopify + WooCommerce.
-      </p>
-
-      {/* ── Variant Selector ───────────────────────────────── */}
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '8px',
-          marginBottom: 'clamp(24px, 3vw, 36px)',
-          flexWrap: 'wrap',
+          width: '100%',
+          maxWidth: 'var(--fx-max-width, 1200px)',
+          margin: '0 auto',
+          padding: '0 var(--fx-space-6, 1.5rem)',
         }}
-        role="radiogroup"
-        aria-label="Estilo do botão CTA"
-        onKeyDown={handleRadioKeyDown}
       >
-        {VARIANT_LABELS.map(({ value, label }) => (
-          <button
-            key={value}
-            ref={(el) => {
-              radioRefs.current[value] = el
-            }}
-            role="radio"
-            aria-checked={variant === value}
-            onClick={() => setVariant(value)}
+        {/* ── Section Header ────────────────────────────────── */}
+        <div style={{ textAlign: 'center', marginBottom: 'var(--fx-space-12, 3rem)' }}>
+          <span
             style={{
-              padding: '8px 20px',
-              borderRadius: '9999px',
-              fontFamily: 'Sora, sans-serif',
-              fontSize: '0.8rem',
+              display: 'inline-block',
+              fontSize: 'var(--fx-font-size-xs, 0.75rem)',
               fontWeight: 600,
-              cursor: 'pointer',
-              border: variant === value
-                ? `2px solid ${PALETTE.violet}`
-                : `1px solid ${PALETTE.cardBorder}`,
-              background: variant === value
-                ? `${PALETTE.violet}20`
-                : PALETTE.cardBg,
-              color: variant === value
-                ? PALETTE.violet
-                : PALETTE.textSecondary,
-              transition: 'all 0.2s',
-            }}
-            onMouseOver={(e) => {
-              if (variant !== value) {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = PALETTE.violet + '60'
-              }
-            }}
-            onMouseOut={(e) => {
-              if (variant !== value) {
-                (e.currentTarget as HTMLButtonElement).style.borderColor = PALETTE.cardBorder
-              }
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: 'var(--fx-accent-primary, #00d4aa)',
+              marginBottom: 'var(--fx-space-3, 0.75rem)',
             }}
           >
-            {label}
-          </button>
-        ))}
-      </div>
+            Pricing
+          </span>
+          <h2
+            id="pricing-title"
+            style={{
+              fontSize: 'clamp(1.75rem, 4vw, var(--fx-font-size-4xl, 2.75rem))',
+              fontWeight: 800,
+              lineHeight: 1.15,
+              letterSpacing: '-0.02em',
+              marginBottom: 'var(--fx-space-4, 1rem)',
+            }}
+          >
+            Adaptive CTA Engine
+          </h2>
+          <p
+            style={{
+              fontSize: 'var(--fx-font-size-lg, 1.125rem)',
+              color: 'var(--fx-text-secondary, #b0b0c0)',
+              maxWidth: '560px',
+              margin: '0 auto',
+            }}
+          >
+            Smart CTAs that adapt to user intent. One simple plan with everything included.
+          </p>
+        </div>
 
-      {/* ── Intent Grid (mobile + desktop) ─────────────────── */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: 'clamp(16px, 2vw, 24px)',
-          marginBottom: '24px',
-        }}
-      >
-        {ALL_INTENTS.map((intent) => {
-          const ctaVariant = resolveCTA(intent)
-          const intentColor = INTENT_COLORS[intent] || PALETTE.violet
+        {/* ── Pricing Card ──────────────────────────────────── */}
+        <div
+          style={{
+            maxWidth: '520px',
+            margin: '0 auto',
+            background: 'var(--fx-bg-secondary, #0e0e18)',
+            border: '1px solid var(--fx-border-strong, rgba(255,255,255,0.14))',
+            borderRadius: 'var(--fx-radius-xl, 20px)',
+            padding: 'var(--fx-space-8, 2rem)',
+            position: 'relative',
+            overflow: 'hidden',
+            transition: 'border-color var(--fx-transition-base, 200ms ease), box-shadow var(--fx-transition-base, 200ms ease)',
+          }}
+          onMouseOver={(e) => {
+            const el = e.currentTarget as HTMLDivElement
+            el.style.borderColor = 'var(--fx-border-accent, rgba(0,212,170,0.35))'
+            el.style.boxShadow = 'var(--fx-shadow-glow, 0 0 40px rgba(0,212,170,0.28))'
+          }}
+          onMouseOut={(e) => {
+            const el = e.currentTarget as HTMLDivElement
+            el.style.borderColor = 'var(--fx-border-strong, rgba(255,255,255,0.14))'
+            el.style.boxShadow = 'none'
+          }}
+        >
+          {/* Top accent bar */}
+          <div
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '3px',
+              background:
+                'linear-gradient(90deg, var(--fx-accent-primary, #00d4aa), var(--fx-accent-secondary, #22d3ee))',
+            }}
+          />
 
-          return (
-            <div
-              key={intent}
+          {/* Badge */}
+          <span
+            style={{
+              display: 'inline-block',
+              padding: 'var(--fx-space-1, 0.25rem) var(--fx-space-3, 0.75rem)',
+              background: 'var(--fx-accent-soft, rgba(0,212,170,0.10))',
+              border: '1px solid var(--fx-border-accent, rgba(0,212,170,0.35))',
+              borderRadius: 'var(--fx-radius-full, 9999px)',
+              fontSize: 'var(--fx-font-size-xs, 0.75rem)',
+              fontWeight: 600,
+              color: 'var(--fx-accent-primary, #00d4aa)',
+              marginBottom: 'var(--fx-space-5, 1.25rem)',
+            }}
+          >
+            Most Popular
+          </span>
+
+          {/* Plan name */}
+          <h3
+            style={{
+              fontSize: 'var(--fx-font-size-2xl, 1.5rem)',
+              fontWeight: 700,
+              marginBottom: 'var(--fx-space-4, 1rem)',
+            }}
+          >
+            Adaptive CTA Engine
+          </h3>
+
+          {/* Price */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'baseline',
+              gap: 'var(--fx-space-2, 0.5rem)',
+              marginBottom: 'var(--fx-space-6, 1.5rem)',
+            }}
+          >
+            <span
               style={{
-                ...card,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                gap: '16px',
-                padding: 'clamp(20px, 3vw, 28px)',
-                textAlign: 'center',
+                fontSize: 'var(--fx-font-size-5xl, 3.5rem)',
+                fontWeight: 800,
+                lineHeight: 1,
+                color: 'var(--fx-accent-primary, #00d4aa)',
               }}
             >
-              {/* Intent label */}
-              <span
-                style={{
-                  fontFamily: 'Sora, sans-serif',
-                  fontSize: '0.72rem',
-                  fontWeight: 700,
-                  color: intentColor,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  padding: '4px 12px',
-                  borderRadius: '9999px',
-                  background: `${intentColor}15`,
-                  border: `1px solid ${intentColor}30`,
-                }}
-              >
-                {ctaVariant.icon} {intent}
-              </span>
+              €29
+            </span>
+            <span
+              style={{
+                fontSize: 'var(--fx-font-size-lg, 1.125rem)',
+                color: 'var(--fx-text-secondary, #b0b0c0)',
+              }}
+            >
+              /mês
+            </span>
+          </div>
 
-              {/* SmartCTA component */}
-              <SmartCTA
-                intent={intent}
-                productId={SAMPLE_PRODUCT.id}
-                productName={SAMPLE_PRODUCT.name}
-                price={SAMPLE_PRODUCT.price}
-                variant={variant}
-                onCTAClick={handleClick}
-              />
-
-              {/* Description */}
-              <p
-                style={{
-                  fontSize: '0.78rem',
-                  color: PALETTE.textMuted,
-                  margin: 0,
-                  lineHeight: 1.6,
-                }}
-              >
-                {intent === 'browse' && 'Visitantes que exploram o catálogo sem urgência de compra.'}
-                {intent === 'buy' && 'Compradores prontos para finalizar — alta intenção de compra.'}
-                {intent === 'compare' && 'Utilizadores que avaliam opções antes de decidir.'}
-                {intent === 'learn' && 'Visitantes que procuram informação antes de considerar comprar.'}
-              </p>
-            </div>
-          )
-        })}
-      </div>
-
-      {/* ── Tracking Indicator ──────────────────────────────── */}
-      <div
-        style={{
-          textAlign: 'center',
-          padding: '16px 24px',
-          borderRadius: '12px',
-          background: `${PALETTE.cyan}08`,
-          border: `1px solid ${PALETTE.cyan}20`,
-          fontSize: '0.82rem',
-          color: lastClick ? PALETTE.cyan : PALETTE.textMuted,
-          fontFamily: 'Sora, sans-serif',
-          fontWeight: 500,
-          transition: 'color 0.3s',
-          minHeight: '44px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: '8px',
-        }}
-      >
-        <span style={{ fontSize: '1rem' }}>📊</span>
-        {lastClick || 'Clique num CTA para ver o evento de tracking →'}
-      </div>
-
-      {/* ── Feature Tags ────────────────────────────────────── */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '12px',
-          flexWrap: 'wrap',
-          marginTop: 'clamp(24px, 3vw, 32px)',
-        }}
-      >
-        {[
-          { text: 'WCAG 2.1 AA', color: PALETTE.cyan },
-          { text: '4 intents', color: PALETTE.violet },
-          { text: 'noscript fallback', color: PALETTE.amber },
-          { text: 'Shopify + WooCommerce', color: PALETTE.pink },
-          { text: 'Tracking built-in', color: PALETTE.cyan },
-          { text: 'SaaS €29/mês', color: PALETTE.violet },
-        ].map(({ text, color }) => (
-          <span
-            key={text}
+          {/* Features */}
+          <ul
             style={{
-              fontFamily: 'Sora, sans-serif',
-              fontSize: '0.72rem',
-              fontWeight: 600,
-              color,
-              padding: '4px 12px',
-              borderRadius: '9999px',
-              background: `${color}12`,
-              border: `1px solid ${color}25`,
+              listStyle: 'none',
+              marginBottom: 'var(--fx-space-8, 2rem)',
             }}
           >
-            {text}
-          </span>
-        ))}
+            {FEATURES.map((feature) => (
+              <li
+                key={feature}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: 'var(--fx-space-3, 0.75rem)',
+                  padding: 'var(--fx-space-2, 0.5rem) 0',
+                  fontSize: 'var(--fx-font-size-sm, 0.875rem)',
+                  color: 'var(--fx-text-secondary, #b0b0c0)',
+                }}
+              >
+                <span
+                  style={{
+                    flexShrink: 0,
+                    color: 'var(--fx-accent-primary, #00d4aa)',
+                    fontWeight: 700,
+                    fontSize: 'var(--fx-font-size-sm, 0.875rem)',
+                  }}
+                  aria-hidden="true"
+                >
+                  ✓
+                </span>
+                {feature}
+              </li>
+            ))}
+          </ul>
+
+          {/* CTA Button */}
+          <button
+            onClick={() => {
+              window.open('https://fluxxis.dev/adaptive-cta', '_blank', 'noopener')
+            }}
+            style={{
+              display: 'flex',
+              width: '100%',
+              justifyContent: 'center',
+              padding: 'var(--fx-space-4, 1rem) var(--fx-space-8, 2rem)',
+              background: 'var(--fx-accent-primary, #00d4aa)',
+              color: 'var(--fx-text-inverse, #08080f)',
+              borderRadius: 'var(--fx-radius-full, 9999px)',
+              fontWeight: 700,
+              fontSize: 'var(--fx-font-size-base, 1rem)',
+              transition: 'all var(--fx-transition-base, 200ms ease)',
+              boxShadow: '0 0 20px rgba(0, 212, 170, 0.25)',
+              border: 'none',
+              cursor: 'pointer',
+            }}
+            onMouseOver={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              el.style.background = '#00e8bb'
+              el.style.boxShadow = '0 0 36px rgba(0, 212, 170, 0.5)'
+              el.style.transform = 'translateY(-2px)'
+            }}
+            onMouseOut={(e) => {
+              const el = e.currentTarget as HTMLButtonElement
+              el.style.background = 'var(--fx-accent-primary, #00d4aa)'
+              el.style.boxShadow = '0 0 20px rgba(0, 212, 170, 0.25)'
+              el.style.transform = 'translateY(0)'
+            }}
+          >
+            Start Free Trial →
+          </button>
+
+          {/* Guarantee */}
+          <p
+            style={{
+              textAlign: 'center',
+              marginTop: 'var(--fx-space-4, 1rem)',
+              fontSize: 'var(--fx-font-size-xs, 0.75rem)',
+              color: 'var(--fx-text-tertiary, #787890)',
+            }}
+          >
+            No credit card required · 14-day free trial · Cancel anytime
+          </p>
+        </div>
       </div>
     </section>
   )
 }
 
-export default AdaptiveCTASection
+export default PricingSection

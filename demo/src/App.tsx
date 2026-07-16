@@ -1,114 +1,168 @@
 import React from 'react'
 import { FluxxisProvider } from '@fluxxis/react'
-import { PALETTE } from './shared'
 import HeroSection from './HeroSection'
 import MorphStage from './MorphStage'
+import PricingSection from './AdaptiveCTASection'
 import WhyFluxxisSection from './WhyFluxxisSection'
 import GetStartedSection from './GetStartedSection'
 import IntentPlayground from './IntentPlayground'
 import ComponentGallery from './ComponentGallery'
 import WrapperDemo from './WrapperDemo'
-import AdaptiveCTASection from './AdaptiveCTASection'
 
-// ──────────────────────────────────────
-// Footer
-// ──────────────────────────────────────
+// ── Icons ────────────────────────────────────────────────────────────────────
+
+const GithubIcon: React.FC = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.73.083-.73 1.205.085 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.418-1.305.762-1.604-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 21.795 24 17.295 24 12 24 5.37 18.63 0 12 0Z" />
+  </svg>
+)
+
+const DocsIcon: React.FC = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+    strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+  </svg>
+)
+
+// ── Footer ───────────────────────────────────────────────────────────────────
+
 const Footer: React.FC = () => (
   <footer
+    role="contentinfo"
     style={{
-      textAlign: 'center',
-      padding: 'clamp(32px, 6vw, 60px) 24px 32px',
-      borderTop: `1px solid ${PALETTE.cardBorder}`,
-      marginTop: 'clamp(32px, 6vw, 64px)',
+      position: 'relative',
+      zIndex: 1,
+      borderTop: '1px solid var(--fx-border-default, rgba(255,255,255,0.08))',
+      padding: 'var(--fx-space-12, 3rem) 0',
     }}
   >
-    {/* Links */}
-    <nav
-      aria-label="Footer navigation"
+    <div
       style={{
+        width: '100%',
+        maxWidth: 'var(--fx-max-width, 1200px)',
+        margin: '0 auto',
+        padding: '0 var(--fx-space-6, 1.5rem)',
         display: 'flex',
-        justifyContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'space-between',
         flexWrap: 'wrap',
-        gap: 'clamp(16px, 3vw, 32px)',
-        marginBottom: '20px',
+        gap: 'var(--fx-space-4, 1rem)',
       }}
     >
-      <a
-        href="https://github.com/rafatocantins/Fluxxis"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={footerLink}
+      {/* Brand */}
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 'var(--fx-space-2, 0.5rem)',
+          fontWeight: 600,
+          color: 'var(--fx-text-secondary, #b0b0c0)',
+          fontSize: 'var(--fx-font-size-sm, 0.875rem)',
+        }}
       >
-        GitHub
-      </a>
-      <a
-        href="https://www.npmjs.com/search?q=%40fluxxis"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={footerLink}
-      >
-        npm
-      </a>
-      <a
-        href="https://github.com/rafatocantins/Fluxxis#readme"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={footerLink}
-      >
-        Docs
-      </a>
-      <a
-        href="https://github.com/rafatocantins/Fluxxis/blob/main/LICENSE"
-        target="_blank"
-        rel="noopener noreferrer"
-        style={footerLink}
-      >
-        License (MIT)
-      </a>
-    </nav>
+        <span aria-hidden="true">⚡</span> Fluxxis
+      </div>
 
-    {/* Tagline */}
-    <p
-      style={{
-        fontSize: '0.85rem',
-        color: PALETTE.textMuted,
-        margin: 0,
-        lineHeight: 1.7,
-      }}
-    >
-      Made with{' '}
-      <span style={{ color: PALETTE.pink }}>❤️</span> by the{' '}
-      <span style={{ color: PALETTE.violet }}>FLUXXIS Research Team</span>
-    </p>
+      {/* Links */}
+      <nav aria-label="Footer navigation">
+        <ul
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 'var(--fx-space-6, 1.5rem)',
+            listStyle: 'none',
+            margin: 0,
+            padding: 0,
+          }}
+        >
+          <li>
+            <a
+              href="https://github.com/rafatocantins/Fluxxis"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'var(--fx-text-secondary, #b0b0c0)',
+                fontSize: 'var(--fx-font-size-sm, 0.875rem)',
+                transition: 'color var(--fx-transition-fast, 120ms ease)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 'var(--fx-space-2, 0.5rem)',
+                textDecoration: 'none',
+              }}
+              onMouseOver={(e) => {
+                ;(e.currentTarget as HTMLAnchorElement).style.color =
+                  'var(--fx-accent-primary, #00d4aa)'
+              }}
+              onMouseOut={(e) => {
+                ;(e.currentTarget as HTMLAnchorElement).style.color =
+                  'var(--fx-text-secondary, #b0b0c0)'
+              }}
+            >
+              <GithubIcon />
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a
+              href="https://github.com/rafatocantins/Fluxxis#readme"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: 'var(--fx-text-secondary, #b0b0c0)',
+                fontSize: 'var(--fx-font-size-sm, 0.875rem)',
+                transition: 'color var(--fx-transition-fast, 120ms ease)',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: 'var(--fx-space-2, 0.5rem)',
+                textDecoration: 'none',
+              }}
+              onMouseOver={(e) => {
+                ;(e.currentTarget as HTMLAnchorElement).style.color =
+                  'var(--fx-accent-primary, #00d4aa)'
+              }}
+              onMouseOut={(e) => {
+                ;(e.currentTarget as HTMLAnchorElement).style.color =
+                  'var(--fx-text-secondary, #b0b0c0)'
+              }}
+            >
+              <DocsIcon />
+              Docs
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      {/* Made with */}
+      <span
+        style={{
+          fontSize: 'var(--fx-font-size-xs, 0.75rem)',
+          color: 'var(--fx-text-tertiary, #787890)',
+        }}
+      >
+        Made with Fluxxis
+      </span>
+    </div>
   </footer>
 )
 
-const footerLink: React.CSSProperties = {
-  fontFamily: 'Sora, sans-serif',
-  fontSize: '0.85rem',
-  fontWeight: 600,
-  color: PALETTE.textSecondary,
-  textDecoration: 'none',
-  transition: 'color 0.15s',
-}
+// ── Main App ─────────────────────────────────────────────────────────────────
 
-// ──────────────────────────────────────
-// Main App
-// ──────────────────────────────────────
 function App() {
   return (
     <FluxxisProvider options={{ includeAgentFields: true }}>
       <div
         style={{
-          maxWidth: '1100px',
-          margin: '0 auto',
-          padding: 'clamp(24px, 4vw, 40px) clamp(16px, 4vw, 24px) 80px',
-          fontFamily: 'Inter, sans-serif',
+          position: 'relative',
+          zIndex: 1,
+          fontFamily: 'var(--fx-font-sans, Inter, sans-serif)',
         }}
       >
+        {/* Fluxxis v2.0 Design Spec Order:
+            Hero → MorphStage → Pricing → (existing sections) → Footer */}
         <HeroSection />
         <MorphStage />
-        <AdaptiveCTASection />
+        <PricingSection />
         <WhyFluxxisSection />
         <GetStartedSection />
         <IntentPlayground />
