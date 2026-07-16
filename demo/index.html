@@ -5,47 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <!-- Primary SEO -->
-    <title>FLUXXIS — Adaptive Structural Interface Engine</title>
-    <meta name="description" content="FLUXXIS — Adaptive Structural Interface Engine. Open-source, intent-driven UI that morphs structure in real time for every visitor, human or AI agent." />
-    <meta name="keywords" content="FLUXXIS, adaptive UI, intent-driven, interface engine, React, TypeScript, agent-native, open source" />
-    <meta name="author" content="FLUXXIS Research Team" />
+    <title>Fluxxis — Interfaces that Morph with Intent</title>
+    <meta name="description" content="Fluxxis — Adaptive UI that changes structure based on how users think. Open-source, intent-driven, built for humans and AI agents." />
+    <meta name="keywords" content="Fluxxis, adaptive UI, intent-driven, interface engine, React, TypeScript, agent-native, open source, WCAG" />
+    <meta name="author" content="Fluxxis Research Team" />
     <meta name="robots" content="index, follow" />
     <link rel="canonical" href="https://fluxxis.dev" />
 
     <!-- Open Graph -->
-    <meta property="og:title" content="FLUXXIS — Adaptive Structural Interface Engine" />
-    <meta property="og:description" content="FLUXXIS — Adaptive Structural Interface Engine. Open-source, intent-driven UI that morphs structure in real time for every visitor, human or AI agent." />
+    <meta property="og:title" content="Fluxxis — Interfaces that Morph with Intent" />
+    <meta property="og:description" content="Adaptive UI that changes structure based on how users think. Built for humans and AI agents." />
     <meta property="og:image" content="https://raw.githubusercontent.com/rafatocantins/Fluxxis/main/demo/public/og-image.png" />
     <meta property="og:url" content="https://fluxxis.dev" />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="FLUXXIS" />
+    <meta property="og:site_name" content="Fluxxis" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="FLUXXIS — Adaptive Structural Interface Engine" />
-    <meta name="twitter:description" content="FLUXXIS — Adaptive Structural Interface Engine. Open-source, intent-driven UI that morphs structure in real time for every visitor, human or AI agent." />
+    <meta name="twitter:title" content="Fluxxis — Interfaces that Morph with Intent" />
+    <meta name="twitter:description" content="Adaptive UI that changes structure based on how users think. Built for humans and AI agents." />
     <meta name="twitter:image" content="https://raw.githubusercontent.com/rafatocantins/Fluxxis/main/demo/public/og-image.png" />
 
-    <!-- Fonts -->
+    <!-- Fonts: Inter (sans) + JetBrains Mono (code) — Fluxxis v2.0 spec -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
+    <!-- Fluxxis v2.0 Design Tokens → CSS Custom Properties -->
     <style>
-      * { margin: 0; padding: 0; box-sizing: border-box; }
-      body {
-        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-        background: #0a0a0f;
-        color: #e4e4ed;
-        min-height: 100vh;
+      :root {
+        /* ---- Palette: Core ---- */
+        --fx-bg-primary:       #08080f;
+        --fx-bg-secondary:     #0e0e18;
+        --fx-bg-tertiary:      #14141f;
+        --fx-bg-elevated:      #1a1a2e;
+        --fx-bg-glass:         rgba(20, 20, 35, 0.72);
+
+        /* ---- Palette: Accent ---- */
+        --fx-accent-primary:   #00d4aa;
+        --fx-accent-secondary: #22d3ee;
+        --fx-accent-glow:      rgba(0, 212, 170, 0.28);
+        --fx-accent-soft:      rgba(0, 212, 170, 0.10);
+
+        /* ---- Palette: Text (AA on #08080f) ---- */
+        --fx-text-primary:     #f0f0f5;
+        --fx-text-secondary:   #b0b0c0;
+        --fx-text-tertiary:    #787890;
+        --fx-text-inverse:     #08080f;
+
+        /* ---- Palette: Borders ---- */
+        --fx-border-default:   rgba(255, 255, 255, 0.08);
+        --fx-border-strong:    rgba(255, 255, 255, 0.14);
+        --fx-border-accent:    rgba(0, 212, 170, 0.35);
+
+        /* ---- Typography ---- */
+        --fx-font-sans:        'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        --fx-font-mono:        'JetBrains Mono', 'Fira Code', 'Cascadia Code', Consolas, monospace;
+        --fx-font-size-xs:     0.75rem;
+        --fx-font-size-sm:     0.875rem;
+        --fx-font-size-base:   1rem;
+        --fx-font-size-lg:     1.125rem;
+        --fx-font-size-xl:     1.25rem;
+        --fx-font-size-2xl:    1.5rem;
+        --fx-font-size-3xl:    2rem;
+        --fx-font-size-4xl:    2.75rem;
+        --fx-font-size-5xl:    3.5rem;
+        --fx-font-weight-normal: 400;
+        --fx-font-weight-medium: 500;
+        --fx-font-weight-semibold: 600;
+        --fx-font-weight-bold: 700;
+        --fx-font-weight-extrabold: 800;
+        --fx-line-height-tight: 1.15;
+        --fx-line-height-snug: 1.35;
+        --fx-line-height-normal: 1.6;
+
+        /* ---- Spacing ---- */
+        --fx-space-1: 0.25rem;
+        --fx-space-2: 0.5rem;
+        --fx-space-3: 0.75rem;
+        --fx-space-4: 1rem;
+        --fx-space-5: 1.25rem;
+        --fx-space-6: 1.5rem;
+        --fx-space-8: 2rem;
+        --fx-space-10: 2.5rem;
+        --fx-space-12: 3rem;
+        --fx-space-16: 4rem;
+        --fx-space-20: 5rem;
+        --fx-space-24: 6rem;
+
+        /* ---- Radii ---- */
+        --fx-radius-sm: 6px;
+        --fx-radius-md: 10px;
+        --fx-radius-lg: 14px;
+        --fx-radius-xl: 20px;
+        --fx-radius-full: 9999px;
+
+        /* ---- Shadows ---- */
+        --fx-shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+        --fx-shadow-md: 0 4px 16px rgba(0,0,0,0.5);
+        --fx-shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+        --fx-shadow-glow: 0 0 40px var(--fx-accent-glow);
+        --fx-shadow-glow-sm: 0 0 16px var(--fx-accent-glow);
+
+        /* ---- Transitions ---- */
+        --fx-transition-fast: 120ms ease;
+        --fx-transition-base: 200ms ease;
+        --fx-transition-morph: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+        --fx-transition-smooth: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+
+        /* ---- Layout ---- */
+        --fx-max-width: 1200px;
+      }
+
+      /* Reset & Base */
+      *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+      html {
+        scroll-behavior: smooth;
         -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      body {
+        font-family: var(--fx-font-sans);
+        font-size: var(--fx-font-size-base);
+        font-weight: var(--fx-font-weight-normal);
+        line-height: var(--fx-line-height-normal);
+        color: var(--fx-text-primary);
+        background: var(--fx-bg-primary);
+        overflow-x: hidden;
+        min-height: 100vh;
+      }
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background:
+          radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 212, 170, 0.04) 0%, transparent 60%),
+          radial-gradient(ellipse 60% 50% at 85% 40%, rgba(34, 211, 238, 0.03) 0%, transparent 60%),
+          linear-gradient(180deg, var(--fx-bg-primary) 0%, #0c0c1a 100%);
       }
 
       /* WCAG 2.1 AA: Visible focus indicator */
       *:focus-visible {
-        outline: 2px solid #2EE6D6;
-        outline-offset: 2px;
+        outline: 2px solid var(--fx-accent-primary);
+        outline-offset: 3px;
+        border-radius: var(--fx-radius-sm);
       }
 
       /* WCAG 2.1 AA: Respect reduced-motion preference */
@@ -55,17 +161,43 @@
           animation-duration: 0s !important;
         }
       }
+
+      /* Responsive font sizing */
+      @media (max-width: 768px) {
+        :root {
+          --fx-font-size-5xl: 2.2rem;
+          --fx-font-size-4xl: 1.75rem;
+          --fx-font-size-3xl: 1.5rem;
+          --fx-font-size-2xl: 1.35rem;
+        }
+      }
+
+      img { max-width: 100%; display: block; }
+      a {
+        color: var(--fx-accent-primary);
+        text-decoration: none;
+        transition: color var(--fx-transition-fast);
+      }
+      a:hover { color: var(--fx-accent-secondary); }
+
+      button {
+        font-family: inherit;
+        cursor: pointer;
+        border: none;
+        background: none;
+        color: inherit;
+      }
     </style>
   </head>
   <body>
     <div id="root"></div>
     <noscript>
-      <div style="padding: 40px 24px; text-align: center; font-family: Inter, sans-serif; color: #e4e4ed; background: #0a0a0f; min-height: 100vh;">
-        <h1 style="font-family: Sora, sans-serif; font-size: 2rem; color: #8B6DFF;">FLUXXIS</h1>
-        <p style="color: #9d9db5; max-width: 500px; margin: 16px auto; line-height: 1.6;">
-          FLUXXIS — Adaptive Structural Interface Engine. An open-source engine that interprets user intent in real time, morphing interface structure for every visitor — human or AI agent.
+      <div style="padding: 40px 24px; text-align: center; font-family: Inter, sans-serif; color: #f0f0f5; background: #08080f; min-height: 100vh;">
+        <h1 style="font-family: Inter, sans-serif; font-size: 2rem; font-weight: 800; background: linear-gradient(135deg, #00d4aa, #22d3ee); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Fluxxis</h1>
+        <p style="color: #b0b0c0; max-width: 500px; margin: 16px auto; line-height: 1.6;">
+          Interfaces that Morph with Intent. Adaptive UI that changes structure based on how users think — built for humans and AI agents.
         </p>
-        <p style="color: #6b6b80; margin-top: 24px;">
+        <p style="color: #787890; margin-top: 24px;">
           JavaScript is required for the interactive demo. Please enable JavaScript to explore the full experience.
         </p>
       </div>
