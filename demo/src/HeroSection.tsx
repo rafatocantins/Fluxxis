@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { PALETTE } from './shared'
+import { SmartCTA } from '@fluxxis/adaptive-cta'
 
 const HeroSection: React.FC = () => {
   const [copied, setCopied] = useState(false)
@@ -189,6 +190,18 @@ const HeroSection: React.FC = () => {
         >
           ⭐ Star on GitHub
         </a>
+
+        {/* Adaptive CTA — SmartCTA (buy intent) */}
+        <SmartCTA
+          intent="buy"
+          productId="fluxxis-pro"
+          productName="Fluxxis Pro"
+          price={29.99}
+          variant="primary"
+          onCTAClick={() => {
+            window.open('https://fluxxis.dev/adaptive-cta', '_blank', 'noopener')
+          }}
+        />
 
         {/* npm install copy */}
         <button

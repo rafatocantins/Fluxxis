@@ -10,5 +10,7 @@ packages:
   - 'packages/wrapper'
   # Design Tokens (CSS custom properties)
   - 'packages/ui'
+  # Adaptive CTA plugin (Shopify + WooCommerce)
+  - 'adaptive-cta'
   # Demo app (for testing)
   - 'demo'
