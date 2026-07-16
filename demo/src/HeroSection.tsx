@@ -280,7 +280,7 @@ const HeroSection: React.FC = () => {
         >
           {/* Start Building (primary) */}
           <a
-            href="#morphstage"
+            href="#morph-stage"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
