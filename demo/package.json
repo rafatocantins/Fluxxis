@@ -15,7 +15,8 @@
     "@fluxxis/wrapper": "workspace:*",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@fluxxis/ui": "workspace:*"
+    "@fluxxis/ui": "workspace:*",
+    "@fluxxis/adaptive-cta": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^25.3.2",

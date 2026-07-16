@@ -8,6 +8,7 @@ import GetStartedSection from './GetStartedSection'
 import IntentPlayground from './IntentPlayground'
 import ComponentGallery from './ComponentGallery'
 import WrapperDemo from './WrapperDemo'
+import AdaptiveCTASection from './AdaptiveCTASection'
 
 // ──────────────────────────────────────
 // Footer
@@ -107,6 +108,7 @@ function App() {
       >
         <HeroSection />
         <MorphStage />
+        <AdaptiveCTASection />
         <WhyFluxxisSection />
         <GetStartedSection />
         <IntentPlayground />
