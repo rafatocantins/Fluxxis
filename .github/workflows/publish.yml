@@ -44,6 +44,7 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @fluxxis/core build
       - run: pnpm --filter @fluxxis/react build
       - run: npm publish --access public
         working-directory: packages/react
@@ -62,6 +63,7 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
       - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @fluxxis/core build
       - run: pnpm --filter @fluxxis/ui build
       - run: npm publish --access public
         working-directory: packages/ui
