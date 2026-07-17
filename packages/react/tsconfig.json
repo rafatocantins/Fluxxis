@@ -5,7 +5,7 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "@fluxxis/core": ["../core/src/index.ts"]
+      "@fluxxis/core": ["../core/dist/index.d.ts"]
     },
     "declaration": true,
     "declarationMap": true,
