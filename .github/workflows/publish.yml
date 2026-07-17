@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       package:
-        description: 'Package to publish (core, react, ui, or all)'
+        description: 'Package to publish'
         required: true
         default: 'all'
         type: choice
@@ -27,23 +27,12 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - run: pnpm install --frozen-lockfile
       - run: pnpm --filter @fluxxis/core build
-      - name: Check if version already published
-        id: check-core
-        run: |
-          if npm view @fluxxis/core@0.2.0 version 2>/dev/null; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-            echo "⚠️ @fluxxis/core@0.2.0 already published, skipping"
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
-      - if: steps.check-core.outputs.exists != 'true'
-        run: npm publish --access public
+      - run: npm publish --access public
         working-directory: packages/core
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-react:
-    needs: publish-core
     if: ${{ github.event.inputs.package == 'react' || github.event.inputs.package == 'all' }}
     runs-on: ubuntu-latest
     steps:
@@ -62,7 +51,6 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
   publish-ui:
-    needs: publish-react
     if: ${{ github.event.inputs.package == 'ui' || github.event.inputs.package == 'all' }}
     runs-on: ubuntu-latest
     steps:
