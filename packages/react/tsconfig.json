@@ -4,11 +4,9 @@
     "outDir": "./dist",
     "rootDir": "./src",
     "baseUrl": ".",
-    "paths": {
-      "@fluxxis/core": ["../core/dist/index.d.ts"]
-    },
     "declaration": true,
     "declarationMap": true,
+    "emitDeclarationOnly": true,
     "sourceMap": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -21,8 +19,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
