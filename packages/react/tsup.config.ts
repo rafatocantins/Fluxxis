@@ -9,6 +9,6 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   minify: true,
-  external: [],
+  external: ['@fluxxis/core'],
   outDir: 'dist',
 });
