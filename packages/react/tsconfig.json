@@ -6,7 +6,6 @@
     "baseUrl": ".",
     "declaration": true,
     "declarationMap": true,
-    "emitDeclarationOnly": true,
     "sourceMap": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -19,8 +18,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "react-jsx",
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true
   },
