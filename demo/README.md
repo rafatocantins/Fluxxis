@@ -76,7 +76,7 @@ Create a simple HTML file to test components:
   <script type="module">
     import React from 'react'
     import ReactDOM from 'react-dom/client'
-    import { SmartCTA } from '@ia-design-system/react'
+    import { SmartCTA } from '@fluxxis/react'
     
     ReactDOM.createRoot(document.getElementById('root')).render(
       <SmartCTA goal="convert" defaultCopy="Test Button" />
@@ -90,7 +90,7 @@ Create a simple HTML file to test components:
 
 1. Go to https://codesandbox.io
 2. Create new React sandbox
-3. Add dependency: `@ia-design-system/react`
+3. Add dependency: `@fluxxis/react`
 4. Import and use components
 
 ---
@@ -139,14 +139,14 @@ useEffect(() => {
 ### Inspect Node Registry
 ```javascript
 // In browser console
-import { nodeRegistry } from '@ia-design-system/react'
+import { nodeRegistry } from '@fluxxis/react'
 console.log(nodeRegistry.getAllNodes())
 ```
 
 ### Check Event Bus
 ```javascript
 // In browser console
-import { eventBus } from '@ia-design-system/react'
+import { eventBus } from '@fluxxis/react'
 console.log(eventBus.getRecentEvents(10))
 ```
 
