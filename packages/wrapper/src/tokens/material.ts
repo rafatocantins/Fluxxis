@@ -1,5 +1,5 @@
 // Design Token System — Fluxxis v2.0
-// Aligned with canonical palette: violet #8B6DFF, cyan #2EE6D6, pink #FF5C9D, amber #FFB454
+// Aligned with canonical palette (WCAG AA): violet #6D4FE0, teal #1FA89E, pink #C84074, amber #D4912E
 
 export interface DesignTokens {
   palette: {
@@ -73,20 +73,20 @@ export interface DesignTokens {
   }
 }
 
-// Fluxxis v2.0 — Canonical Palette aligned
+// Fluxxis v2.1 — Canonical Palette (WCAG AA verified)
 // Consume CSS tokens via var(--flux-*) for runtime theming
 export const materialTokens: DesignTokens = {
   palette: {
-    primary: '#8B6DFF',        // violet
+    primary: '#6D4FE0',        // violet — learn
     onPrimary: '#FFFFFF',
     primaryContainer: '#EBE5FF',
     onPrimaryContainer: '#1E0060',
-    secondary: '#2EE6D6',       // cyan
+    secondary: '#1FA89E',       // teal — browse
     onSecondary: '#003733',
     secondaryContainer: '#D4FBFA',
     onSecondaryContainer: '#00201D',
-    tertiary: '#FF5C9D',        // pink
-    onTertiary: '#4A0020',
+    tertiary: '#C84074',        // pink — buy  (WCAG AA corrected)
+    onTertiary: '#FFFFFF',
     error: '#B3261E',
     onError: '#FFFFFF',
     surface: '#FFFBFE',

@@ -127,7 +127,7 @@ export const PRODUCTS: Product[] = [
       'Switches Cherry MX, hot-swappable. Layout 75%, alumínio CNC.',
     category: 'Peripherals',
     rating: 4.6,
-    colors: ['#1a1a2e', '#e8e8e8', '#8B6DFF'],
+    colors: ['#1a1a2e', '#e8e8e8', '#6D4FE0'],
     imageGradient: 'linear-gradient(135deg, #1a1a35, #3a1a5e)',
     imageIcon: '⌨️',
     features: {
@@ -165,7 +165,7 @@ export const PRODUCTS: Product[] = [
     description: 'Ergonomic, 8 buttons, 70h battery. Sensor 26K DPI.',
     category: 'Peripherals',
     rating: 4.4,
-    colors: ['#1a1a2e', '#f0f0f0', '#FF5C9D'],
+    colors: ['#1a1a2e', '#f0f0f0', '#C84074'],
     imageGradient: 'linear-gradient(135deg, #1a1a35, #2a1a45)',
     imageIcon: '🖱️',
     features: {

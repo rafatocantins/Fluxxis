@@ -18,7 +18,7 @@ import type { Intent } from './types'
 export const CTA_MAP: Record<Intent, import('./types').CTAVariant> = {
   browse: {
     text: 'Explorar Produtos',
-    color: '#2EE6D6',       // --flux-cyan
+    color: '#1FA89E',       // --flux-cyan (WCAG AA)
     textColor: '#0a0a1a',   // dark, WCAG AA on cyan
     icon: '🔍',
   },
@@ -31,7 +31,7 @@ export const CTA_MAP: Record<Intent, import('./types').CTAVariant> = {
   },
   compare: {
     text: 'Comparar Modelos',
-    color: '#FFB454',       // --flux-amber
+    color: '#D4912E',       // --flux-amber (WCAG AA)
     textColor: '#0a0a1a',   // dark, WCAG AA on amber
     icon: '⚖️',
   },
