@@ -11,6 +11,9 @@
 [![Confidence Score](https://img.shields.io/badge/Confidence-87%25-green.svg)](./FLUXXIS-MASTER-PLAN.md)
 [![Status](https://img.shields.io/badge/Status-In%20Development-blue.svg)](./FLUXXIS-MASTER-PLAN.md)
 [![CI](https://github.com/rafatocantins/Fluxxis/actions/workflows/ci.yml/badge.svg)](https://github.com/rafatocantins/Fluxxis/actions/workflows/ci.yml)
+[![npm @fluxxis/core](https://badge.fury.io/js/@fluxxis%2Fcore.svg)](https://www.npmjs.com/package/@fluxxis/core)
+[![npm @fluxxis/react](https://badge.fury.io/js/@fluxxis%2Freact.svg)](https://www.npmjs.com/package/@fluxxis/react)
+[![npm @fluxxis/ui](https://badge.fury.io/js/@fluxxis%2Fui.svg)](https://www.npmjs.com/package/@fluxxis/ui)
 
 ---
 
@@ -324,4 +327,4 @@ pnpm --filter fluxxis-demo dev
 
 **Built with** ❤️ **by the FLUXXIS Team**
 
-**Status:** In Development | **Confidence:** 87% | **Launch:** Q2 2026
+**Status:** In Development | **Confidence:** 87% | **Latest Release:** v0.2.0 (17 Jul 2026)
