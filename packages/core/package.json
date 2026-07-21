@@ -1,5 +1,5 @@
 {
-  "name": "@rafewebdev/fluxxis-core",
+  "name": "@fluxxis/core",
   "version": "0.2.0",
   "description": "FLUXXIS Adaptive Structural Interface Engine — Framework-agnostic core",
   "author": "FLUXXIS Research Team",
