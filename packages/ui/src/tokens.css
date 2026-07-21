@@ -1,41 +1,61 @@
 /* ═══════════════════════════════════════════════════════════
-   FLUXXIS Design Tokens v2.0
+   FLUXXIS Design Tokens v2.1
    CSS Custom Properties (variables)
+   WCAG 2.1 AA compliant — all contrast ratios ≥4.5:1
+   Unified --flux-* token system
    ═══════════════════════════════════════════════════════════ */
 
 :root {
-  /* ── Canonical Palette ── */
-  --flux-violet:       #8B6DFF;
-  --flux-violet-rgb:   139, 109, 255;
-  --flux-cyan:         #2EE6D6;
-  --flux-cyan-rgb:     46, 230, 214;
-  --flux-pink:         #FF5C9D;
-  --flux-pink-rgb:     255, 92, 157;
-  --flux-amber:        #FFB454;
-  --flux-amber-rgb:    255, 180, 84;
+  /* ── Canonical Palette (WCAG AA verified) ── */
+  --flux-violet:       #6D4FE0;      /* WCAG AA: ≥4.5:1 against white */
+  --flux-violet-rgb:   109, 79, 224;
+  --flux-cyan:         #1FA89E;      /* WCAG AA: ≥4.5:1 against dark bg */
+  --flux-cyan-rgb:     31, 168, 158;
+  --flux-pink:         #C84074;      /* WCAG AA corrected: ≥4.5:1 against white (was #FF5C9D → 3.5:1 FAIL) */
+  --flux-pink-rgb:     200, 64, 116;
+  --flux-amber:        #D4912E;      /* WCAG AA corrected: ≥4.5:1 against dark bg (was #FFB454) */
+  --flux-amber-rgb:    212, 145, 46;
+  --flux-teal:         #1FA89E;      /* WCAG AA verified: ≥4.5:1 against dark bg */
 
-  /* ── Semantic Intent Tokens ── */
-  --flux-intent-browse:   var(--flux-cyan);
-  --flux-intent-buy:      var(--flux-violet);
-  --flux-intent-compare:  var(--flux-pink);
-  --flux-intent-learn:    var(--flux-amber);
+  /* ── Semantic Intent Tokens (4 canonical intents) ── */
+  --flux-intent-browse:   var(--flux-teal);
+  --flux-intent-buy:      var(--flux-pink);
+  --flux-intent-compare:  var(--flux-amber);
+  --flux-intent-learn:    var(--flux-violet);
 
   /* ── Background & Surface ── */
-  --flux-bg-primary:      #0a0a0f;
-  --flux-bg-card:         #14141f;
+  --flux-bg-primary:      #08080f;
+  --flux-bg-secondary:    #0d0d1a;
+  --flux-bg-card:         #12122a;
+  --flux-bg-card-hover:   #1a1a3a;
   --flux-bg-elevated:     #1a1a2e;
 
+  /* ── Text (all ≥4.5:1 on #08080f) ── */
+  --flux-text-primary:    #f0f0ff;
+  --flux-text-secondary:  #9898b0;
+  --flux-text-tertiary:   #9494a8;    /* bumped from #787890 to ≥4.6:1 against #08080f */
+  --flux-text-muted:      #9494a8;
+
   /* ── Borders ── */
-  --flux-border-default:  #1e1e2e;
+  --flux-border-default:  #1e1e3a;
   --flux-border-subtle:   rgba(255, 255, 255, 0.06);
 
   /* ── Typography ── */
-  --flux-text-primary:    #e4e4ed;
-  --flux-text-secondary:  #9d9db5;
-  --flux-text-muted:      #8b8ba0;
   --flux-font-display:    'Sora', sans-serif;
   --flux-font-body:       'Inter', sans-serif;
-  --flux-font-mono:       'JetBrains Mono', monospace;
+  --flux-font-sans:       'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --flux-font-mono:       'SF Mono', 'Cascadia Code', 'Fira Code', 'JetBrains Mono', 'Consolas', monospace;
+
+  /* ── Typography Scale ── */
+  --flux-font-size-xs:     0.75rem;
+  --flux-font-size-sm:     0.875rem;
+  --flux-font-size-base:   1rem;
+  --flux-font-size-lg:     1.125rem;
+  --flux-font-size-xl:     1.25rem;
+  --flux-font-size-2xl:    1.5rem;
+  --flux-font-size-3xl:    2rem;
+  --flux-font-size-4xl:    2.75rem;
+  --flux-font-size-5xl:    3.5rem;
 
   /* ── Spacing ── */
   --flux-space-xs:  0.25rem;
@@ -44,12 +64,13 @@
   --flux-space-lg:  1.5rem;
   --flux-space-xl:  2rem;
   --flux-space-2xl: 3rem;
+  --flux-space-3xl: 4rem;
 
   /* ── Border Radius ── */
-  --flux-radius-sm:    0.25rem;
-  --flux-radius-md:    0.5rem;
-  --flux-radius-lg:    0.75rem;
-  --flux-radius-xl:    1rem;
+  --flux-radius-sm:    6px;
+  --flux-radius-md:    10px;
+  --flux-radius-lg:    16px;
+  --flux-radius-xl:    20px;
   --flux-radius-full:  9999px;
 
   /* ── Shadows / Elevation ── */
@@ -68,8 +89,12 @@
   --flux-gradient-brand:  linear-gradient(135deg, var(--flux-violet) 0%, var(--flux-cyan) 50%, var(--flux-pink) 100%);
   --flux-gradient-cta:    linear-gradient(135deg, #5A3FD4, #B82D6A);
 
+  /* ── FLIP Morph Animation ── */
+  --flux-morph-duration: 80ms;
+  --flux-morph-easing:   cubic-bezier(0.2, 0.0, 0, 1.0);
+
   /* ── Transitions & Animation ── */
-  --flux-duration-fast:    100ms;
+  --flux-duration-fast:    80ms;
   --flux-duration-normal:  200ms;
   --flux-duration-slow:    300ms;
   --flux-easing-standard:  cubic-bezier(0.2, 0, 0, 1);
@@ -79,6 +104,9 @@
   --flux-state-focus:    rgba(255, 255, 255, 0.10);
   --flux-state-pressed:  rgba(255, 255, 255, 0.12);
   --flux-state-disabled: rgba(255, 255, 255, 0.04);
+
+  /* ── Layout ── */
+  --flux-max-width: 1200px;
 }
 
 /* ── Intent utility classes ── */
@@ -120,8 +148,8 @@
   font-size: 0.875rem;
   text-decoration: none;
   cursor: pointer;
-  transition: transform var(--flux-duration-fast) var(--flux-easing-standard),
-              box-shadow var(--flux-duration-fast) var(--flux-easing-standard);
+  transition: transform var(--flux-morph-duration) var(--flux-morph-easing),
+              box-shadow var(--flux-morph-duration) var(--flux-morph-easing);
   border: none;
 }
 .flux-btn:hover,
@@ -160,7 +188,31 @@
   background-clip: text;
 }
 
-/* ── WCAG 2.1 AA compliant contrast ── */
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — Mobile Breakpoints
+   ═══════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  :root {
+    --flux-font-size-5xl: 2.2rem;
+    --flux-font-size-4xl: 1.75rem;
+    --flux-font-size-3xl: 1.5rem;
+    --flux-font-size-2xl: 1.35rem;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --flux-font-size-5xl: 1.8rem;
+    --flux-font-size-4xl: 1.5rem;
+    --flux-font-size-3xl: 1.35rem;
+    --flux-font-size-2xl: 1.2rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REDUCED MOTION — WCAG 2.1 AA (prefers-reduced-motion)
+   FLIP animation: 80ms normal, 0ms reduced
+   ═══════════════════════════════════════════════════════════ */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -169,5 +221,12 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+
+  /* Disable morph transforms completely */
+  .morph-template-view,
+  .morph-template {
+    transition: opacity 0.01ms ease, visibility 0.01ms ease !important;
+    transform: none !important;
   }
 }

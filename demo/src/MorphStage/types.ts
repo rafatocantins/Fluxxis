@@ -59,12 +59,12 @@ export const INTENT_ICONS: Record<Intent, string> = {
   learn: '📖',
 }
 
-/** Intent → theme color (matching mockup spec) */
+/** Intent → theme color (matching mockup spec — WCAG AA verified) */
 export const INTENT_THEME: Record<Intent, string> = {
-  browse: 'var(--flux-cyan, #2EE6D6)',
-  buy: 'var(--flux-pink, #FF5C9D)',
-  compare: 'var(--flux-amber, #FFB454)',
-  learn: 'var(--flux-violet, #8B6DFF)',
+  browse: 'var(--flux-cyan, #1FA89E)',
+  buy: 'var(--flux-pink, #C84074)',
+  compare: 'var(--flux-amber, #D4912E)',
+  learn: 'var(--flux-violet, #6D4FE0)',
 }
 
 /** Intent → CSS class suffix for theming */

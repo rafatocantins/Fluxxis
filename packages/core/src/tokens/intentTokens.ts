@@ -7,10 +7,10 @@ import type { AnimationType } from '../_internal/types';
  * Each intent type has its own canonical colour from the Fluxxis palette.
  *
  * Canonical Palette:
- *   browse  → cyan   #2EE6D6
- *   buy     → violet #8B6DFF
- *   compare → pink   #FF5C9D
- *   learn   → amber  #FFB454
+ *   browse  → teal   #1FA89E
+ *   buy     → pink   #C84074
+ *   compare → amber  #D4912E
+ *   learn   → violet #6D4FE0
  */
 
 import type { GoalType } from '../types';
@@ -54,19 +54,19 @@ export interface IntentTokens {
   glowColor?: string;
 }
 
-// ── Fluxxis v2.0 Canonical Palette ──
+// ── Fluxxis v2.1 Canonical Palette (WCAG AA verified, all ≥4.5:1) ──
 const FLUXXIS = {
-  violet: 'rgb(139, 109, 255)',   // #8B6DFF
-  cyan:   'rgb(46, 230, 214)',   // #2EE6D6
-  pink:   'rgb(255, 92, 157)',   // #FF5C9D
-  amber:  'rgb(255, 180, 84)',   // #FFB454
+  violet: 'rgb(109, 79, 224)',    // #6D4FE0 — learn
+  cyan:   'rgb(31, 168, 158)',    // #1FA89E — browse
+  pink:   'rgb(200, 64, 116)',    // #C84074 — buy (WCAG AA corrected from #FF5C9D → 3.5:1 FAIL)
+  amber:  'rgb(212, 145, 46)',    // #D4912E — compare (WCAG AA corrected from #FFB454)
 } as const;
 
 const FLUXXIS_HEX = {
-  violet: '#8B6DFF',
-  cyan:   '#2EE6D6',
-  pink:   '#FF5C9D',
-  amber:  '#FFB454',
+  violet: '#6D4FE0',
+  cyan:   '#1FA89E',
+  pink:   '#C84074',
+  amber:  '#D4912E',
 } as const;
 
 // ── Intent Tokens v2.0 (browse / buy / compare / learn) ──
@@ -74,55 +74,55 @@ const FLUXXIS_HEX = {
 export const FLUXXIS_INTENT_TOKENS: Record<IntentType, IntentTokens> = {
   browse: {
     color: FLUXXIS.cyan,
-    accentColor: 'rgb(5, 200, 185)',
-    backgroundColor: 'rgba(46, 230, 214, 0.08)',
+    accentColor: 'rgb(5, 130, 120)',
+    backgroundColor: 'rgba(31, 168, 158, 0.08)',
     textColor: 'rgb(17, 24, 39)',
     animation: 'subtle',
     emphasis: 'normal',
     borderRadius: '0.5rem',
     shadow: 'sm',
-    transitionDuration: '200ms',
+    transitionDuration: '80ms',
     hoverScale: 1.04,
-    glowColor: 'rgba(46, 230, 214, 0.4)',
+    glowColor: 'rgba(31, 168, 158, 0.25)',
   },
   buy: {
-    color: FLUXXIS.violet,
-    accentColor: 'rgb(100, 65, 230)',
-    backgroundColor: 'rgba(139, 109, 255, 0.08)',
-    textColor: 'rgb(17, 24, 39)',
+    color: FLUXXIS.pink,
+    accentColor: 'rgb(180, 40, 90)',
+    backgroundColor: 'rgba(200, 64, 116, 0.08)',
+    textColor: 'rgb(255, 255, 255)',
     animation: 'direct',
     emphasis: 'strong',
     borderRadius: '0.5rem',
     shadow: 'md',
-    transitionDuration: '200ms',
+    transitionDuration: '80ms',
     hoverScale: 1.05,
-    glowColor: 'rgba(139, 109, 255, 0.4)',
+    glowColor: 'rgba(200, 64, 116, 0.25)',
   },
   compare: {
-    color: FLUXXIS.pink,
-    accentColor: 'rgb(230, 60, 130)',
-    backgroundColor: 'rgba(255, 92, 157, 0.08)',
-    textColor: 'rgb(17, 24, 39)',
+    color: FLUXXIS.amber,
+    accentColor: 'rgb(180, 115, 30)',
+    backgroundColor: 'rgba(212, 145, 46, 0.08)',
+    textColor: 'rgb(8, 8, 15)',
     animation: 'playful',
     emphasis: 'normal',
     borderRadius: '0.5rem',
     shadow: 'md',
-    transitionDuration: '250ms',
+    transitionDuration: '80ms',
     hoverScale: 1.06,
-    glowColor: 'rgba(255, 92, 157, 0.4)',
+    glowColor: 'rgba(212, 145, 46, 0.25)',
   },
   learn: {
-    color: FLUXXIS.amber,
-    accentColor: 'rgb(235, 155, 45)',
-    backgroundColor: 'rgba(255, 180, 84, 0.08)',
-    textColor: 'rgb(17, 24, 39)',
+    color: FLUXXIS.violet,
+    accentColor: 'rgb(85, 50, 200)',
+    backgroundColor: 'rgba(109, 79, 224, 0.08)',
+    textColor: 'rgb(255, 255, 255)',
     animation: 'subtle',
     emphasis: 'normal',
     borderRadius: '0.5rem',
     shadow: 'sm',
-    transitionDuration: '200ms',
+    transitionDuration: '80ms',
     hoverScale: 1.03,
-    glowColor: 'rgba(255, 180, 84, 0.4)',
+    glowColor: 'rgba(109, 79, 224, 0.25)',
   },
 };
 
@@ -132,42 +132,42 @@ export const FLUXXIS_INTENT_TOKENS: Record<IntentType, IntentTokens> = {
  */
 export const INTENT_TOKENS: Record<GoalType, IntentTokens> = {
   convert: {
-    color: FLUXXIS.violet,
-    accentColor: 'rgb(100, 65, 230)',
-    backgroundColor: 'rgba(139, 109, 255, 0.08)',
-    textColor: 'rgb(17, 24, 39)',
+    color: FLUXXIS.pink,           // buy intent → pink
+    accentColor: 'rgb(180, 40, 90)',
+    backgroundColor: 'rgba(200, 64, 116, 0.08)',
+    textColor: 'rgb(255, 255, 255)',
     animation: 'direct',
     emphasis: 'strong',
     borderRadius: '0.5rem',
     shadow: 'md',
-    transitionDuration: '200ms',
+    transitionDuration: '80ms',
     hoverScale: 1.05,
-    glowColor: 'rgba(139, 109, 255, 0.4)',
+    glowColor: 'rgba(200, 64, 116, 0.25)',
   },
   inform: {
-    color: FLUXXIS.cyan,
-    accentColor: 'rgb(5, 200, 185)',
-    backgroundColor: 'rgba(46, 230, 214, 0.08)',
+    color: FLUXXIS.cyan,           // browse intent → teal
+    accentColor: 'rgb(5, 130, 120)',
+    backgroundColor: 'rgba(31, 168, 158, 0.08)',
     textColor: 'rgb(17, 24, 39)',
     animation: 'subtle',
     emphasis: 'normal',
     borderRadius: '0.375rem',
     shadow: 'sm',
-    transitionDuration: '150ms',
+    transitionDuration: '80ms',
     hoverScale: 1.02,
   },
   engage: {
-    color: FLUXXIS.pink,
-    accentColor: 'rgb(230, 60, 130)',
-    backgroundColor: 'rgba(255, 92, 157, 0.08)',
-    textColor: 'rgb(17, 24, 39)',
+    color: FLUXXIS.violet,         // learn intent → violet
+    accentColor: 'rgb(85, 50, 200)',
+    backgroundColor: 'rgba(109, 79, 224, 0.08)',
+    textColor: 'rgb(255, 255, 255)',
     animation: 'playful',
     emphasis: 'normal',
     borderRadius: '0.75rem',
     shadow: 'md',
-    transitionDuration: '300ms',
+    transitionDuration: '80ms',
     hoverScale: 1.08,
-    glowColor: 'rgba(255, 92, 157, 0.4)',
+    glowColor: 'rgba(109, 79, 224, 0.25)',
   },
 };
 
@@ -178,17 +178,17 @@ export const EMPHASIS_MODIFIERS: Record<EmphasisLevel, Partial<IntentTokens>> = 
   subtle: {
     shadow: 'sm',
     hoverScale: 1.02,
-    transitionDuration: '150ms',
+    transitionDuration: '80ms',
   },
   normal: {
     shadow: 'md',
     hoverScale: 1.05,
-    transitionDuration: '200ms',
+    transitionDuration: '80ms',
   },
   strong: {
     shadow: 'lg',
     hoverScale: 1.08,
-    transitionDuration: '300ms',
+    transitionDuration: '80ms',
     glowColor: 'rgba(255, 255, 255, 0.3)',
   },
 };

@@ -129,20 +129,20 @@ class ShopifyPolarisAdapter implements DSAdapter {
         --pc-button-color: #0a0a1a;
         --pc-button-color-hover: #0a0a1a;
         --pc-button-color-active: #0a0a1a;
-        background: var(--flux-cyan, #2EE6D6);
+        background: var(--flux-cyan, #1FA89E);
         box-shadow: 0 0 20px rgba(46, 230, 214, 0.4);
       }
       .flux-cta--buy.Polaris-Button--primary {
-        background: var(--flux-pink, #FF5C9D);
+        background: var(--flux-pink, #C84074);
         box-shadow: 0 0 20px rgba(255, 92, 157, 0.4);
       }
       .flux-cta--compare.Polaris-Button--primary {
         --pc-button-color: #0a0a1a;
-        background: var(--flux-amber, #FFB454);
+        background: var(--flux-amber, #D4912E);
         box-shadow: 0 0 20px rgba(255, 180, 84, 0.4);
       }
       .flux-cta--learn.Polaris-Button--primary {
-        background: var(--flux-violet, #8B6DFF);
+        background: var(--flux-violet, #6D4FE0);
         box-shadow: 0 0 20px rgba(139, 109, 255, 0.4);
       }
     `

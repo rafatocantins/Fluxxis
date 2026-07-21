@@ -57,7 +57,7 @@ function injectStyles(): void {
 
     /* ── Focus (WCAG 2.1 AA) ───────────────────────────── */
     .flux-cta:focus-visible {
-      outline: 3px solid #8B6DFF;
+      outline: 3px solid #6D4FE0;
       outline-offset: 2px;
       box-shadow: 0 0 0 4px rgba(139, 109, 255, 0.25);
     }
@@ -262,7 +262,7 @@ export const SmartCTA: React.FC<SmartCTAProps> = ({
           href="/products"
           className="flux-cta flux-cta--noscript flux-cta--primary"
           style={{
-            background: '#FF5C9D',
+            background: '#C84074',
             color: '#ffffff',
             boxShadow: '0 4px 20px rgba(255, 92, 157, 0.25)',
           }}

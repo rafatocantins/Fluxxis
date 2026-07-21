@@ -33,21 +33,21 @@ const Footer: React.FC = () => (
     style={{
       position: 'relative',
       zIndex: 1,
-      borderTop: '1px solid var(--fx-border-default, rgba(255,255,255,0.08))',
-      padding: 'var(--fx-space-12, 3rem) 0',
+      borderTop: '1px solid var(--flux-border-default, rgba(255,255,255,0.08))',
+      padding: 'var(--flux-space-12, 3rem) 0',
     }}
   >
     <div
       style={{
         width: '100%',
-        maxWidth: 'var(--fx-max-width, 1200px)',
+        maxWidth: 'var(--flux-max-width, 1200px)',
         margin: '0 auto',
-        padding: '0 var(--fx-space-6, 1.5rem)',
+        padding: '0 var(--flux-space-6, 1.5rem)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
         flexWrap: 'wrap',
-        gap: 'var(--fx-space-4, 1rem)',
+        gap: 'var(--flux-space-4, 1rem)',
       }}
     >
       {/* Brand */}
@@ -55,10 +55,10 @@ const Footer: React.FC = () => (
         style={{
           display: 'flex',
           alignItems: 'center',
-          gap: 'var(--fx-space-2, 0.5rem)',
+          gap: 'var(--flux-space-2, 0.5rem)',
           fontWeight: 600,
-          color: 'var(--fx-text-secondary, #b0b0c0)',
-          fontSize: 'var(--fx-font-size-sm, 0.875rem)',
+          color: 'var(--flux-text-secondary, #b0b0c0)',
+          fontSize: 'var(--flux-font-size-sm, 0.875rem)',
         }}
       >
         <span aria-hidden="true">⚡</span> Fluxxis
@@ -70,7 +70,7 @@ const Footer: React.FC = () => (
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--fx-space-6, 1.5rem)',
+            gap: 'var(--flux-space-6, 1.5rem)',
             listStyle: 'none',
             margin: 0,
             padding: 0,
@@ -82,21 +82,21 @@ const Footer: React.FC = () => (
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: 'var(--fx-text-secondary, #b0b0c0)',
-                fontSize: 'var(--fx-font-size-sm, 0.875rem)',
-                transition: 'color var(--fx-transition-fast, 120ms ease)',
+                color: 'var(--flux-text-secondary, #b0b0c0)',
+                fontSize: 'var(--flux-font-size-sm, 0.875rem)',
+                transition: 'color var(--flux-transition-fast, 120ms ease)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'var(--fx-space-2, 0.5rem)',
+                gap: 'var(--flux-space-2, 0.5rem)',
                 textDecoration: 'none',
               }}
               onMouseOver={(e) => {
                 ;(e.currentTarget as HTMLAnchorElement).style.color =
-                  'var(--fx-accent-primary, #00d4aa)'
+                  'var(--flux-accent-primary, #00d4aa)'
               }}
               onMouseOut={(e) => {
                 ;(e.currentTarget as HTMLAnchorElement).style.color =
-                  'var(--fx-text-secondary, #b0b0c0)'
+                  'var(--flux-text-secondary, #b0b0c0)'
               }}
             >
               <GithubIcon />
@@ -109,21 +109,21 @@ const Footer: React.FC = () => (
               target="_blank"
               rel="noopener noreferrer"
               style={{
-                color: 'var(--fx-text-secondary, #b0b0c0)',
-                fontSize: 'var(--fx-font-size-sm, 0.875rem)',
-                transition: 'color var(--fx-transition-fast, 120ms ease)',
+                color: 'var(--flux-text-secondary, #b0b0c0)',
+                fontSize: 'var(--flux-font-size-sm, 0.875rem)',
+                transition: 'color var(--flux-transition-fast, 120ms ease)',
                 display: 'inline-flex',
                 alignItems: 'center',
-                gap: 'var(--fx-space-2, 0.5rem)',
+                gap: 'var(--flux-space-2, 0.5rem)',
                 textDecoration: 'none',
               }}
               onMouseOver={(e) => {
                 ;(e.currentTarget as HTMLAnchorElement).style.color =
-                  'var(--fx-accent-primary, #00d4aa)'
+                  'var(--flux-accent-primary, #00d4aa)'
               }}
               onMouseOut={(e) => {
                 ;(e.currentTarget as HTMLAnchorElement).style.color =
-                  'var(--fx-text-secondary, #b0b0c0)'
+                  'var(--flux-text-secondary, #b0b0c0)'
               }}
             >
               <DocsIcon />
@@ -136,8 +136,8 @@ const Footer: React.FC = () => (
       {/* Made with */}
       <span
         style={{
-          fontSize: 'var(--fx-font-size-xs, 0.75rem)',
-          color: 'var(--fx-text-tertiary, #787890)',
+          fontSize: 'var(--flux-font-size-xs, 0.75rem)',
+          color: 'var(--flux-text-tertiary, #787890)',
         }}
       >
         Made with Fluxxis
@@ -155,7 +155,7 @@ function App() {
         style={{
           position: 'relative',
           zIndex: 1,
-          fontFamily: 'var(--fx-font-sans, Inter, sans-serif)',
+          fontFamily: 'var(--flux-font-sans, Inter, sans-serif)',
         }}
       >
         {/* Fluxxis v2.0 Design Spec Order:

@@ -49,15 +49,15 @@ const Badge: React.FC<BadgeProps> = ({ variant, children }) => (
     style={{
       display: 'inline-flex',
       alignItems: 'center',
-      gap: 'var(--fx-space-2, 0.5rem)',
-      padding: 'var(--fx-space-1, 0.25rem) var(--fx-space-3, 0.75rem)',
-      borderRadius: 'var(--fx-radius-full, 9999px)',
-      fontSize: 'var(--fx-font-size-xs, 0.75rem)',
+      gap: 'var(--flux-space-2, 0.5rem)',
+      padding: 'var(--flux-space-1, 0.25rem) var(--flux-space-3, 0.75rem)',
+      borderRadius: 'var(--flux-radius-full, 9999px)',
+      fontSize: 'var(--flux-font-size-xs, 0.75rem)',
       fontWeight: 500,
-      border: '1px solid var(--fx-border-strong, rgba(255,255,255,0.14))',
-      background: 'var(--fx-bg-glass, rgba(20,20,35,0.72))',
+      border: '1px solid var(--flux-border-strong, rgba(255,255,255,0.14))',
+      background: 'var(--flux-bg-glass, rgba(20,20,35,0.72))',
       backdropFilter: 'blur(8px)',
-      color: 'var(--fx-text-secondary, #b0b0c0)',
+      color: 'var(--flux-text-secondary, #b0b0c0)',
     }}
   >
     <span
@@ -114,9 +114,9 @@ const HeroSection: React.FC = () => {
       <div
         style={{
           width: '100%',
-          maxWidth: 'var(--fx-max-width, 1200px)',
+          maxWidth: 'var(--flux-max-width, 1200px)',
           margin: '0 auto',
-          padding: '0 var(--fx-space-6, 1.5rem)',
+          padding: '0 var(--flux-space-6, 1.5rem)',
         }}
       >
         {/* ── Badges ──────────────────────────────────────── */}
@@ -127,8 +127,8 @@ const HeroSection: React.FC = () => {
             display: 'flex',
             flexWrap: 'wrap',
             justifyContent: 'center',
-            gap: 'var(--fx-space-3, 0.75rem)',
-            marginBottom: 'var(--fx-space-8, 2rem)',
+            gap: 'var(--flux-space-3, 0.75rem)',
+            marginBottom: 'var(--flux-space-8, 2rem)',
           }}
         >
           <Badge variant="ts">TypeScript</Badge>
@@ -140,11 +140,11 @@ const HeroSection: React.FC = () => {
         <h1
           id="hero-title"
           style={{
-            fontSize: 'clamp(2.2rem, 6vw, var(--fx-font-size-5xl, 3.5rem))',
+            fontSize: 'clamp(2.2rem, 6vw, var(--flux-font-size-5xl, 3.5rem))',
             fontWeight: 800,
             lineHeight: 1.15,
             letterSpacing: '-0.025em',
-            marginBottom: 'var(--fx-space-6, 1.5rem)',
+            marginBottom: 'var(--flux-space-6, 1.5rem)',
             maxWidth: '900px',
             marginLeft: 'auto',
             marginRight: 'auto',
@@ -153,7 +153,7 @@ const HeroSection: React.FC = () => {
           <span
             style={{
               background:
-                'linear-gradient(135deg, var(--fx-accent-primary, #00d4aa) 0%, var(--fx-accent-secondary, #22d3ee) 100%)',
+                'linear-gradient(135deg, var(--flux-accent-primary, #00d4aa) 0%, var(--flux-accent-secondary, #22d3ee) 100%)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               backgroundClip: 'text',
@@ -168,11 +168,11 @@ const HeroSection: React.FC = () => {
         {/* ── Subtitle ────────────────────────────────────── */}
         <p
           style={{
-            fontSize: 'var(--fx-font-size-lg, 1.125rem)',
+            fontSize: 'var(--flux-font-size-lg, 1.125rem)',
             lineHeight: 1.35,
-            color: 'var(--fx-text-secondary, #b0b0c0)',
+            color: 'var(--flux-text-secondary, #b0b0c0)',
             maxWidth: '640px',
-            margin: '0 auto var(--fx-space-10, 2.5rem)',
+            margin: '0 auto var(--flux-space-10, 2.5rem)',
           }}
         >
           Adaptive UI that changes structure based on how users think.
@@ -187,38 +187,38 @@ const HeroSection: React.FC = () => {
           style={{
             position: 'relative',
             maxWidth: '520px',
-            margin: '0 auto var(--fx-space-6, 1.5rem)',
-            background: 'var(--fx-bg-elevated, #1a1a2e)',
-            border: '1px solid var(--fx-border-accent, rgba(0,212,170,0.35))',
-            borderRadius: 'var(--fx-radius-lg, 14px)',
-            padding: 'var(--fx-space-4, 1rem) var(--fx-space-5, 1.25rem)',
+            margin: '0 auto var(--flux-space-6, 1.5rem)',
+            background: 'var(--flux-bg-elevated, #1a1a2e)',
+            border: '1px solid var(--flux-border-accent, rgba(0,212,170,0.35))',
+            borderRadius: 'var(--flux-radius-lg, 14px)',
+            padding: 'var(--flux-space-4, 1rem) var(--flux-space-5, 1.25rem)',
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--fx-space-3, 0.75rem)',
-            boxShadow: 'var(--fx-shadow-glow-sm, 0 0 16px rgba(0,212,170,0.28))',
-            transition: 'box-shadow var(--fx-transition-base, 200ms ease)',
+            gap: 'var(--flux-space-3, 0.75rem)',
+            boxShadow: 'var(--flux-shadow-glow-sm, 0 0 16px rgba(0,212,170,0.28))',
+            transition: 'box-shadow var(--flux-transition-base, 200ms ease)',
             flexWrap: 'wrap',
           }}
           onMouseOver={(e) => {
             ;(e.currentTarget as HTMLDivElement).style.boxShadow =
-              'var(--fx-shadow-glow, 0 0 40px rgba(0,212,170,0.28))'
+              'var(--flux-shadow-glow, 0 0 40px rgba(0,212,170,0.28))'
           }}
           onMouseOut={(e) => {
             ;(e.currentTarget as HTMLDivElement).style.boxShadow =
-              'var(--fx-shadow-glow-sm, 0 0 16px rgba(0,212,170,0.28))'
+              'var(--flux-shadow-glow-sm, 0 0 16px rgba(0,212,170,0.28))'
           }}
         >
           <code
             id="install-cmd"
             style={{
               flex: 1,
-              fontFamily: 'var(--fx-font-mono, JetBrains Mono, monospace)',
-              fontSize: 'var(--fx-font-size-sm, 0.875rem)',
-              color: 'var(--fx-accent-primary, #00d4aa)',
+              fontFamily: 'var(--flux-font-mono, JetBrains Mono, monospace)',
+              fontSize: 'var(--flux-font-size-sm, 0.875rem)',
+              color: 'var(--flux-accent-primary, #00d4aa)',
               textAlign: 'left' as const,
               overflowX: 'auto',
               whiteSpace: 'nowrap',
-              padding: 'var(--fx-space-1, 0.25rem) 0',
+              padding: 'var(--flux-space-1, 0.25rem) 0',
             }}
           >
             {installCmd}
@@ -230,36 +230,36 @@ const HeroSection: React.FC = () => {
               flexShrink: 0,
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 'var(--fx-space-1, 0.25rem)',
-              padding: 'var(--fx-space-2, 0.5rem) var(--fx-space-4, 1rem)',
+              gap: 'var(--flux-space-1, 0.25rem)',
+              padding: 'var(--flux-space-2, 0.5rem) var(--flux-space-4, 1rem)',
               background: copied
                 ? '#166534'
-                : 'var(--fx-accent-soft, rgba(0,212,170,0.10))',
+                : 'var(--flux-accent-soft, rgba(0,212,170,0.10))',
               border: copied
                 ? '1px solid #22c55e'
-                : '1px solid var(--fx-border-accent, rgba(0,212,170,0.35))',
-              borderRadius: 'var(--fx-radius-md, 10px)',
+                : '1px solid var(--flux-border-accent, rgba(0,212,170,0.35))',
+              borderRadius: 'var(--flux-radius-md, 10px)',
               color: copied
                 ? '#bbf7d0'
-                : 'var(--fx-accent-primary, #00d4aa)',
-              fontSize: 'var(--fx-font-size-xs, 0.75rem)',
+                : 'var(--flux-accent-primary, #00d4aa)',
+              fontSize: 'var(--flux-font-size-xs, 0.75rem)',
               fontWeight: 600,
-              fontFamily: 'var(--fx-font-sans, Inter, sans-serif)',
-              transition: 'all var(--fx-transition-fast, 120ms ease)',
+              fontFamily: 'var(--flux-font-sans, Inter, sans-serif)',
+              transition: 'all var(--flux-transition-fast, 120ms ease)',
               cursor: 'pointer',
             }}
             onMouseOver={(e) => {
               if (!copied) {
                 const el = e.currentTarget as HTMLButtonElement
-                el.style.background = 'var(--fx-accent-primary, #00d4aa)'
-                el.style.color = 'var(--fx-text-inverse, #08080f)'
+                el.style.background = 'var(--flux-accent-primary, #00d4aa)'
+                el.style.color = 'var(--flux-text-inverse, #08080f)'
               }
             }}
             onMouseOut={(e) => {
               if (!copied) {
                 const el = e.currentTarget as HTMLButtonElement
-                el.style.background = 'var(--fx-accent-soft, rgba(0,212,170,0.10))'
-                el.style.color = 'var(--fx-accent-primary, #00d4aa)'
+                el.style.background = 'var(--flux-accent-soft, rgba(0,212,170,0.10))'
+                el.style.color = 'var(--flux-accent-primary, #00d4aa)'
               }
             }}
           >
@@ -274,7 +274,7 @@ const HeroSection: React.FC = () => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 'var(--fx-space-4, 1rem)',
+            gap: 'var(--flux-space-4, 1rem)',
             flexWrap: 'wrap',
           }}
         >
@@ -284,15 +284,15 @@ const HeroSection: React.FC = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 'var(--fx-space-2, 0.5rem)',
-              padding: 'var(--fx-space-3, 0.75rem) var(--fx-space-6, 1.5rem)',
-              borderRadius: 'var(--fx-radius-full, 9999px)',
+              gap: 'var(--flux-space-2, 0.5rem)',
+              padding: 'var(--flux-space-3, 0.75rem) var(--flux-space-6, 1.5rem)',
+              borderRadius: 'var(--flux-radius-full, 9999px)',
               fontWeight: 600,
-              fontSize: 'var(--fx-font-size-sm, 0.875rem)',
-              transition: 'all var(--fx-transition-base, 200ms ease)',
+              fontSize: 'var(--flux-font-size-sm, 0.875rem)',
+              transition: 'all var(--flux-transition-base, 200ms ease)',
               border: '1px solid transparent',
-              background: 'var(--fx-accent-primary, #00d4aa)',
-              color: 'var(--fx-text-inverse, #08080f)',
+              background: 'var(--flux-accent-primary, #00d4aa)',
+              color: 'var(--flux-text-inverse, #08080f)',
               boxShadow: '0 0 20px rgba(0, 212, 170, 0.25)',
               textDecoration: 'none',
             }}
@@ -304,7 +304,7 @@ const HeroSection: React.FC = () => {
             }}
             onMouseOut={(e) => {
               const el = e.currentTarget as HTMLAnchorElement
-              el.style.background = 'var(--fx-accent-primary, #00d4aa)'
+              el.style.background = 'var(--flux-accent-primary, #00d4aa)'
               el.style.boxShadow = '0 0 20px rgba(0, 212, 170, 0.25)'
               el.style.transform = 'translateY(0)'
             }}
@@ -321,27 +321,27 @@ const HeroSection: React.FC = () => {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 'var(--fx-space-2, 0.5rem)',
-              padding: 'var(--fx-space-3, 0.75rem) var(--fx-space-6, 1.5rem)',
-              borderRadius: 'var(--fx-radius-full, 9999px)',
+              gap: 'var(--flux-space-2, 0.5rem)',
+              padding: 'var(--flux-space-3, 0.75rem) var(--flux-space-6, 1.5rem)',
+              borderRadius: 'var(--flux-radius-full, 9999px)',
               fontWeight: 600,
-              fontSize: 'var(--fx-font-size-sm, 0.875rem)',
-              transition: 'all var(--fx-transition-base, 200ms ease)',
-              border: '1px solid var(--fx-border-strong, rgba(255,255,255,0.14))',
+              fontSize: 'var(--flux-font-size-sm, 0.875rem)',
+              transition: 'all var(--flux-transition-base, 200ms ease)',
+              border: '1px solid var(--flux-border-strong, rgba(255,255,255,0.14))',
               background: 'transparent',
-              color: 'var(--fx-text-primary, #f0f0f5)',
+              color: 'var(--flux-text-primary, #f0f0f5)',
               textDecoration: 'none',
             }}
             onMouseOver={(e) => {
               const el = e.currentTarget as HTMLAnchorElement
-              el.style.borderColor = 'var(--fx-accent-primary, #00d4aa)'
-              el.style.color = 'var(--fx-accent-primary, #00d4aa)'
-              el.style.background = 'var(--fx-accent-soft, rgba(0,212,170,0.10))'
+              el.style.borderColor = 'var(--flux-accent-primary, #00d4aa)'
+              el.style.color = 'var(--flux-accent-primary, #00d4aa)'
+              el.style.background = 'var(--flux-accent-soft, rgba(0,212,170,0.10))'
             }}
             onMouseOut={(e) => {
               const el = e.currentTarget as HTMLAnchorElement
-              el.style.borderColor = 'var(--fx-border-strong, rgba(255,255,255,0.14))'
-              el.style.color = 'var(--fx-text-primary, #f0f0f5)'
+              el.style.borderColor = 'var(--flux-border-strong, rgba(255,255,255,0.14))'
+              el.style.color = 'var(--flux-text-primary, #f0f0f5)'
               el.style.background = 'transparent'
             }}
           >
