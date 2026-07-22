@@ -43,10 +43,8 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
       - run: pnpm install --frozen-lockfile
-      - run: npm install @fluxxis/core@0.2.0 --no-save
-        working-directory: packages/react
       - run: pnpm --filter @fluxxis/react build
-      - run: npm publish --access public
+      - run: pnpm publish --access public --no-git-checks
         working-directory: packages/react
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
