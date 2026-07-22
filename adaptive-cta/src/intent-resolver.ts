@@ -24,7 +24,7 @@ export const CTA_MAP: Record<Intent, import('./types').CTAVariant> = {
   },
   buy: {
     text: 'Comprar Agora',
-    color: '#C72568',       // --flux-pink (WCAG AA 4.5:1 on white)
+    color: '#C84074',       // --flux-pink (WCAG AA 4.5:1 on white)
     textColor: '#ffffff',   // white, WCAG AA on pink
     icon: '🛒',
     subtext: 'Frete Grátis',
@@ -37,7 +37,7 @@ export const CTA_MAP: Record<Intent, import('./types').CTAVariant> = {
   },
   learn: {
     text: 'Saber Mais',
-    color: '#6340CC',       // --flux-violet (WCAG AA 4.6:1 on white)
+    color: '#6D4FE0',       // --flux-violet (WCAG AA 4.6:1 on white)
     textColor: '#ffffff',   // white, WCAG AA on violet
     icon: '📚',
   },

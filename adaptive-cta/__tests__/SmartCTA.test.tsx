@@ -135,13 +135,13 @@ describe('SmartCTA', () => {
   it('sets background color for browse intent', () => {
     render(<SmartCTA intent="browse" />)
     const button = screen.getByRole('button')
-    expect(button.style.background).toBe('rgb(46, 230, 214)')
+    expect(button.style.background).toBe('rgb(31, 168, 158)')
   })
 
   it('sets background color for buy intent', () => {
     render(<SmartCTA intent="buy" />)
     const button = screen.getByRole('button')
-    expect(button.style.background).toBe('rgb(199, 37, 104)')
+    expect(button.style.background).toBe('rgb(200, 64, 116)')
   })
 
   it('secondary variant has transparent background', () => {
