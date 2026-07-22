@@ -5,6 +5,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2026-07-22
+
+### Changed
+
+- **Token unification** — All design tokens migrated from `--fx-*` to `--flux-*` namespace across 16 files (550+ references). (#29)
+- **WCAG AA contrast** — Accent colors updated for ≥4.5:1 contrast ratio: Browse (#1FA89E), Buy (#C84074), Compare (#D4912E), Learn (#6D4FE0). Text secondary/tertiary also corrected. (#29)
+- **FLIP animation** — Intent transition duration standardized to 80ms via `--flux-morph-duration`. (#29)
+- **Mobile responsive** — Breakpoints at 768px (tablet) and 480px (phone) applied to tokens and demo. (#29)
+- **prefers-reduced-motion** — Uses 0.01ms technique for FLIP animation compatibility. (#29)
+
+### Fixed
+
+- **CI DTS resolution** — Added `npm install @fluxxis/core@0.2.0` before build step so react package can resolve core types. (#31)
+- **Core package name** — Fixed `packages/core/package.json` name from `@rafewebdev/fluxxis-core` to `@fluxxis/core`. (#31)
+- **adaptive-cta colors** — Updated hardcoded Buy and Learn intent colors to match WCAG AA tokens. (#36)
+- **adaptive-cta tests** — Corrected test expectations to match new token colors. 16/16 passing. (#36)
+
+### Documentation
+
+- **README badges** — Added npm version badges for `@fluxxis/core`, `@fluxxis/react`, `@fluxxis/ui`. (#28)
+- **Sprint #25 closure** — Updated footer to `Latest Release: v0.2.0 (17 Jul 2026)`. (#28)
+
 ## [0.2.0] - 2026-07-10
 
 ### Added
@@ -49,5 +71,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mono-repo package structure setup (FLX-P1-01).
 - Rule 0 (Always Plan First) and Phase 1 planning documentation.
 
+[0.2.1]: https://github.com/rafatocantins/Fluxxis/releases/tag/v0.2.1
 [0.2.0]: https://github.com/rafatocantins/Fluxxis/releases/tag/v0.2.0
 [0.1.0]: https://github.com/rafatocantins/Fluxxis/releases/tag/v0.1.0
