@@ -264,7 +264,7 @@ export const SmartCTA: React.FC<SmartCTAProps> = ({
           style={{
             background: '#C84074',
             color: '#ffffff',
-            boxShadow: '0 4px 20px rgba(255, 92, 157, 0.25)',
+            boxShadow: '0 4px 20px rgba(200, 64, 116, 0.25)',
           }}
           aria-label="Comprar"
         >
