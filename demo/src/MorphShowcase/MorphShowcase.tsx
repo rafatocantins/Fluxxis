@@ -95,26 +95,6 @@ const SCENARIO_NAMES: Record<Scenario, string> = {
   ready: 'Ready to Buy',
 }
 
-// ── Noscript Fallback ─────────────────────────────────────────────────────────
-
-const NoscriptFallback: React.FC = () => (
-  <noscript>
-    <div
-      className="morph-showcase-noscript"
-      style={{ display: 'block' }}
-      aria-label="Static product view — JavaScript disabled"
-    >
-      <p className="morph-showcase-noscript-title">
-        ⚡ FluxSound Pro — Premium Wireless Headphones
-      </p>
-      <p>$299.99 — Active Noise Cancellation, 40hr Battery, Bluetooth 5.3</p>
-      <p style={{ marginTop: 12 }}>
-        Enable JavaScript to see the full adaptive product demo with intent morphing.
-      </p>
-    </div>
-  </noscript>
-)
-
 // ── Morph Zone Content Renders ────────────────────────────────────────────────
 
 const BrowsingContent: React.FC = () => (
@@ -246,13 +226,16 @@ const MorphShowcase: React.FC = () => {
   const [morphState, setMorphState] = useState<'enter' | 'exit' | 'idle'>('enter')
   const [morphing, setMorphing] = useState(false)
   const tabRefs = useRef<Map<Scenario, HTMLButtonElement>>(new Map())
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>()
+  const timeoutRefs = useRef<Array<ReturnType<typeof setTimeout>>>([])
   const liveRegionRef = useRef<HTMLDivElement>(null)
 
   // Cleanup timeout on unmount
   useEffect(() => {
     return () => {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current)
+      if (timeoutRefs.current.length > 0) {
+        timeoutRefs.current.forEach(clearTimeout)
+        timeoutRefs.current = []
+      }
     }
   }, [])
 
@@ -272,13 +255,12 @@ const MorphShowcase: React.FC = () => {
       ).matches
       const exitDelay = prefersReduced ? 0 : 80
 
-      timeoutRef.current = setTimeout(() => {
+      timeoutRefs.current.push(setTimeout(() => {
         setScenario(next)
         setMorphState('enter')
-      }, exitDelay)
+      }, exitDelay))
 
-      // Clear morphing glow after transition
-      timeoutRef.current = setTimeout(() => {
+      timeoutRefs.current.push(setTimeout(() => {
         setMorphing(false)
       }, exitDelay + 120)
     },
@@ -310,6 +292,12 @@ const MorphShowcase: React.FC = () => {
         e.preventDefault()
         nextIdx =
           (currentIdx - 1 + SCENARIOS.length) % SCENARIOS.length
+      } else if (e.key === 'Home') {
+        e.preventDefault()
+        nextIdx = 0
+      } else if (e.key === 'End') {
+        e.preventDefault()
+        nextIdx = SCENARIOS.length - 1
       }
 
       if (nextIdx !== undefined) {
@@ -391,8 +379,10 @@ const MorphShowcase: React.FC = () => {
             ref={(el) => {
               if (el) tabRefs.current.set(s, el)
             }}
+            type="button"
             className={`morph-showcase-tab${scenario === s ? ' active' : ''}`}
             role="tab"
+            id={`morph-tab-${s}`}
             aria-selected={scenario === s}
             aria-controls="morph-showcase-card"
             tabIndex={scenario === s ? 0 : -1}
@@ -415,7 +405,7 @@ const MorphShowcase: React.FC = () => {
         <article
           className={`morph-showcase-card${morphing ? ' morphing' : ''}`}
           role="tabpanel"
-          aria-label={`${SCENARIO_NAMES[scenario]} view`}
+          aria-labelledby={`morph-tab-${scenario}`}
         >
           {/* Product Image */}
           <div className="morph-showcase-image-area">
@@ -506,7 +496,7 @@ const MorphShowcase: React.FC = () => {
           </div>
           <div className="morph-showcase-metric">
             <div className="morph-showcase-metric-label">Morph Duration</div>
-            <div className="morph-showcase-metric-value">350ms</div>
+            <div className="morph-showcase-metric-value">~150ms</div>
           </div>
           <div className="morph-showcase-metric">
             <div className="morph-showcase-metric-label">Scenario</div>
@@ -535,8 +525,7 @@ const MorphShowcase: React.FC = () => {
         </p>
       </footer>
 
-      {/* noscript fallback */}
-      <NoscriptFallback />
+      {/* no-JS fallback is in index.html */}
     </section>
   )
 }
