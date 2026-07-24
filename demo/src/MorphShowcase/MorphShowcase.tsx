@@ -262,7 +262,7 @@ const MorphShowcase: React.FC = () => {
 
       timeoutRefs.current.push(setTimeout(() => {
         setMorphing(false)
-      }, exitDelay + 120)
+      }, exitDelay + 120))
     },
     [scenario],
   )
