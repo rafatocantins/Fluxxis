@@ -29,19 +29,8 @@ yarn add @fluxxis/wrapper
 ```tsx
 import { SmartCTA, createIntent, resolveTokens, materialTokens } from '@fluxxis/wrapper';
 
-// Create an intent
-const intent = createIntent({
-  intent: 'buy',
-  goal: 'convert',
-  priority: 'high',
-  actor: 'human',
-  component: {
-    type: 'cta',
-    copy: { primary: 'Buy Now', secondary: 'Add to Cart' },
-    visual: { emphasis: 'high', animation: 'shimmer', hierarchy: 'primary' },
-    state: { default: 'visible', hover: 'elevate+glow' }
-  }
-});
+// Create an intent — positional API: (intent, goal, copy, emphasis?, hierarchy?, animation?)
+const intent = createIntent('buy', 'convert', 'Buy Now', 'high', 'primary', 'shimmer');
 
 // Resolve tokens for Material Design 3
 const tokens = resolveTokens(intent, materialTokens);

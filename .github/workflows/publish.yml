@@ -99,7 +99,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       # adaptive-cta is NOT a pnpm workspace package — it lives outside the monorepo
       # Build with its own dependencies (separate node_modules)
-      - run: cd adaptive-cta && npm install && npm run build
+      - run: cd adaptive-cta && npm ci && npm run build
       - run: npm publish --access public
         working-directory: adaptive-cta
         env:
