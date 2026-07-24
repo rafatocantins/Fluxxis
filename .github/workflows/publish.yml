@@ -12,6 +12,8 @@ on:
           - core
           - react
           - ui
+          - wrapper
+          - adaptive-cta
           - all
 
 jobs:
@@ -65,5 +67,40 @@ jobs:
       - run: pnpm --filter @fluxxis/ui build
       - run: npm publish --access public
         working-directory: packages/ui
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-wrapper:
+    if: ${{ github.event.inputs.package == 'wrapper' || github.event.inputs.package == 'all' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @fluxxis/wrapper build
+      - run: npm publish --access public
+        working-directory: packages/wrapper
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-adaptive-cta:
+    if: ${{ github.event.inputs.package == 'adaptive-cta' || github.event.inputs.package == 'all' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: 'https://registry.npmjs.org'
+      # adaptive-cta is NOT a pnpm workspace package — it lives outside the monorepo
+      # Build with its own dependencies (separate node_modules)
+      - run: cd adaptive-cta && npm install && npm run build
+      - run: npm publish --access public
+        working-directory: adaptive-cta
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
