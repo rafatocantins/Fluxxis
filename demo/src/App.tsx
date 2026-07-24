@@ -2,6 +2,7 @@ import React from 'react'
 import { FluxxisProvider } from '@fluxxis/react'
 import HeroSection from './HeroSection'
 import MorphStage from './MorphStage'
+import MorphShowcase from './MorphShowcase/MorphShowcase'
 import PricingSection from './PricingSection'
 import WhyFluxxisSection from './WhyFluxxisSection'
 import GetStartedSection from './GetStartedSection'
@@ -162,6 +163,7 @@ function App() {
             Hero → MorphStage → Pricing → (existing sections) → Footer */}
         <HeroSection />
         <MorphStage />
+        <MorphShowcase />
         <PricingSection />
         <WhyFluxxisSection />
         <GetStartedSection />
