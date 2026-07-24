@@ -216,6 +216,16 @@ FLUXXIS Ethics Charter:
 | Document | Description |
 |----------|-------------|
 | [**API Reference**](./docs/README.md) | **Developer documentation — getting started guide, `@fluxxis/core` and `@fluxxis/react` API reference** |
+
+### 📚 API Documentation
+
+| Package | Document |
+|---------|----------|
+| `@fluxxis/core` | [Core engine API](./docs/api/core.md) — Intent engine, signals, tokens, analytics |
+| `@fluxxis/react` | [React adapter API](./docs/api/react.md) — Components, hooks, stores |
+| `@fluxxis/ui` | [UI tokens API](./docs/api/ui.md) — Design tokens, CSS custom properties, utility classes |
+| `@fluxxis/wrapper` | [Wrapper API](./docs/api/wrapper.md) — Intent schemas, DS adapters, SmartCTA |
+| Adaptive CTA | [Adaptive CTA Engine API](./docs/api/adaptive-cta.md) — Shopify/WooCommerce adaptive CTA plugin |
 | [**Technical Paper**](./FLUXXIS-PAPER.md) | **Academic paper — formal definition, architecture, proofs** |
 | [**Vision**](./FLUXXIS-VISION.md) | **The ASI paradigm — deep dive into adaptive structural interfaces** |
 | [**Long-Term Vision**](./FLUXXIS-LONG-TERM-VISION.md) | **2026-2035 roadmap — behavioral evolution, societal impact** |
