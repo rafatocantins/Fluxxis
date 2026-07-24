@@ -7,6 +7,9 @@ Welcome to the FLUXXIS developer documentation. FLUXXIS is an **Adaptive Structu
 - **[Getting Started](./getting-started.md)** — 5-minute quickstart guide
 - **[API Reference: @fluxxis/core](./api/core.md)** — Framework-agnostic core engine
 - **[API Reference: @fluxxis/react](./api/react.md)** — React adapter (components, hooks, stores)
+- **[API Reference: @fluxxis/ui](./api/ui.md)** — Design tokens, CSS custom properties, utility classes
+- **[API Reference: @fluxxis/wrapper](./api/wrapper.md)** — Intent schemas, DS adapters, SmartCTA
+- **[API Reference: Adaptive CTA Engine](./api/adaptive-cta.md)** — Shopify/WooCommerce adaptive CTA plugin
 
 ## Package Overview
 
@@ -14,6 +17,9 @@ Welcome to the FLUXXIS developer documentation. FLUXXIS is an **Adaptive Structu
 |---------|-------------|
 | `@fluxxis/core` | Intent engine, signals, tokens, analytics, licensing — zero UI dependencies |
 | `@fluxxis/react` | React bindings: `FluxxisProvider`, `useIntent`, `SmartCTA`, `SmartSection`, hooks, stores |
+| `@fluxxis/ui` | Design tokens as CSS custom properties, utility classes, canonical palette — WCAG 2.1 AA |
+| `@fluxxis/wrapper` | Adaptation layer — IntentSchema, DSAdapter, SmartCTA, tracking, consent |
+| Adaptive CTA Engine | Standalone e-commerce plugin — Shopify Polaris & WooCommerce adapters, built-in analytics |
 
 ## Additional Resources
 
