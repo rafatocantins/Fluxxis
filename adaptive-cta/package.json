@@ -67,10 +67,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist"
   },
-  "dependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0"
-  },
+  "dependencies": {},
   "peerDependencies": {
     "react": ">=17.0.0",
     "react-dom": ">=17.0.0"
