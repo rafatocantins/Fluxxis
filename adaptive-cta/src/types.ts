@@ -103,3 +103,62 @@ export interface DSAdapter {
   /** Return the CSS custom property definitions */
   getTokenCSS(): string
 }
+
+// ── Intent Resolver v2 Types ─────────────────────────────────────────────────
+
+/**
+ * Behavioral intent categories produced by the signal processing engine.
+ * These are richer than the legacy 'Intent' type and represent the user's
+ * current shopping phase based on behavioral signals.
+ */
+export type IntentCategory =
+  | 'browsing'
+  | 'hesitating'
+  | 'ready-to-buy'
+  | 'returning'
+  | 'researching'
+
+/**
+ * A behavioral signal collected from the user's browsing session.
+ * Each signal contributes evidence toward a particular intent category.
+ */
+export interface IntentSignal {
+  /** Time spent on the current page in milliseconds */
+  timeOnPage?: number
+  /** Scroll depth as a fraction of total page height (0-1) */
+  scrollDepth?: number
+  /** Mouse movement velocity in pixels per millisecond */
+  mouseVelocity?: number
+  /** Number of return visits (0 = first visit) */
+  returnVisitCount?: number
+  /** Current cart value in euros (0 = empty cart) */
+  cartValue?: number
+  /** Type of page the user is currently on */
+  pageType?: 'product' | 'cart' | 'checkout' | 'blog' | 'unknown'
+}
+
+/**
+ * The result of intent resolution, combining the predicted category
+ * with a confidence score and metadata for auditing/debugging.
+ */
+export interface ResolvedIntent {
+  /** The predicted intent category */
+  category: IntentCategory
+  /** Confidence score (0-1), values ≥ 0.6 are considered actionable */
+  confidence: number
+  /** List of rule IDs that fired during resolution (for auditability) */
+  firedRules: string[]
+  /** Timestamp of resolution (ISO 8601) */
+  resolvedAt: string
+  /** Map of active signals used in resolution */
+  signals: IntentSignal
+}
+
+/**
+ * Strategy interface for intent resolution.
+ * Default implementation uses rule-based engine; can be swapped
+ * for ML-based resolver without changing consumers.
+ */
+export interface IntentResolverStrategy {
+  resolve(signals: IntentSignal): ResolvedIntent
+}

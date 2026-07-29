@@ -17,6 +17,11 @@ export type {
   SmartCTAProps,
   CTAVariantStyle,
   DSAdapter,
+  // Intent Resolver v2 types
+  IntentCategory,
+  IntentSignal,
+  ResolvedIntent,
+  IntentResolverStrategy,
 } from './types'
 
 // ── Intent Resolver ─────────────────────────────────────────────────────────

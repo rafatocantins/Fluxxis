@@ -50,6 +50,11 @@
       "types": "./dist/ds-adapter.d.ts",
       "import": "./dist/ds-adapter.js",
       "require": "./dist/ds-adapter.cjs"
+    },
+    "./resolver": {
+      "types": "./dist/resolver/index.d.ts",
+      "import": "./dist/resolver/index.js",
+      "require": "./dist/resolver/index.cjs"
     }
   },
   "files": [
