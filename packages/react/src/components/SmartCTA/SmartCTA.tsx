@@ -264,56 +264,78 @@ export const SmartCTA: React.FC<SmartCTAProps & {
     // Generate accessible aria-label
     const ariaLabel = generateAriaLabel(copy, goal, pageContext);
 
+    // Fallback href for noscript (when JS is disabled)
+    const getFallbackHref = (): string => {
+      if (pageContext === 'pricing') return '/pricing';
+      if (goal === 'convert') return '/signup';
+      if (goal === 'inform') return '/learn';
+      return '#';
+    };
+
+    const noscriptFallback = (
+      <noscript>
+        <a href={getFallbackHref()} className="flux-cta flux-cta--noscript" aria-label={copy}>
+          {copy}
+        </a>
+      </noscript>
+    );
+
     // Render animated button if enabled
     if (animated) {
       return (
-        <AnimatedButton
-          ref={ref as unknown as React.Ref<HTMLButtonElement>}
-          variant={resolvedAnimatedVariant}
-          goal={goal}
-          size={size}
-          isLoading={isLoading || isGeneratingCopy}
-          icon={icon}
-          trailingIcon={trailingIcon}
-          disableAnimations={disableAnimations}
+        <>
+          <AnimatedButton
+            ref={ref as unknown as React.Ref<HTMLButtonElement>}
+            variant={resolvedAnimatedVariant}
+            goal={goal}
+            size={size}
+            isLoading={isLoading || isGeneratingCopy}
+            icon={icon}
+            trailingIcon={trailingIcon}
+            disableAnimations={disableAnimations}
+            className={classes}
+            data-goal={goal}
+            data-page-context={pageContext}
+            data-node-id={nodeId}
+            data-emphasis={emphasis}
+            data-floating={isFloating}
+            data-copy-error={hasCopyError}
+            onClick={handleClick}
+            aria-label={ariaLabel}
+            aria-busy={isLoading || isGeneratingCopy}
+            {...props}
+          >
+            {isGeneratingCopy ? 'Loading...' : copy}
+          </AnimatedButton>
+          {noscriptFallback}
+        </>
+      );
+    }
+
+    // Render legacy button if animated is disabled
+    return (
+      <>
+        <button
+          ref={ref}
           className={classes}
           data-goal={goal}
           data-page-context={pageContext}
           data-node-id={nodeId}
           data-emphasis={emphasis}
           data-floating={isFloating}
-          data-copy-error={hasCopyError}
           onClick={handleClick}
-          aria-label={ariaLabel}
-          aria-busy={isLoading || isGeneratingCopy}
+          style={{
+            ...cssVariables,
+            '--intent-animation': intentTokens.animation,
+            '--intent-border-radius': intentTokens.borderRadius,
+            '--intent-shadow': intentTokens.shadow,
+          } as React.CSSProperties}
           {...props}
         >
-          {isGeneratingCopy ? 'Loading...' : copy}
-        </AnimatedButton>
-      );
-    }
-
-    // Render legacy button if animated is disabled
-    return (
-      <button
-        ref={ref}
-        className={classes}
-        data-goal={goal}
-        data-page-context={pageContext}
-        data-node-id={nodeId}
-        data-emphasis={emphasis}
-        data-floating={isFloating}
-        onClick={handleClick}
-        style={{
-          ...cssVariables,
-          '--intent-animation': intentTokens.animation,
-          '--intent-border-radius': intentTokens.borderRadius,
-          '--intent-shadow': intentTokens.shadow,
-        } as React.CSSProperties}
-        {...props}
-      >
-        {defaultCopy}
-      </button>
+          {defaultCopy}
+        </button>
+        {noscriptFallback}
+      </>
     );
   };
 

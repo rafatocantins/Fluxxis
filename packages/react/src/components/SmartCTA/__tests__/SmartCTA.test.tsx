@@ -11,6 +11,7 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { renderToString } from 'react-dom/server';
 
 // Mock useBehaviorObserver
 vi.mock('../../../hooks/useBehaviorObserver', () => ({
@@ -196,6 +197,111 @@ describe('SmartCTA', () => {
 
       const button = screen.getByRole('button');
       expect(() => fireEvent.click(button)).not.toThrow();
+    });
+  });
+
+  describe('Keyboard accessibility (WCAG 2.1 AA)', () => {
+    it('activates onClick via Enter key', () => {
+      const handleClick = vi.fn();
+      render(
+        <SmartCTA
+          goal="convert"
+          defaultCopy="Get Started"
+          onClick={handleClick}
+          animated={false}
+        />
+      );
+
+      const button = screen.getByRole('button');
+      // Simulate browser behavior: Enter keyDown triggers click on buttons
+      fireEvent.keyDown(button, { key: 'Enter', code: 'Enter' });
+      fireEvent.click(button);
+
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('activates onClick via Space key', () => {
+      const handleClick = vi.fn();
+      render(
+        <SmartCTA
+          goal="convert"
+          defaultCopy="Get Started"
+          onClick={handleClick}
+          animated={false}
+        />
+      );
+
+      const button = screen.getByRole('button');
+      // Simulate browser behavior: Space keyDown triggers click on buttons
+      fireEvent.keyDown(button, { key: ' ', code: 'Space' });
+      fireEvent.click(button);
+
+      expect(handleClick).toHaveBeenCalledTimes(1);
+    });
+
+    it('does not activate onClick for non-activation keys', () => {
+      const handleClick = vi.fn();
+      render(
+        <SmartCTA
+          goal="convert"
+          defaultCopy="Get Started"
+          onClick={handleClick}
+          animated={false}
+        />
+      );
+
+      const button = screen.getByRole('button');
+      fireEvent.keyDown(button, { key: 'Tab', code: 'Tab' });
+
+      // Tab should NOT trigger onClick on native buttons
+      expect(handleClick).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('noscript fallback (a11y)', () => {
+    it('renders <noscript> fallback with correct content', () => {
+      // Use renderToString because client-side React + jsdom strip <noscript> children
+      const html = renderToString(
+        <SmartCTA
+          goal="convert"
+          defaultCopy="Get Started"
+          animated={false}
+        />
+      );
+
+      expect(html).toContain('<noscript>');
+      expect(html).toContain('Get Started');
+      expect(html).toContain('/signup');
+      expect(html).toContain('flux-cta--noscript');
+    });
+
+    it('renders correct href for inform goal', () => {
+      const html = renderToString(
+        <SmartCTA
+          goal="inform"
+          defaultCopy="Learn More"
+          animated={false}
+        />
+      );
+
+      expect(html).toContain('<noscript>');
+      expect(html).toContain('/learn');
+      expect(html).toContain('Learn More');
+    });
+
+    it('renders correct href for pricing page context', () => {
+      const html = renderToString(
+        <SmartCTA
+          goal="convert"
+          defaultCopy="View Pricing"
+          pageContext="pricing"
+          animated={false}
+        />
+      );
+
+      expect(html).toContain('<noscript>');
+      expect(html).toContain('/pricing');
+      expect(html).toContain('View Pricing');
     });
   });
 });
