@@ -6,6 +6,7 @@ export default defineConfig({
     'intent-resolver': 'src/intent-resolver.ts',
     tracking: 'src/tracking.ts',
     'ds-adapter': 'src/ds-adapter.ts',
+    'resolver/index': 'src/resolver/index.ts',
   },
   format: ['cjs', 'esm'],
   dts: true,
