@@ -162,3 +162,43 @@ export interface ResolvedIntent {
 export interface IntentResolverStrategy {
   resolve(signals: IntentSignal): ResolvedIntent
 }
+
+// ── A/B Variant Engine Types ─────────────────────────────────────────────────
+
+/**
+ * A variant name identifier used in A/B testing pools.
+ */
+export type VariantName = string
+
+/**
+ * A pool of variants for a specific intent category.
+ * Used by the variant engine to select and serve A/B test variants.
+ */
+export interface VariantPool {
+  /** Human-readable pool name (typically matches the intent category) */
+  name: string
+  /** List of variant names available in this pool */
+  variants: VariantName[]
+}
+
+/**
+ * The response produced by the A/B variant engine.
+ * Consumed by Shopify/WooCommerce plugins to render the appropriate CTA variant.
+ */
+export interface AdaptiveCTAResponse {
+  /** The selected variant name */
+  variant: VariantName
+  /** The intent category used for variant selection */
+  intent: IntentCategory
+  /** Confidence score (0-1) from the intent resolver */
+  confidence: number
+  /** Metadata for auditing and debugging */
+  metadata: {
+    /** Optional experiment identifier for A/B tracking */
+    experimentId?: string
+    /** Name of the variant pool that was used */
+    poolName: string
+    /** ISO 8601 timestamp of resolution */
+    resolvedAt: string
+  }
+}

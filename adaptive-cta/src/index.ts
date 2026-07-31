@@ -48,5 +48,15 @@ export {
   WooCommerceAdapter,
 } from './ds-adapter'
 
+// ── A/B Variant Engine ───────────────────────────────────────────────────────
+export { selectVariant, VARIANT_POOLS } from './engine/variant-engine'
+export { assignVariant, hashString } from './engine/ab-splitter'
+export { buildResponse } from './engine/response'
+export type {
+  VariantName,
+  VariantPool,
+  AdaptiveCTAResponse,
+} from './types'
+
 // ── Default export ──────────────────────────────────────────────────────────
 export { SmartCTA as default } from './SmartCTA'

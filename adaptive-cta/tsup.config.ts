@@ -7,6 +7,7 @@ export default defineConfig({
     tracking: 'src/tracking.ts',
     'ds-adapter': 'src/ds-adapter.ts',
     'resolver/index': 'src/resolver/index.ts',
+    'engine/index': 'src/engine/index.ts',
   },
   format: ['cjs', 'esm'],
   dts: true,
