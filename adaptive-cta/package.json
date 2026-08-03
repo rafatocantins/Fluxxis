@@ -67,7 +67,8 @@
     "src",
     "shopify",
     "woocommerce",
-    "README.md"
+    "README.md",
+    "tsup.umd.config.ts"
   ],
   "scripts": {
     "build": "tsup",
@@ -75,6 +76,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit",
+    "build:umd": "tsup --config tsup.umd.config.ts && mv dist/fluxxis-variant-engine.global.js dist/fluxxis-variant-engine.umd.js && mv dist/fluxxis-variant-engine.global.js.map dist/fluxxis-variant-engine.umd.js.map && sed -i 's/fluxxis-variant-engine\\.global\\.js\\.map/fluxxis-variant-engine.umd.js.map/g' dist/fluxxis-variant-engine.umd.js",
     "clean": "rm -rf dist"
   },
   "dependencies": {},
