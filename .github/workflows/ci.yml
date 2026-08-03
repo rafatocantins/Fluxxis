@@ -20,5 +20,6 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: npm install @fluxxis/core@0.2.0
       - run: pnpm build
+      - run: pnpm --filter @fluxxis/adaptive-cta build:umd
       - run: pnpm test
       - run: pnpm typecheck
