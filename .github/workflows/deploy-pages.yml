@@ -6,6 +6,7 @@ on:
     paths:
       - 'packages/**'
       - 'demo/**'
+      - 'adaptive-cta/landing/**'
       - '.github/workflows/deploy-pages.yml'
   workflow_dispatch:
 
@@ -44,6 +45,11 @@ jobs:
       - uses: actions/configure-pages@v5
         with:
           enablement: true
+
+      - name: Copy landing page to dist
+        run: |
+          mkdir -p demo/dist/adaptive-cta/landing
+          cp -r adaptive-cta/landing/* demo/dist/adaptive-cta/landing/
 
       - uses: actions/upload-pages-artifact@v3
         with:
