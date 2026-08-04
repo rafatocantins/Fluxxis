@@ -62,7 +62,7 @@
     },
     // Hesitating
     'social-proof': {
-      text: 'Mais Vendido', color: '#FF5C9D', textColor: '#ffffff', icon: '⭐',
+      text: 'Mais Vendido', color: '#C84074', textColor: '#ffffff', icon: '⭐',
       subtext: 'Recomendado por outros clientes',
     },
     'urgency-nudge': {
@@ -71,7 +71,7 @@
     },
     // Ready-to-buy
     'direct-cta': {
-      text: 'Comprar Agora', color: '#FF5C9D', textColor: '#ffffff', icon: '🛒',
+      text: 'Comprar Agora', color: '#C84074', textColor: '#ffffff', icon: '🛒',
       subtext: 'Frete Grátis',
     },
     'scarcity-alert': {
@@ -110,6 +110,7 @@
   }
 
   // ── Signal Collection ──────────────────────────────────────────────────
+  // KEEP IN SYNC WITH signals.ts
 
   // Mouse velocity tracking
   var _lastMouseX = -1
@@ -272,9 +273,21 @@
         var resolvedIntent = engine.resolveIntent(signals)
         var userId = getUserId()
 
+        var productId
+        try {
+          productId =
+            window.ShopifyAnalytics && window.ShopifyAnalytics.meta
+              ? window.ShopifyAnalytics.meta.product
+                ? window.ShopifyAnalytics.meta.product.id
+                : undefined
+              : undefined
+        } catch (e) {
+          productId = undefined
+        }
+
         var ctaConfig = {
           intent: 'browse',
-          productId: userId,
+          productId: productId,
           productName: undefined,
         }
 
@@ -466,7 +479,7 @@
       productId: productId,
       timestamp: new Date().toISOString(),
       metadata: {
-        url: window.location.href,
+        url: window.location.origin + window.location.pathname,
         referrer: document.referrer,
         platform: 'shopify',
         version: '0.2.0',

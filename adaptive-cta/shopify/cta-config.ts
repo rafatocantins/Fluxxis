@@ -62,7 +62,7 @@ export const VARIANT_RENDER_MAP: Record<string, CTARenderConfig> = {
   // ── Hesitating variants ────────────────────────────────────────────
   'social-proof': {
     text: 'Mais Vendido',
-    color: '#FF5C9D',
+    color: '#C84074',
     textColor: '#ffffff',
     icon: '⭐',
     subtext: 'Recomendado por outros clientes',
@@ -78,7 +78,7 @@ export const VARIANT_RENDER_MAP: Record<string, CTARenderConfig> = {
   // ── Ready-to-buy variants ──────────────────────────────────────────
   'direct-cta': {
     text: 'Comprar Agora',
-    color: '#FF5C9D',
+    color: '#C84074',
     textColor: '#ffffff',
     icon: '🛒',
     subtext: 'Frete Grátis',

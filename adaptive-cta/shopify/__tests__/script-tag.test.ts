@@ -217,7 +217,7 @@ describe('cta-config — variant rendering', () => {
   // Test 7: resolveCTARenderConfig returns correct config for known variant
   it('resolveCTARenderConfig returns correct config for known variants', () => {
     expect(resolveCTARenderConfig('direct-cta').text).toBe('Comprar Agora')
-    expect(resolveCTARenderConfig('direct-cta').color).toBe('#FF5C9D')
+    expect(resolveCTARenderConfig('direct-cta').color).toBe('#C84074')
     expect(resolveCTARenderConfig('direct-cta').icon).toBe('🛒')
   })
 

@@ -1,6 +1,8 @@
 /**
  * Behavioral Signal Collection — Shopify Script Tag
  *
+ * KEEP IN SYNC WITH script-tag.js
+ *
  * Collects ≥4 behavioral signals from the user's browsing session
  * for the intent resolver pipeline:
  *   1. timeOnPage   — milliseconds since page load
