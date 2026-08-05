@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0] - 2026-08-05
+
+### Added
+
+- **Shopify Variant Engine v2** — Full pipeline `collectSignals→resolveIntent→selectVariant→renderCTA` with 23 tests. Analytics enriched with `variantName` + `experimentId`. (#54)
+- **UMD Bundle Pipeline** — CDN-ready build producing `dist/fluxxis-variant-engine.umd.js`. (#52)
+- **Landing Page v0.2.0** — Fluxxis.dev showcase with lead collection. (#51)
+- **A/B Variant Pool Engine** — 5 intent pools with deterministic distribution. (#49)
+- **Intent Resolver v2** — Weighted rule engine with fallback resolution. (#47)
+
+### Published
+
+- `@fluxxis/adaptive-cta@0.2.1`
+- `@fluxxis/wrapper@0.1.0`
+
 ## [0.2.1] - 2026-07-22
 
 ### Changed
@@ -71,6 +86,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mono-repo package structure setup (FLX-P1-01).
 - Rule 0 (Always Plan First) and Phase 1 planning documentation.
 
+[0.3.0]: https://github.com/rafatocantins/Fluxxis/releases/tag/v0.3.0
 [0.2.1]: https://github.com/rafatocantins/Fluxxis/releases/tag/v0.2.1
 [0.2.0]: https://github.com/rafatocantins/Fluxxis/releases/tag/v0.2.0
 [0.1.0]: https://github.com/rafatocantins/Fluxxis/releases/tag/v0.1.0
