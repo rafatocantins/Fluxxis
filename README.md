@@ -8,6 +8,7 @@
 > Interfaces are not screens. They are living systems.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Get Started](https://img.shields.io/badge/Quickstart-5%20min-brightgreen.svg)](./docs/quickstart.md)
 [![Confidence Score](https://img.shields.io/badge/Confidence-87%25-green.svg)](./FLUXXIS-MASTER-PLAN.md)
 [![Status](https://img.shields.io/badge/Status-In%20Development-blue.svg)](./FLUXXIS-MASTER-PLAN.md)
 [![CI](https://github.com/rafatocantins/Fluxxis/actions/workflows/ci.yml/badge.svg)](https://github.com/rafatocantins/Fluxxis/actions/workflows/ci.yml)
@@ -215,6 +216,7 @@ FLUXXIS Ethics Charter:
 
 | Document | Description |
 |----------|-------------|
+| [**🚀 Quickstart (5 min)**](./docs/quickstart.md) | **Guia rápido — React, Shopify e Core SDK em minutos** |
 | [**API Reference**](./docs/README.md) | **Developer documentation — getting started guide, `@fluxxis/core` and `@fluxxis/react` API reference** |
 
 ### 📚 API Documentation
