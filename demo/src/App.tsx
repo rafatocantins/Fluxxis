@@ -9,6 +9,7 @@ import GetStartedSection from './GetStartedSection'
 import IntentPlayground from './IntentPlayground'
 import ComponentGallery from './ComponentGallery'
 import WrapperDemo from './WrapperDemo'
+import DashboardSection from './DashboardSection'
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -170,6 +171,7 @@ function App() {
         <IntentPlayground />
         <ComponentGallery />
         <WrapperDemo />
+        <DashboardSection />
         <Footer />
       </div>
     </FluxxisProvider>
