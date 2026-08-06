@@ -107,8 +107,7 @@ const PricingSection: React.FC = () => {
       }
       setEmailError('')
       setSubmitted(true)
-      // placeholder — real backend integration coming
-      console.log('Early Access signup:', email.trim())
+      // TODO: integrar com backend de subscrição
     },
     [email],
   )
