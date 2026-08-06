@@ -5,7 +5,7 @@
  * Two-tier plans (Free + Pro) + Early Access flow + integration footer.
  * Responsive (mobile-first), inline styles, no external deps.
  */
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -94,23 +94,20 @@ const PricingSection: React.FC = () => {
   const [emailError, setEmailError] = useState('')
   const [submitted, setSubmitted] = useState(false)
 
-  const handleSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault()
-      if (!email.trim()) {
-        setEmailError('Introduza o seu email.')
-        return
-      }
-      if (!isValidEmail(email.trim())) {
-        setEmailError('Email inválido. Verifique o formato.')
-        return
-      }
-      setEmailError('')
-      setSubmitted(true)
-      // TODO: integrar com backend de subscrição
-    },
-    [email],
-  )
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!email.trim()) {
+      setEmailError('Introduza o seu email.')
+      return
+    }
+    if (!isValidEmail(email.trim())) {
+      setEmailError('Email inválido. Verifique o formato.')
+      return
+    }
+    setEmailError('')
+    setSubmitted(true)
+    // TODO: integrar com backend de subscrição
+  }
 
   return (
     <>
@@ -180,8 +177,8 @@ const PricingSection: React.FC = () => {
               gap: '0.5rem',
               background: 'var(--flux-accent-soft, rgba(31,168,158,0.10))',
               border: '1px solid var(--flux-border-accent, rgba(31,168,158,0.35))',
-              color: 'var(--flux-accent-primary, #1FA89E)',
-              fontSize: 'var(--flux-font-size-xs, 0.8125rem)',
+              color: 'var(--flux-accent-primary, #00d4aa)',
+              fontSize: 'var(--flux-font-size-xs, 0.75rem)',
               fontWeight: 600,
               padding: '0.375rem 1rem',
               borderRadius: 'var(--flux-radius-full, 9999px)',
@@ -193,7 +190,7 @@ const PricingSection: React.FC = () => {
               style={{
                 width: 6,
                 height: 6,
-                background: 'var(--flux-accent-primary, #1FA89E)',
+                background: 'var(--flux-accent-primary, #00d4aa)',
                 borderRadius: '50%',
                 display: 'inline-block',
               }}
@@ -211,14 +208,14 @@ const PricingSection: React.FC = () => {
               fontWeight: 800,
               lineHeight: 1.2,
               letterSpacing: '-0.03em',
-              color: 'var(--flux-text-primary, #f0f0ff)',
+              color: 'var(--flux-text-primary, #f0f0f5)',
             }}
           >
             CTAs que se adaptam à{' '}
             <span
               style={{
                 background:
-                  'linear-gradient(135deg, var(--flux-accent-secondary, #6D4FE0) 0%, var(--flux-accent-primary, #1FA89E) 100%)',
+                  'linear-gradient(135deg, var(--flux-accent-secondary, #22d3ee) 0%, var(--flux-accent-primary, #00d4aa) 100%)',
                 WebkitBackgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 backgroundClip: 'text',
@@ -235,7 +232,7 @@ const PricingSection: React.FC = () => {
               maxWidth: 620,
               margin: '0 auto var(--flux-space-10, 2.5rem)',
               fontSize: 'var(--flux-font-size-lg, 1.125rem)',
-              color: 'var(--flux-text-secondary, #9898b0)',
+              color: 'var(--flux-text-secondary, #b0b0c0)',
               lineHeight: 1.7,
             }}
           >
@@ -264,7 +261,7 @@ const PricingSection: React.FC = () => {
                   style={{
                     fontSize: '2rem',
                     fontWeight: 800,
-                    color: 'var(--flux-text-primary, #f0f0ff)',
+                    color: 'var(--flux-text-primary, #f0f0f5)',
                     letterSpacing: '-0.02em',
                   }}
                 >
@@ -272,8 +269,8 @@ const PricingSection: React.FC = () => {
                 </div>
                 <div
                   style={{
-                    fontSize: 'var(--flux-font-size-xs, 0.8125rem)',
-                    color: 'var(--flux-text-tertiary, #9494a8)',
+                    fontSize: 'var(--flux-font-size-xs, 0.75rem)',
+                    color: 'var(--flux-text-tertiary, #787890)',
                     fontWeight: 500,
                     marginTop: '0.25rem',
                   }}
@@ -307,7 +304,7 @@ const PricingSection: React.FC = () => {
           }}
         >
           {/* Section header */}
-          <div style={{ textAlign: 'center', marginBottom: 'var(--flux-space-14, 3.5rem)' }}>
+          <div style={{ textAlign: 'center', marginBottom: 'var(--flux-space-12, 3rem)' }}>
             <h2
               id="pricing-title"
               style={{
@@ -315,7 +312,7 @@ const PricingSection: React.FC = () => {
                 fontWeight: 800,
                 lineHeight: 1.2,
                 letterSpacing: '-0.02em',
-                color: 'var(--flux-text-primary, #f0f0ff)',
+                color: 'var(--flux-text-primary, #f0f0f5)',
                 marginBottom: 'var(--flux-space-3, 0.75rem)',
               }}
             >
@@ -326,7 +323,7 @@ const PricingSection: React.FC = () => {
                 maxWidth: 500,
                 margin: '0 auto',
                 fontSize: 'var(--flux-font-size-base, 1rem)',
-                color: 'var(--flux-text-secondary, #9898b0)',
+                color: 'var(--flux-text-secondary, #b0b0c0)',
               }}
             >
               Comece grátis. Escale quando precisar. Cancele a qualquer momento.
@@ -356,12 +353,12 @@ const PricingSection: React.FC = () => {
                       ? 'var(--flux-bg-elevated, #1a1a2e)'
                       : 'var(--flux-bg-secondary, #0d0d1a)',
                     border: isFeatured
-                      ? '1px solid var(--flux-accent-secondary, #6D4FE0)'
+                      ? '1px solid var(--flux-accent-secondary, #22d3ee)'
                       : '1px solid var(--flux-border-default, rgba(255,255,255,0.08))',
                     borderRadius: 'var(--flux-radius-xl, 20px)',
                     padding: 'var(--flux-space-8, 2.25rem) var(--flux-space-8, 2rem)',
                     position: 'relative',
-                    transition: 'all var(--flux-transition-normal, 250ms ease)',
+                    transition: 'all var(--flux-transition-base, 200ms ease)',
                     transform: isFeatured ? 'scale(1.03)' : undefined,
                     boxShadow: isFeatured
                       ? '0 0 30px rgba(109, 79, 224, 0.2)'
@@ -371,7 +368,7 @@ const PricingSection: React.FC = () => {
                     const el = e.currentTarget as HTMLDivElement
                     if (isFeatured) {
                       el.style.transform = 'scale(1.04)'
-                      el.style.borderColor = 'var(--flux-accent-secondary, #6D4FE0)'
+                      el.style.borderColor = 'var(--flux-accent-secondary, #22d3ee)'
                       el.style.boxShadow = '0 0 40px rgba(109, 79, 224, 0.3)'
                     } else {
                       el.style.borderColor = 'var(--flux-border-strong, rgba(255,255,255,0.14))'
@@ -382,7 +379,7 @@ const PricingSection: React.FC = () => {
                     const el = e.currentTarget as HTMLDivElement
                     if (isFeatured) {
                       el.style.transform = 'scale(1.03)'
-                      el.style.borderColor = 'var(--flux-accent-secondary, #6D4FE0)'
+                      el.style.borderColor = 'var(--flux-accent-secondary, #22d3ee)'
                       el.style.boxShadow = '0 0 30px rgba(109, 79, 224, 0.2)'
                     } else {
                       el.style.borderColor = 'var(--flux-border-default, rgba(255,255,255,0.08))'
@@ -399,7 +396,7 @@ const PricingSection: React.FC = () => {
                         left: '50%',
                         transform: 'translateX(-50%)',
                         background:
-                          'linear-gradient(135deg, var(--flux-accent-secondary, #6D4FE0) 0%, var(--flux-accent-primary, #1FA89E) 100%)',
+                          'linear-gradient(135deg, var(--flux-accent-secondary, #22d3ee) 0%, var(--flux-accent-primary, #00d4aa) 100%)',
                         color: '#fff',
                         fontSize: 'var(--flux-font-size-xs, 0.75rem)',
                         fontWeight: 700,
@@ -419,7 +416,7 @@ const PricingSection: React.FC = () => {
                     style={{
                       fontSize: 'var(--flux-font-size-xl, 1.25rem)',
                       fontWeight: 700,
-                      color: 'var(--flux-text-primary, #f0f0ff)',
+                      color: 'var(--flux-text-primary, #f0f0f5)',
                       marginBottom: 'var(--flux-space-2, 0.5rem)',
                     }}
                   >
@@ -430,8 +427,8 @@ const PricingSection: React.FC = () => {
                   <p
                     style={{
                       fontSize: 'var(--flux-font-size-sm, 0.875rem)',
-                      color: 'var(--flux-text-tertiary, #9494a8)',
-                      marginBottom: 'var(--flux-space-7, 1.75rem)',
+                      color: 'var(--flux-text-tertiary, #787890)',
+                      marginBottom: 'var(--flux-space-8, 2rem)',
                     }}
                   >
                     {plan.description}
@@ -443,7 +440,7 @@ const PricingSection: React.FC = () => {
                       display: 'flex',
                       alignItems: 'baseline',
                       gap: 'var(--flux-space-1, 0.25rem)',
-                      marginBottom: 'var(--flux-space-7, 1.75rem)',
+                      marginBottom: 'var(--flux-space-8, 2rem)',
                     }}
                   >
                     <span
@@ -453,16 +450,16 @@ const PricingSection: React.FC = () => {
                         letterSpacing: '-0.03em',
                         lineHeight: 1,
                         color: isFeatured
-                          ? 'var(--flux-accent-secondary, #6D4FE0)'
-                          : 'var(--flux-text-primary, #f0f0ff)',
+                          ? 'var(--flux-accent-secondary, #22d3ee)'
+                          : 'var(--flux-text-primary, #f0f0f5)',
                       }}
                     >
                       {plan.price}
                     </span>
                     <span
                       style={{
-                        fontSize: 'var(--flux-font-size-base, 0.9375rem)',
-                        color: 'var(--flux-text-tertiary, #9494a8)',
+                        fontSize: 'var(--flux-font-size-base, 1rem)',
+                        color: 'var(--flux-text-tertiary, #787890)',
                         fontWeight: 500,
                       }}
                     >
@@ -486,12 +483,12 @@ const PricingSection: React.FC = () => {
                           alignItems: 'flex-start',
                           gap: 'var(--flux-space-2, 0.625rem)',
                           padding: 'var(--flux-space-2, 0.5rem) 0',
-                          fontSize: 'var(--flux-font-size-sm, 0.9375rem)',
-                          color: 'var(--flux-text-secondary, #9898b0)',
+                          fontSize: 'var(--flux-font-size-sm, 0.875rem)',
+                          color: 'var(--flux-text-secondary, #b0b0c0)',
                           lineHeight: 1.5,
                         }}
                       >
-                        <span style={{ color: 'var(--flux-accent-primary, #1FA89E)' }}>
+                        <span style={{ color: 'var(--flux-accent-primary, #00d4aa)' }}>
                           <CheckIcon />
                         </span>
                         {f.label}
@@ -511,18 +508,18 @@ const PricingSection: React.FC = () => {
                       justifyContent: 'center',
                       alignItems: 'center',
                       gap: '0.5rem',
-                      padding: 'var(--flux-space-3, 0.75rem) var(--flux-space-7, 1.75rem)',
+                      padding: 'var(--flux-space-3, 0.75rem) var(--flux-space-8, 2rem)',
                       fontFamily: 'var(--flux-font-sans, Inter, sans-serif)',
                       fontWeight: 600,
-                      fontSize: 'var(--flux-font-size-base, 0.9375rem)',
+                      fontSize: 'var(--flux-font-size-base, 1rem)',
                       borderRadius: 'var(--flux-radius-md, 10px)',
                       border: isFeatured ? 'none' : '1.5px solid var(--flux-border-strong, rgba(255,255,255,0.14))',
                       background: isFeatured
-                        ? 'linear-gradient(135deg, var(--flux-accent-secondary, #6D4FE0) 0%, var(--flux-accent-primary, #1FA89E) 100%)'
+                        ? 'linear-gradient(135deg, var(--flux-accent-secondary, #22d3ee) 0%, var(--flux-accent-primary, #00d4aa) 100%)'
                         : 'transparent',
-                      color: isFeatured ? '#fff' : 'var(--flux-text-primary, #f0f0ff)',
+                      color: isFeatured ? '#fff' : 'var(--flux-text-primary, #f0f0f5)',
                       cursor: 'pointer',
-                      transition: 'all var(--flux-transition-fast, 150ms ease)',
+                      transition: 'all var(--flux-transition-fast, 120ms ease)',
                     }}
                     onMouseOver={(e) => {
                       const el = e.currentTarget as HTMLButtonElement
@@ -530,8 +527,8 @@ const PricingSection: React.FC = () => {
                         el.style.boxShadow = '0 0 24px rgba(109, 79, 224, 0.35)'
                         el.style.transform = 'translateY(-1px)'
                       } else {
-                        el.style.borderColor = 'var(--flux-accent-secondary, #6D4FE0)'
-                        el.style.color = 'var(--flux-accent-secondary, #6D4FE0)'
+                        el.style.borderColor = 'var(--flux-accent-secondary, #22d3ee)'
+                        el.style.color = 'var(--flux-accent-secondary, #22d3ee)'
                         el.style.background = 'var(--flux-accent-soft, rgba(31,168,158,0.10))'
                       }
                     }}
@@ -542,7 +539,7 @@ const PricingSection: React.FC = () => {
                         el.style.transform = 'translateY(0)'
                       } else {
                         el.style.borderColor = 'var(--flux-border-strong, rgba(255,255,255,0.14))'
-                        el.style.color = 'var(--flux-text-primary, #f0f0ff)'
+                        el.style.color = 'var(--flux-text-primary, #f0f0f5)'
                         el.style.background = 'transparent'
                       }
                     }}
@@ -599,7 +596,7 @@ const PricingSection: React.FC = () => {
                 right: 0,
                 height: 2,
                 background:
-                  'linear-gradient(90deg, var(--flux-accent-secondary, #6D4FE0), var(--flux-accent-primary, #1FA89E))',
+                  'linear-gradient(90deg, var(--flux-accent-secondary, #22d3ee), var(--flux-accent-primary, #00d4aa))',
               }}
             />
 
@@ -608,7 +605,7 @@ const PricingSection: React.FC = () => {
               style={{
                 fontSize: 'var(--flux-font-size-2xl, 1.5rem)',
                 fontWeight: 700,
-                color: 'var(--flux-text-primary, #f0f0ff)',
+                color: 'var(--flux-text-primary, #f0f0f5)',
                 marginBottom: 'var(--flux-space-2, 0.5rem)',
               }}
             >
@@ -617,13 +614,13 @@ const PricingSection: React.FC = () => {
             <p
               style={{
                 fontSize: 'var(--flux-font-size-base, 1rem)',
-                color: 'var(--flux-text-secondary, #9898b0)',
-                marginBottom: 'var(--flux-space-7, 1.75rem)',
+                color: 'var(--flux-text-secondary, #b0b0c0)',
+                marginBottom: 'var(--flux-space-8, 2rem)',
                 lineHeight: 1.7,
               }}
             >
               Seja um dos primeiros 500 utilizadores e garanta o plano Pro por{' '}
-              <strong style={{ color: 'var(--flux-accent-primary, #1FA89E)' }}>19€/mês</strong> para
+              <strong style={{ color: 'var(--flux-accent-primary, #00d4aa)' }}>19€/mês</strong> para
               sempre. Acesso antecipado a novas features e influência direta no roadmap.
             </p>
 
@@ -636,7 +633,7 @@ const PricingSection: React.FC = () => {
                   background: 'var(--flux-accent-soft, rgba(31,168,158,0.10))',
                   border: '1px solid var(--flux-border-accent, rgba(31,168,158,0.35))',
                   borderRadius: 'var(--flux-radius-md, 10px)',
-                  color: 'var(--flux-accent-primary, #1FA89E)',
+                  color: 'var(--flux-accent-primary, #00d4aa)',
                   fontWeight: 600,
                   textAlign: 'center',
                 }}
@@ -668,25 +665,24 @@ const PricingSection: React.FC = () => {
                     }}
                     placeholder="o seu@email.com"
                     required
-                    aria-label="Endereço de email"
                     aria-invalid={!!emailError}
                     aria-describedby={emailError ? 'early-access-email-error' : undefined}
                     style={{
                       width: '100%',
                       boxSizing: 'border-box',
                       background: 'var(--flux-bg-primary, #08080f)',
-                      border: `1.5px solid ${emailError ? 'var(--flux-accent-buy, #C84074)' : 'var(--flux-border-default, rgba(255,255,255,0.08))'}`,
+                      border: `1.5px solid ${emailError ? 'var(--flux-accent-primary, #00d4aa)' : 'var(--flux-border-default, rgba(255,255,255,0.08))'}`,
                       borderRadius: 'var(--flux-radius-md, 10px)',
                       padding: '0.8125rem 1rem',
-                      color: 'var(--flux-text-primary, #f0f0ff)',
+                      color: 'var(--flux-text-primary, #f0f0f5)',
                       fontFamily: 'var(--flux-font-sans, Inter, sans-serif)',
-                      fontSize: 'var(--flux-font-size-base, 0.9375rem)',
+                      fontSize: 'var(--flux-font-size-base, 1rem)',
                       outline: 'none',
-                      transition: 'border-color var(--flux-transition-fast, 150ms ease), box-shadow var(--flux-transition-fast, 150ms ease)',
+                      transition: 'border-color var(--flux-transition-fast, 120ms ease), box-shadow var(--flux-transition-fast, 120ms ease)',
                     }}
                     onFocus={(e) => {
                       if (!emailError) {
-                        e.currentTarget.style.borderColor = 'var(--flux-accent-secondary, #6D4FE0)'
+                        e.currentTarget.style.borderColor = 'var(--flux-accent-secondary, #22d3ee)'
                         e.currentTarget.style.boxShadow = '0 0 0 3px rgba(109, 79, 224, 0.15)'
                       }
                     }}
@@ -705,7 +701,7 @@ const PricingSection: React.FC = () => {
                         display: 'block',
                         marginTop: '0.375rem',
                         fontSize: 'var(--flux-font-size-xs, 0.75rem)',
-                        color: 'var(--flux-accent-buy, #C84074)',
+                        color: 'var(--flux-accent-primary, #00d4aa)',
                       }}
                     >
                       {emailError}
@@ -725,11 +721,11 @@ const PricingSection: React.FC = () => {
                     borderRadius: 'var(--flux-radius-md, 10px)',
                     border: 'none',
                     background:
-                      'linear-gradient(135deg, var(--flux-accent-secondary, #6D4FE0) 0%, var(--flux-accent-primary, #1FA89E) 100%)',
+                      'linear-gradient(135deg, var(--flux-accent-secondary, #22d3ee) 0%, var(--flux-accent-primary, #00d4aa) 100%)',
                     color: '#fff',
                     cursor: 'pointer',
                     whiteSpace: 'nowrap',
-                    transition: 'all var(--flux-transition-fast, 150ms ease)',
+                    transition: 'all var(--flux-transition-fast, 120ms ease)',
                   }}
                   onMouseOver={(e) => {
                     const el = e.currentTarget as HTMLButtonElement
@@ -751,14 +747,14 @@ const PricingSection: React.FC = () => {
             <p
               style={{
                 marginTop: 'var(--flux-space-4, 1rem)',
-                fontSize: 'var(--flux-font-size-xs, 0.8125rem)',
-                color: 'var(--flux-text-tertiary, #9494a8)',
+                fontSize: 'var(--flux-font-size-xs, 0.75rem)',
+                color: 'var(--flux-text-tertiary, #787890)',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.375rem',
               }}
             >
-              <span aria-hidden="true" style={{ color: 'var(--flux-accent-primary, #1FA89E)' }}>
+              <span aria-hidden="true" style={{ color: 'var(--flux-accent-primary, #00d4aa)' }}>
                 🔒
               </span>
               Sem compromisso. Cancele a qualquer momento. Sem letras pequenas.
@@ -791,10 +787,10 @@ const PricingSection: React.FC = () => {
             border: '1px solid var(--flux-border-default, rgba(255,255,255,0.08))',
             borderRadius: 'var(--flux-radius-md, 10px)',
             padding: '0.75rem 1.5rem',
-            fontSize: 'var(--flux-font-size-base, 0.9375rem)',
-            color: 'var(--flux-text-primary, #f0f0ff)',
+            fontSize: 'var(--flux-font-size-base, 1rem)',
+            color: 'var(--flux-text-primary, #f0f0f5)',
             fontWeight: 500,
-            transition: 'border-color var(--flux-transition-fast, 150ms ease)',
+            transition: 'border-color var(--flux-transition-fast, 120ms ease)',
           }}
           onMouseOver={(e) => {
             ;(e.currentTarget as HTMLDivElement).style.borderColor =
@@ -820,7 +816,7 @@ const PricingSection: React.FC = () => {
                 justifyContent: 'center',
                 fontSize: 'var(--flux-font-size-xs, 0.75rem)',
                 fontWeight: 700,
-                color: 'var(--flux-text-secondary, #9898b0)',
+                color: 'var(--flux-text-secondary, #b0b0c0)',
               }}
             >
               S
@@ -838,7 +834,7 @@ const PricingSection: React.FC = () => {
                 justifyContent: 'center',
                 fontSize: 'var(--flux-font-size-xs, 0.75rem)',
                 fontWeight: 700,
-                color: 'var(--flux-text-secondary, #9898b0)',
+                color: 'var(--flux-text-secondary, #b0b0c0)',
               }}
             >
               W
@@ -846,7 +842,7 @@ const PricingSection: React.FC = () => {
           </span>
           <span
             style={{
-              color: 'var(--flux-accent-primary, #1FA89E)',
+              color: 'var(--flux-accent-primary, #00d4aa)',
               fontWeight: 600,
             }}
           >
