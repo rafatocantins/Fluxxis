@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -151,6 +151,13 @@ const statusStyles: Record<Variant['status'], { bg: string; color: string; dot: 
 const DashboardSection: React.FC = () => {
   const [collapsed, setCollapsed] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const overlayRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (mobileOpen) {
+      overlayRef.current?.focus()
+    }
+  }, [mobileOpen])
 
   const sidebarWidth = collapsed ? 64 : 250
 
@@ -179,7 +186,7 @@ const DashboardSection: React.FC = () => {
           .fluxxis-dash-kpi-grid { grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
         }
         @media (max-width: 768px) {
-          .fluxxis-dash-sidebar { transform: translateX(-100%); width: 260px; position: fixed; z-index: 60; }
+          .fluxxis-dash-sidebar { transform: translateX(-100%); width: 260px; position: fixed; z-index: 50; }
           .fluxxis-dash-sidebar.fluxxis-dash-mobile-open { transform: translateX(0); }
           .fluxxis-dash-overlay { display: none; }
           .fluxxis-dash-overlay.fluxxis-dash-overlay-active { display: block; }
@@ -194,13 +201,16 @@ const DashboardSection: React.FC = () => {
 
       {/* Mobile overlay */}
       <div
+        ref={overlayRef}
+        tabIndex={-1}
         className={`fluxxis-dash-overlay${mobileOpen ? ' fluxxis-dash-overlay-active' : ''}`}
         onClick={() => setMobileOpen(false)}
+        onKeyDown={(e) => e.key === 'Escape' && setMobileOpen(false)}
         style={{
           position: 'fixed',
           inset: 0,
           background: 'rgba(0, 0, 0, 0.6)',
-          zIndex: 55,
+          zIndex: 45,
           display: mobileOpen ? 'block' : 'none',
         }}
         aria-hidden="true"
@@ -208,8 +218,8 @@ const DashboardSection: React.FC = () => {
 
       {/* ── Sidebar ──────────────────────────────────────────────────────── */}
       <aside
+        id="fluxxis-sidebar"
         className={`fluxxis-dash-sidebar${collapsed ? ' fluxxis-dash-collapsed' : ''}${mobileOpen ? ' fluxxis-dash-mobile-open' : ''}`}
-        role="navigation"
         aria-label="Main navigation"
         style={{
           width: sidebarWidth,
@@ -273,6 +283,7 @@ const DashboardSection: React.FC = () => {
 
         {/* Collapse toggle (desktop) */}
         <button
+          type="button"
           className="fluxxis-dash-sidebar-toggle"
           onClick={() => setCollapsed((prev) => !prev)}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
@@ -329,7 +340,6 @@ const DashboardSection: React.FC = () => {
               key={item.label}
               href="#"
               className="fluxxis-dash-nav-link"
-              role="menuitem"
               aria-current={item.active ? 'page' : undefined}
               onClick={(e) => e.preventDefault()}
               style={{
@@ -378,6 +388,7 @@ const DashboardSection: React.FC = () => {
           }}
         >
           <button
+            type="button"
             style={{
               width: '100%',
               display: 'flex',
@@ -439,8 +450,11 @@ const DashboardSection: React.FC = () => {
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {/* Mobile menu button */}
             <button
+              type="button"
               className="fluxxis-dash-mobile-btn"
               onClick={() => setMobileOpen((prev) => !prev)}
+              aria-expanded={mobileOpen}
+              aria-controls="fluxxis-sidebar"
               aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
               style={{
                 display: 'none',
@@ -457,14 +471,20 @@ const DashboardSection: React.FC = () => {
             </button>
 
             {/* Breadcrumb */}
-            <nav aria-label="Breadcrumb" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <span style={{ fontSize: 'var(--flux-font-size-sm, 0.875rem)', color: 'var(--flux-text-tertiary, #787890)' }}>
-                Dashboard
-              </span>
-              <span aria-hidden="true" style={{ color: 'var(--flux-text-tertiary, #787890)', opacity: 0.5 }}>/</span>
-              <span style={{ fontSize: 'var(--flux-font-size-sm, 0.875rem)', color: 'var(--flux-text-primary, #f0f0f5)', fontWeight: 600 }}>
-                Overview
-              </span>
+            <nav aria-label="Breadcrumb">
+              <ol style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', listStyle: 'none', margin: 0, padding: 0 }}>
+                <li>
+                  <span style={{ fontSize: 'var(--flux-font-size-sm, 0.875rem)', color: 'var(--flux-text-tertiary, #787890)' }}>
+                    Dashboard
+                  </span>
+                </li>
+                <li aria-hidden="true" style={{ color: 'var(--flux-text-tertiary, #787890)', opacity: 0.5 }}>/</li>
+                <li>
+                  <span style={{ fontSize: 'var(--flux-font-size-sm, 0.875rem)', color: 'var(--flux-text-primary, #f0f0f5)', fontWeight: 600 }}>
+                    Overview
+                  </span>
+                </li>
+              </ol>
             </nav>
           </div>
 
@@ -538,6 +558,7 @@ const DashboardSection: React.FC = () => {
             </h1>
             <div style={{ display: 'flex', gap: '0.5rem' }}>
               <button
+                type="button"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -564,6 +585,7 @@ const DashboardSection: React.FC = () => {
                 Export CSV
               </button>
               <button
+                type="button"
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -708,6 +730,7 @@ const DashboardSection: React.FC = () => {
               </h3>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 <button
+                  type="button"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -725,6 +748,7 @@ const DashboardSection: React.FC = () => {
                   All Status
                 </button>
                 <button
+                  type="button"
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -747,7 +771,6 @@ const DashboardSection: React.FC = () => {
             {/* Scrollable table */}
             <div className="fluxxis-dash-table-wrap">
               <table
-                role="table"
                 aria-label="Variants table"
                 style={{
                   width: '100%',
@@ -756,9 +779,8 @@ const DashboardSection: React.FC = () => {
                 }}
               >
                 <thead>
-                  <tr role="row">
+                  <tr>
                     <th
-                      role="columnheader"
                       style={{
                         textAlign: 'left',
                         padding: '0.75rem 1.5rem',
@@ -775,7 +797,6 @@ const DashboardSection: React.FC = () => {
                       Variant Name
                     </th>
                     <th
-                      role="columnheader"
                       style={{
                         textAlign: 'left',
                         padding: '0.75rem 1.5rem',
@@ -792,7 +813,6 @@ const DashboardSection: React.FC = () => {
                       Status
                     </th>
                     <th
-                      role="columnheader"
                       style={{
                         textAlign: 'right',
                         padding: '0.75rem 1.5rem',
@@ -809,7 +829,6 @@ const DashboardSection: React.FC = () => {
                       Impressions
                     </th>
                     <th
-                      role="columnheader"
                       className="fluxxis-dash-col-ctr"
                       style={{
                         textAlign: 'right',
@@ -827,7 +846,6 @@ const DashboardSection: React.FC = () => {
                       CTR
                     </th>
                     <th
-                      role="columnheader"
                       className="fluxxis-dash-col-conv"
                       style={{
                         textAlign: 'right',
@@ -845,7 +863,6 @@ const DashboardSection: React.FC = () => {
                       Conversion
                     </th>
                     <th
-                      role="columnheader"
                       className="fluxxis-dash-col-rev"
                       style={{
                         textAlign: 'right',
@@ -870,7 +887,6 @@ const DashboardSection: React.FC = () => {
                     return (
                       <tr
                         key={variant.id}
-                        role="row"
                         style={{ transition: 'background var(--flux-transition-fast, 120ms ease)' }}
                         onMouseEnter={(e) => {
                           e.currentTarget.style.background = 'var(--flux-bg-secondary, #0e0e18)'
@@ -880,7 +896,6 @@ const DashboardSection: React.FC = () => {
                         }}
                       >
                         <td
-                          role="cell"
                           style={{
                             padding: '0.75rem 1.5rem',
                             borderBottom: '1px solid var(--flux-border-default, rgba(255,255,255,0.08))',
@@ -896,7 +911,6 @@ const DashboardSection: React.FC = () => {
                           </span>
                         </td>
                         <td
-                          role="cell"
                           style={{
                             padding: '0.75rem 1.5rem',
                             borderBottom: '1px solid var(--flux-border-default, rgba(255,255,255,0.08))',
@@ -932,7 +946,6 @@ const DashboardSection: React.FC = () => {
                           </span>
                         </td>
                         <td
-                          role="cell"
                           style={{
                             padding: '0.75rem 1.5rem',
                             borderBottom: '1px solid var(--flux-border-default, rgba(255,255,255,0.08))',
@@ -945,7 +958,6 @@ const DashboardSection: React.FC = () => {
                           {variant.impressions.toLocaleString()}
                         </td>
                         <td
-                          role="cell"
                           className="fluxxis-dash-col-ctr"
                           style={{
                             padding: '0.75rem 1.5rem',
@@ -959,7 +971,6 @@ const DashboardSection: React.FC = () => {
                           {variant.ctr}
                         </td>
                         <td
-                          role="cell"
                           className="fluxxis-dash-col-conv"
                           style={{
                             padding: '0.75rem 1.5rem',
@@ -973,7 +984,6 @@ const DashboardSection: React.FC = () => {
                           {variant.conversion}
                         </td>
                         <td
-                          role="cell"
                           className="fluxxis-dash-col-rev"
                           style={{
                             padding: '0.75rem 1.5rem',
