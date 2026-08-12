@@ -3,13 +3,16 @@ import { FluxxisProvider } from '@fluxxis/react'
 import HeroSection from './HeroSection'
 import MorphStage from './MorphStage'
 import MorphShowcase from './MorphShowcase/MorphShowcase'
+import HowItWorksSection from './HowItWorksSection'
 import PricingSection from './PricingSection'
 import WhyFluxxisSection from './WhyFluxxisSection'
+import SocialProofSection from './SocialProofSection'
 import GetStartedSection from './GetStartedSection'
 import IntentPlayground from './IntentPlayground'
 import ComponentGallery from './ComponentGallery'
 import WrapperDemo from './WrapperDemo'
 import DashboardSection from './DashboardSection'
+import CTABanner from './CTABanner'
 
 // ── Icons ────────────────────────────────────────────────────────────────────
 
@@ -165,13 +168,16 @@ function App() {
         <HeroSection />
         <MorphStage />
         <MorphShowcase />
+        <HowItWorksSection />
         <PricingSection />
         <WhyFluxxisSection />
+        <SocialProofSection />
         <GetStartedSection />
         <IntentPlayground />
         <ComponentGallery />
         <WrapperDemo />
         <DashboardSection />
+        <CTABanner />
         <Footer />
       </div>
     </FluxxisProvider>
