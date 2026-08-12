@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 
 // ── SVG Icons ────────────────────────────────────────────────────────────────
 
@@ -104,7 +104,7 @@ const StepCard: React.FC<{
   step: StepData
   icon: React.ReactNode
   index: number
-}> = ({ step, icon, index }) => {
+}> = ({ step, icon }) => {
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
   const isVisible = useIsVisible(cardRef)
@@ -123,7 +123,6 @@ const StepCard: React.FC<{
     padding: '40px 32px 36px',
     cursor: 'default',
     overflow: 'hidden',
-    transform: hovered && !prefersReducedMotion ? 'translateY(-4px)' : 'none',
     boxShadow: hovered
       ? `0 20px 48px ${glow}, 0 0 0 1px ${accent}26`
       : 'none',

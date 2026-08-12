@@ -254,7 +254,6 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
 const SocialProofSection: React.FC = () => {
   const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)')
   const isMobile = useMediaQuery('(max-width: 767px)')
-  const isTablet = useMediaQuery('(max-width: 1023px)') && !useMediaQuery('(max-width: 767px)')
 
   // We need to detect tablet range properly. Let's use a more precise approach.
   const isTabletOnly = useMediaQuery('(min-width: 768px) and (max-width: 1023px)')
