@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
+import { useMediaQuery } from './hooks/useMediaQuery'
 
 // ── SVG Logos ────────────────────────────────────────────────────────────────
 
@@ -83,24 +84,6 @@ const testimonials: Testimonial[] = [
   },
 ]
 
-// ── Hook: useMediaQuery ──────────────────────────────────────────────────────
-
-function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false
-    return window.matchMedia(query).matches
-  })
-
-  useEffect(() => {
-    const mql = window.matchMedia(query)
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches)
-    mql.addEventListener('change', handler)
-    return () => mql.removeEventListener('change', handler)
-  }, [query])
-
-  return matches
-}
-
 // ── TrustLogoItem ────────────────────────────────────────────────────────────
 
 const TrustLogoItem: React.FC<{ logo: TrustLogo; index: number }> = ({ logo, index }) => {
@@ -113,7 +96,7 @@ const TrustLogoItem: React.FC<{ logo: TrustLogo; index: number }> = ({ logo, ind
         flexDirection: 'column',
         alignItems: 'center',
         gap: '0.5rem',
-        color: '#555555',
+        color: 'var(--flux-text-secondary, #9898b0)',
         fontSize: '0.9rem',
         fontWeight: 600,
         transition: prefersReducedMotion ? 'none' : 'color 0.15s ease',
@@ -123,8 +106,7 @@ const TrustLogoItem: React.FC<{ logo: TrustLogo; index: number }> = ({ logo, ind
         opacity: prefersReducedMotion ? 1 : 0,
         animationFillMode: prefersReducedMotion ? 'none' : 'forwards',
       }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.color = '#6c5ce7' }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.color = '#555555' }}
+      // Hover effect via CSS pseudo-class in parent stylesheet
     >
       <span
         style={{
@@ -189,7 +171,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
           left: '1.25rem',
           fontSize: '6rem',
           fontFamily: "Georgia, 'Times New Roman', serif",
-          color: '#ffffff',
+          color: 'var(--flux-text-primary, #f0f0f5)',
           opacity: 0.07,
           lineHeight: 1,
           pointerEvents: 'none',
@@ -206,7 +188,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
           zIndex: 1,
           fontStyle: 'italic',
           fontSize: '1.1rem',
-          color: '#e0e0e0',
+          color: 'var(--flux-text-primary, #f0f0f5)',
           lineHeight: 1.65,
           marginBottom: '1.75rem',
           flexGrow: 1,
@@ -222,7 +204,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
             width: '48px',
             height: '48px',
             borderRadius: '50%',
-            background: '#444444',
+            background: 'var(--flux-bg-elevated, #1a1a2e)',
             flexShrink: 0,
             display: 'flex',
             alignItems: 'center',
@@ -237,10 +219,10 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
           {testimonial.initials}
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0.15rem' }}>
-          <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#ffffff', lineHeight: 1.3 }}>
+          <span style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--flux-text-primary, #f0f0f5)', lineHeight: 1.3 }}>
             {testimonial.name}
           </span>
-          <span style={{ fontSize: '0.9rem', color: '#888888', lineHeight: 1.3 }}>
+          <span style={{ fontSize: '0.9rem', color: 'var(--flux-text-secondary, #9898b0)', lineHeight: 1.3 }}>
             {testimonial.role}
           </span>
         </div>
@@ -277,7 +259,7 @@ const SocialProofSection: React.FC = () => {
           style={{
             fontSize: isMobile ? '1.65rem' : '2.2rem',
             fontWeight: 700,
-            color: '#ffffff',
+            color: 'var(--flux-text-primary, #f0f0f5)',
             letterSpacing: '-0.02em',
             marginBottom: '0.75rem',
             marginTop: 0,
@@ -288,7 +270,7 @@ const SocialProofSection: React.FC = () => {
         <p
           style={{
             fontSize: isMobile ? '0.9rem' : '1rem',
-            color: '#888888',
+            color: 'var(--flux-text-secondary, #9898b0)',
             fontWeight: 400,
             margin: 0,
           }}
@@ -304,7 +286,7 @@ const SocialProofSection: React.FC = () => {
             textAlign: 'center',
             fontSize: '0.8rem',
             fontWeight: 500,
-            color: '#959595',
+            color: 'var(--flux-text-secondary, #9898b0)',
             textTransform: 'uppercase',
             letterSpacing: '0.12em',
             marginBottom: '2rem',
@@ -340,7 +322,7 @@ const SocialProofSection: React.FC = () => {
         }}
       >
         {testimonials.map((t) => (
-          <TestimonialCard key={t.initials} testimonial={t} />
+          <TestimonialCard key={t.name} testimonial={t} />
         ))}
       </div>
 

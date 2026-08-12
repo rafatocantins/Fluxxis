@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import { useMediaQuery } from './hooks/useMediaQuery'
 
 // ── SVG Icons ────────────────────────────────────────────────────────────────
 
@@ -43,33 +44,15 @@ interface StepData {
 // ── Accent Colors per step ───────────────────────────────────────────────────
 
 const stepAccentColors: Record<StepData['variant'], string> = {
-  detect: '#7c5cfc',
-  morph: '#00d4aa',
-  convert: '#ff6b9d',
+  detect: '#6D4FE0',
+  morph: '#1FA89E',
+  convert: '#C84074',
 }
 
 const stepAccentGlow: Record<StepData['variant'], string> = {
-  detect: 'rgba(124, 92, 252, 0.35)',
-  morph: 'rgba(0, 212, 170, 0.35)',
-  convert: 'rgba(255, 107, 157, 0.35)',
-}
-
-// ── Hook: useMediaQuery ──────────────────────────────────────────────────────
-
-function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false
-    return window.matchMedia(query).matches
-  })
-
-  useEffect(() => {
-    const mql = window.matchMedia(query)
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches)
-    mql.addEventListener('change', handler)
-    return () => mql.removeEventListener('change', handler)
-  }, [query])
-
-  return matches
+  detect: 'rgba(109, 79, 224, 0.35)',
+  morph: 'rgba(31, 168, 158, 0.35)',
+  convert: 'rgba(200, 64, 116, 0.35)',
 }
 
 // ── Hook: useIntersectionObserver ────────────────────────────────────────────
@@ -103,7 +86,6 @@ function useIsVisible(ref: React.RefObject<HTMLElement | null>): boolean {
 const StepCard: React.FC<{
   step: StepData
   icon: React.ReactNode
-  index: number
 }> = ({ step, icon }) => {
   const [hovered, setHovered] = useState(false)
   const cardRef = useRef<HTMLElement>(null)
@@ -360,7 +342,7 @@ const SparklineBars: React.FC = () => {
           style={{
             width: '4px',
             borderRadius: '2px',
-            background: 'var(--flux-accent-3, #ff6b9d)',
+            background: 'var(--flux-accent-buy, #C84074)',
             height: prefersReducedMotion ? h : '0%',
             animation: prefersReducedMotion
               ? 'none'
@@ -383,7 +365,7 @@ const HorizontalConnector: React.FC = () => {
       <div style={{
         width: '100%',
         height: '2px',
-        background: 'var(--flux-connector, #2a2a3a)',
+        background: 'var(--flux-border-subtle, #2a2a3a)',
         borderRadius: '2px',
         position: 'relative',
         overflow: 'hidden',
@@ -395,7 +377,7 @@ const HorizontalConnector: React.FC = () => {
             left: '-100%',
             width: '100%',
             height: '100%',
-            background: 'linear-gradient(90deg, transparent 0%, var(--flux-accent-1, #7c5cfc) 30%, var(--flux-accent-2, #00d4aa) 60%, var(--flux-accent-1, #7c5cfc) 100%)',
+            background: 'linear-gradient(90deg, transparent 0%, var(--flux-accent-learn, #7c5cfc) 30%, var(--flux-accent-browse, #00d4aa) 60%, var(--flux-accent-learn, #7c5cfc) 100%)',
             animation: 'connectorFlow 2.5s ease-in-out infinite',
           }} />
         )}
@@ -408,12 +390,12 @@ const HorizontalConnector: React.FC = () => {
             width: '8px',
             height: '8px',
             borderRadius: '50%',
-            background: i === 0 ? 'var(--flux-accent-1, #7c5cfc)' : i === 1 ? 'var(--flux-accent-2, #00d4aa)' : 'var(--flux-accent-3, #ff6b9d)',
+            background: i === 0 ? 'var(--flux-accent-learn, #7c5cfc)' : i === 1 ? 'var(--flux-accent-browse, #00d4aa)' : 'var(--flux-accent-buy, #C84074)',
             boxShadow: i === 0
-              ? '0 0 10px rgba(124, 92, 252, 0.35), 0 0 20px rgba(124, 92, 252, 0.35)'
+              ? '0 0 10px rgba(109, 79, 224, 0.35), 0 0 20px rgba(109, 79, 224, 0.35)'
               : i === 1
-                ? '0 0 10px rgba(0, 212, 170, 0.35), 0 0 20px rgba(0, 212, 170, 0.35)'
-                : '0 0 10px rgba(255, 107, 157, 0.35), 0 0 20px rgba(255, 107, 157, 0.35)',
+                ? '0 0 10px rgba(31, 168, 158, 0.35), 0 0 20px rgba(31, 168, 158, 0.35)'
+                : '0 0 10px rgba(200, 64, 116, 0.35), 0 0 20px rgba(200, 64, 116, 0.35)',
             animation: `dotTravel 2.5s ease-in-out infinite ${delay}s`,
           }}
         />
@@ -432,7 +414,7 @@ const VerticalConnector: React.FC = () => {
       <div style={{
         width: '2px',
         height: '100%',
-        background: 'var(--flux-connector, #2a2a3a)',
+        background: 'var(--flux-border-subtle, #2a2a3a)',
         borderRadius: '2px',
         position: 'relative',
         overflow: 'hidden',
@@ -444,7 +426,7 @@ const VerticalConnector: React.FC = () => {
             left: 0,
             width: '100%',
             height: '100%',
-            background: 'linear-gradient(180deg, transparent 0%, var(--flux-accent-1, #7c5cfc) 30%, var(--flux-accent-2, #00d4aa) 60%, var(--flux-accent-3, #ff6b9d) 100%)',
+            background: 'linear-gradient(180deg, transparent 0%, var(--flux-accent-learn, #7c5cfc) 30%, var(--flux-accent-browse, #00d4aa) 60%, var(--flux-accent-buy, #C84074) 100%)',
             animation: 'connectorFlowVertical 2.5s ease-in-out infinite',
           }} />
         )}
@@ -463,9 +445,9 @@ const SectionBadge: React.FC = () => (
       gap: '8px',
       padding: '6px 16px',
       borderRadius: '100px',
-      background: 'rgba(124, 92, 252, 0.1)',
-      border: '1px solid rgba(124, 92, 252, 0.2)',
-      color: 'var(--flux-accent-1, #7c5cfc)',
+      background: 'rgba(109, 79, 224, 0.1)',
+      border: '1px solid rgba(109, 79, 224, 0.2)',
+      color: 'var(--flux-accent-learn, #7c5cfc)',
       fontSize: '0.8rem',
       fontWeight: 600,
       letterSpacing: '0.08em',
@@ -480,8 +462,8 @@ const SectionBadge: React.FC = () => (
         width: '6px',
         height: '6px',
         borderRadius: '50%',
-        background: 'var(--flux-accent-1, #7c5cfc)',
-        boxShadow: '0 0 8px rgba(124, 92, 252, 0.35)',
+        background: 'var(--flux-accent-learn, #7c5cfc)',
+        boxShadow: '0 0 8px rgba(109, 79, 224, 0.35)',
       }}
     />
     How It Works
@@ -546,7 +528,7 @@ const HowItWorksSection: React.FC = () => {
         >
           AI-Powered CTA in{' '}
           <span style={{
-            background: 'linear-gradient(135deg, var(--flux-accent-1, #7c5cfc), var(--flux-accent-2, #00d4aa))',
+            background: 'linear-gradient(135deg, var(--flux-accent-learn, #7c5cfc), var(--flux-accent-browse, #00d4aa))',
             WebkitBackgroundClip: 'text',
             WebkitTextFillColor: 'transparent',
             backgroundClip: 'text',
@@ -582,7 +564,7 @@ const HowItWorksSection: React.FC = () => {
       >
         {steps.map((step, idx) => (
           <React.Fragment key={step.variant}>
-            <StepCard step={step} icon={icons[idx]} index={idx} />
+            <StepCard step={step} icon={icons[idx]} />
             {idx < steps.length - 1 && (
               isMobile
                 ? <VerticalConnector />

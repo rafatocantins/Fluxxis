@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
+import { useMediaQuery } from './hooks/useMediaQuery'
 
 // ── SVG Icons ────────────────────────────────────────────────────────────────
 
@@ -14,24 +15,6 @@ const StarIcon: React.FC = () => (
   </svg>
 )
 
-// ── Hook: useMediaQuery ──────────────────────────────────────────────────────
-
-function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return false
-    return window.matchMedia(query).matches
-  })
-
-  useEffect(() => {
-    const mql = window.matchMedia(query)
-    const handler = (e: MediaQueryListEvent) => setMatches(e.matches)
-    mql.addEventListener('change', handler)
-    return () => mql.removeEventListener('change', handler)
-  }, [query])
-
-  return matches
-}
-
 // ── CTABanner ────────────────────────────────────────────────────────────────
 
 const CTABanner: React.FC = () => {
@@ -43,7 +26,7 @@ const CTABanner: React.FC = () => {
       aria-label="Call to action"
       style={{
         position: 'relative',
-        width: '100vw',
+        width: '100%',
         marginLeft: 'calc(-50vw + 50%)',
         background: 'linear-gradient(135deg, #6c5ce7 0%, #0a0a1a 100%)',
         padding: isMobile ? '4rem 1.5rem' : '5rem 2rem',
@@ -146,24 +129,7 @@ const CTABanner: React.FC = () => {
               maxWidth: isMobile ? '320px' : 'none',
               textAlign: 'center' as const,
             }}
-            onMouseEnter={(e) => {
-              if (prefersReducedMotion) return
-              ;(e.currentTarget as HTMLAnchorElement).style.filter = 'brightness(1.1)'
-              ;(e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.02)'
-            }}
-            onMouseLeave={(e) => {
-              if (prefersReducedMotion) return
-              ;(e.currentTarget as HTMLAnchorElement).style.filter = 'brightness(1)'
-              ;(e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1)'
-            }}
-            onMouseDown={(e) => {
-              if (prefersReducedMotion) return
-              ;(e.currentTarget as HTMLAnchorElement).style.transform = 'scale(0.98)'
-            }}
-            onMouseUp={(e) => {
-              if (prefersReducedMotion) return
-              ;(e.currentTarget as HTMLAnchorElement).style.transform = 'scale(1.02)'
-            }}
+            // Hover/press via CSS pseudo-classes in parent stylesheet
           >
             <StarIcon />
             Get Early Access
