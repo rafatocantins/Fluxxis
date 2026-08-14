@@ -1,6 +1,6 @@
 {
   "name": "@fluxxis/ui",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "FLUXXIS Design Tokens v2.0 — CSS custom properties and theme primitives",
   "type": "module",
   "main": "./dist/index.cjs",

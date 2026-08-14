@@ -17,8 +17,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Published
 
-- `@fluxxis/adaptive-cta@0.2.1`
-- `@fluxxis/wrapper@0.1.0`
+> ⚠️ Publicação npm pendente de aprovação (workflow_dispatch). Versões reconciliadas para v0.3.0:
+
+- `@fluxxis/core@0.3.0`
+- `@fluxxis/react@0.3.0`
+- `@fluxxis/ui@0.3.0`
+- `@fluxxis/wrapper@0.3.0`
+- `@fluxxis/adaptive-cta@0.3.0`
 
 ## [0.2.1] - 2026-07-22
 

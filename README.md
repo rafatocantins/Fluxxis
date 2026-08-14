@@ -339,4 +339,4 @@ pnpm --filter fluxxis-demo dev
 
 **Built with** ❤️ **by the FLUXXIS Team**
 
-**Status:** In Development | **Confidence:** 87% | **Latest Release:** v0.2.0 (17 Jul 2026)
+**Status:** In Development | **Confidence:** 87% | **Latest Release:** v0.3.0 (6 Ago 2026)
