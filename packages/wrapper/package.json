@@ -1,6 +1,6 @@
 {
   "name": "@fluxxis/wrapper",
-  "version": "0.1.0",
+  "version": "0.3.0",
   "description": "Intent-driven design system adaptation layer — wraps any component with intent signals and renders with design system tokens",
   "type": "module",
   "main": "./dist/index.cjs",
