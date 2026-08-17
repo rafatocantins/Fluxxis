@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 /**
  * PricingSection — Fluxxis Adaptive CTA Engine pricing.
  *
@@ -89,24 +90,59 @@ const isValidEmail = (email: string): boolean =>
 
 // ── Component ────────────────────────────────────────────────────────────────
 
+type SubmitStatus = 'idle' | 'submitting' | 'success' | 'error'
+
 const PricingSection: React.FC = () => {
   const [email, setEmail] = useState('')
   const [emailError, setEmailError] = useState('')
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<SubmitStatus>('idle')
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (!email.trim()) {
+    const trimmedEmail = email.trim()
+    if (!trimmedEmail) {
       setEmailError('Introduza o seu email.')
       return
     }
-    if (!isValidEmail(email.trim())) {
+    if (!isValidEmail(trimmedEmail)) {
       setEmailError('Email inválido. Verifique o formato.')
       return
     }
     setEmailError('')
-    setSubmitted(true)
-    // TODO: integrar com backend de subscrição
+    setStatus('submitting')
+
+    const endpoint = import.meta.env.VITE_EARLY_ACCESS_ENDPOINT as string | undefined
+    const controller = new AbortController()
+    const timeout = window.setTimeout(() => controller.abort(), 8000)
+
+    try {
+      if (endpoint) {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: trimmedEmail,
+            source: 'fluxxis-landing',
+            page: 'pricing',
+            ts: new Date().toISOString(),
+          }),
+          signal: controller.signal,
+        })
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`)
+        }
+      } else {
+        // Fallback sem endpoint: nunca descartar o lead em silêncio.
+        window.location.href = `mailto:early-access@fluxxis.dev?subject=Early%20Access&body=${encodeURIComponent(
+          trimmedEmail,
+        )}`
+      }
+      setStatus('success')
+    } catch {
+      setStatus('error')
+    } finally {
+      window.clearTimeout(timeout)
+    }
   }
 
   return (
@@ -625,9 +661,10 @@ const PricingSection: React.FC = () => {
             </p>
 
             {/* Form */}
-            {submitted ? (
+            {status === 'success' ? (
               <div
                 role="status"
+                aria-live="polite"
                 style={{
                   padding: 'var(--flux-space-6, 1.5rem)',
                   background: 'var(--flux-accent-soft, rgba(31,168,158,0.10))',
@@ -665,6 +702,7 @@ const PricingSection: React.FC = () => {
                     }}
                     placeholder="o seu@email.com"
                     required
+                    disabled={status === 'submitting'}
                     aria-invalid={!!emailError}
                     aria-describedby={emailError ? 'early-access-email-error' : undefined}
                     style={{
@@ -710,6 +748,7 @@ const PricingSection: React.FC = () => {
                 </div>
                 <button
                   type="submit"
+                  disabled={status === 'submitting'}
                   style={{
                     display: 'inline-flex',
                     alignItems: 'center',
@@ -723,7 +762,8 @@ const PricingSection: React.FC = () => {
                     background:
                       'linear-gradient(135deg, var(--flux-accent-secondary, #22d3ee) 0%, var(--flux-accent-primary, #00d4aa) 100%)',
                     color: '#fff',
-                    cursor: 'pointer',
+                    cursor: status === 'submitting' ? 'not-allowed' : 'pointer',
+                    opacity: status === 'submitting' ? 0.75 : 1,
                     whiteSpace: 'nowrap',
                     transition: 'all var(--flux-transition-fast, 120ms ease)',
                   }}
@@ -738,8 +778,26 @@ const PricingSection: React.FC = () => {
                     el.style.transform = 'translateY(0)'
                   }}
                 >
-                  Reservar Early Access — 19€/mês
+                  {status === 'submitting' ? 'A enviar…' : 'Reservar Early Access — 19€/mês'}
                 </button>
+                {status === 'error' && (
+                  <div
+                    role="alert"
+                    style={{
+                      flexBasis: '100%',
+                      marginTop: '0.75rem',
+                      padding: '0.75rem 1rem',
+                      background: 'rgba(255, 99, 112, 0.12)',
+                      border: '1px solid rgba(255, 99, 112, 0.4)',
+                      borderRadius: 'var(--flux-radius-md, 10px)',
+                      color: '#ff8a93',
+                      fontSize: 'var(--flux-font-size-sm, 0.875rem)',
+                      fontWeight: 500,
+                    }}
+                  >
+                    ⚠️ Não foi possível enviar o seu pedido. Verifique a ligação e tente novamente.
+                  </div>
+                )}
               </form>
             )}
 
