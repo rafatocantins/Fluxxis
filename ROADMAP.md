@@ -35,16 +35,16 @@ All notable planned milestones for Fluxxis. Dates are targets and may shift.
 
 ## v0.3.0 — Adaptive CTA MVP 🚧
 
-**Target:** ~2026-08
+**Target:** ~2026-08 · **GitHub Release:** v0.3.0 publicada (6 Ago 2026) · **npm:** pendente
 
 ### Adaptive CTA Engine
-- [ ] Shopify plugin — one-click install from Shopify App Store
-- [ ] WooCommerce plugin — WordPress plugin directory submission
-- [ ] Intent resolver v2 — ML-based intent classification
-- [ ] A/B variant engine — automatic variant selection based on intent confidence
-- [ ] Admin dashboard — real-time CTA performance metrics
-- [ ] Pricing page — SaaS €29/mês subscription flow
-- [ ] Stripe integration — payment + subscription management
+- [ ] Shopify plugin — one-click install from Shopify App Store *(deferred pós-MVP)*
+- [ ] WooCommerce plugin — WordPress plugin directory submission *(deferred pós-MVP)*
+- [x] Intent resolver v2 — ML-based intent classification
+- [x] A/B variant engine — automatic variant selection based on intent confidence
+- [x] Admin dashboard — real-time CTA performance metrics
+- [x] Pricing page — SaaS €29/mês subscription flow
+- [ ] Stripe integration — payment + subscription management *(deferred pós-MVP)*
 
 ### Core Enhancements
 - [ ] Intent analytics pipeline — aggregate intent data across sites
