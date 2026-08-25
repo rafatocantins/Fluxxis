@@ -133,4 +133,86 @@ describe('IntentAnalytics', () => {
       expect(analytics.export().events).toHaveLength(0);
     });
   });
+
+  describe('aggregate with since filter', () => {
+    it('only includes events with timestamp >= since', () => {
+      analytics.record(makeEvent({ timestamp: BASE_TS }));
+      analytics.record(makeEvent({ timestamp: BASE_TS + HOUR }));
+      analytics.record(makeEvent({ timestamp: BASE_TS + 2 * HOUR }));
+
+      const { byIntent } = analytics.aggregate({ since: BASE_TS + HOUR });
+
+      expect(byIntent).toHaveLength(1);
+      expect(byIntent[0].count).toBe(2);
+    });
+  });
+
+  describe('aggregate with custom windowMs', () => {
+    it('buckets events into custom-sized windows', () => {
+      const windowMs = 60_000; // 1 minute
+      analytics.record(makeEvent({ timestamp: BASE_TS }));
+      analytics.record(makeEvent({ timestamp: BASE_TS + 30_000 }));
+      analytics.record(makeEvent({ timestamp: BASE_TS + 60_000 }));
+
+      const { byWindow } = analytics.aggregate({ windowMs });
+
+      expect(byWindow).toHaveLength(2);
+      expect(byWindow[0].count).toBe(2);
+      expect(byWindow[1].count).toBe(1);
+    });
+  });
+
+  describe('aggregate on empty buffer', () => {
+    it('returns empty arrays without throwing', () => {
+      const aggregates = analytics.aggregate();
+      expect(aggregates.byIntent).toEqual([]);
+      expect(aggregates.byTemplate).toEqual([]);
+      expect(aggregates.byWindow).toEqual([]);
+    });
+  });
+
+  describe('windowMs validation', () => {
+    it('throws RangeError for zero or negative windowMs', () => {
+      expect(() => analytics.aggregate({ windowMs: 0 })).toThrow(RangeError);
+      expect(() => analytics.aggregate({ windowMs: -1 })).toThrow(RangeError);
+    });
+  });
+
+  describe('export deep-copy isolation', () => {
+    it('mutating the export does not affect the internal buffer', () => {
+      analytics.record(
+        makeEvent({ intent: 'convert', metadata: { source: 'ui' } })
+      );
+
+      const exported = analytics.export();
+      exported.events[0].intent = 'inform';
+      exported.events[0].metadata = { source: 'mutated' };
+
+      const second = analytics.export();
+      expect(second.events[0].intent).toBe('convert');
+      expect(second.events[0].metadata).toEqual({ source: 'ui' });
+    });
+  });
+
+  describe('prototype-key safety', () => {
+    it('handles templateId "__proto__" without corrupting counts', () => {
+      analytics.record(
+        makeEvent({ templateId: '__proto__', intent: 'convert' })
+      );
+      analytics.record(
+        makeEvent({ templateId: '__proto__', intent: 'convert' })
+      );
+
+      const { byIntent } = analytics.aggregate();
+      const convert = byIntent.find((a) => a.intent === 'convert');
+
+      const counts = convert?.templateCounts ?? {};
+      expect(convert?.count).toBe(2);
+      expect(Object.prototype.hasOwnProperty.call(counts, '__proto__')).toBe(
+        true
+      );
+      expect(counts['__proto__']).toBe(2);
+      expect(Object.getPrototypeOf(counts)).toBe(Object.prototype);
+    });
+  });
 });

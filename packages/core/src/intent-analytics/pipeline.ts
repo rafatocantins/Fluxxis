@@ -11,7 +11,7 @@ import type {
   IntentAggregate,
   IntentAnalyticsExport,
 } from './types';
-import type { GoalType } from '../types';
+import type { GoalType, ActorType } from '../types';
 
 /** Default window size for time bucketing (1 hour in milliseconds). */
 export const DEFAULT_WINDOW_MS = 3600000;
@@ -24,9 +24,12 @@ export class IntentAnalytics {
 
   /**
    * Append an intent event to the internal buffer.
+   *
+   * The event is cloned on ingest so later mutation of the caller's object
+   * does not corrupt the buffer.
    */
   record(event: IntentEvent): void {
-    this.events.push(event);
+    this.events.push(cloneEvent(event));
   }
 
   /**
@@ -34,11 +37,19 @@ export class IntentAnalytics {
    *
    * @param options.since  Only include events whose timestamp is >= since.
    * @param options.windowMs  Fixed window size for byWindow bucketing (default 1h).
+   * @throws {RangeError} if `windowMs` is not a positive finite number.
    */
   aggregate(
     options?: { since?: number; windowMs?: number }
   ): IntentAnalyticsExport['aggregates'] {
     const { since, windowMs = DEFAULT_WINDOW_MS } = options ?? {};
+
+    if (!Number.isFinite(windowMs) || windowMs <= 0) {
+      throw new RangeError(
+        `windowMs must be a positive finite number, got ${windowMs}`
+      );
+    }
+
     const events =
       since === undefined
         ? this.events
@@ -53,11 +64,14 @@ export class IntentAnalytics {
 
   /**
    * Export a JSON-serializable snapshot of events and aggregates.
+   *
+   * Events are deep-copied so mutating the returned snapshot does not affect
+   * the internal buffer.
    */
   export(): IntentAnalyticsExport {
     return {
       generatedAt: new Date().toISOString(),
-      events: [...this.events],
+      events: this.events.map((event) => cloneEvent(event)),
       aggregates: this.aggregate(),
     };
   }
@@ -70,28 +84,43 @@ export class IntentAnalytics {
   }
 
   private aggregateByIntent(events: IntentEvent[]): IntentAggregate[] {
-    const byIntent = new Map<GoalType, IntentAggregate>();
+    const byIntent = new Map<
+      GoalType,
+      {
+        count: number;
+        templateCounts: Map<string, number>;
+        actorCounts: Map<ActorType, number>;
+      }
+    >();
 
     for (const event of events) {
       let aggregate = byIntent.get(event.intent);
       if (!aggregate) {
         aggregate = {
-          intent: event.intent,
           count: 0,
-          templateCounts: {},
-          actorCounts: {},
+          templateCounts: new Map(),
+          actorCounts: new Map(),
         };
         byIntent.set(event.intent, aggregate);
       }
 
       aggregate.count += 1;
-      aggregate.templateCounts[event.templateId] =
-        (aggregate.templateCounts[event.templateId] ?? 0) + 1;
-      aggregate.actorCounts[event.actorType] =
-        (aggregate.actorCounts[event.actorType] ?? 0) + 1;
+      aggregate.templateCounts.set(
+        event.templateId,
+        (aggregate.templateCounts.get(event.templateId) ?? 0) + 1
+      );
+      aggregate.actorCounts.set(
+        event.actorType,
+        (aggregate.actorCounts.get(event.actorType) ?? 0) + 1
+      );
     }
 
-    return Array.from(byIntent.values());
+    return Array.from(byIntent.entries()).map(([intent, aggregate]) => ({
+      intent,
+      count: aggregate.count,
+      templateCounts: Object.fromEntries(aggregate.templateCounts),
+      actorCounts: Object.fromEntries(aggregate.actorCounts),
+    }));
   }
 
   private aggregateByTemplate(
@@ -148,4 +177,15 @@ export class IntentAnalytics {
       (a, b) => a.windowStart - b.windowStart
     );
   }
+}
+
+/**
+ * Shallow-clone an event (top-level fields + metadata) so callers cannot
+ * alias internal buffer state through object references.
+ */
+function cloneEvent(event: IntentEvent): IntentEvent {
+  return {
+    ...event,
+    metadata: event.metadata ? { ...event.metadata } : undefined,
+  };
 }

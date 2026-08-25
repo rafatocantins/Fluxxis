@@ -21,8 +21,8 @@ export interface IntentEvent {
   timestamp: number;
   /** Optional confidence (0-1) assigned to the intent classification */
   confidence?: number;
-  /** Optional free-form metadata attached to the event */
-  metadata?: Record<string, any>;
+  /** Optional free-form metadata attached to the event (must be JSON-safe) */
+  metadata?: Record<string, unknown>;
 }
 
 /**
