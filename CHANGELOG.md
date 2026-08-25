@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Housekeeping
+
+- Fechadas 11 issues de sprint stale acumuladas (#61–#77) que estavam a bloquear o board desde 7 Ago. Todas eram sprints cujo trabalho já está merged em `main` ou foi superseded pela entrega v0.3.0.
+
 ## [0.3.0] - 2026-08-05
 
 ### Added
