@@ -9,6 +9,7 @@
 export * from './signals';
 export * from './intents';
 export * from './analytics';
+export * from './intent-analytics';
 export * from './structured-data';
 export * from './licensing';
 
